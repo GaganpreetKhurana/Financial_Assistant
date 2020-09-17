@@ -1,13 +1,32 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router,Route,Switch} from 'react-router-dom';
-import Home from './Home';
+import { connect } from "react-redux";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Home from './Home'
 import SignUp from './SignUp';
 import Navbar from './Navbar';
+import Login from './Login';
 import Footer from './Footer';
 import Page404 from './Page404';
+import * as jwtDecode from "jwt-decode";
+import { authenticateUser } from '../actions/auth';
 
 
 class App extends Component {
+  componentDidMount() {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      const user = jwtDecode(token);
+      this.props.dispatch(
+        authenticateUser({
+          email: user.email,
+          name: user.name,
+        })
+      );
+      //anything that has to be fetched initially
+    }
+  }
+
   render() {
     return (
       <Router>
@@ -15,6 +34,7 @@ class App extends Component {
           <Navbar/>
             <Switch>
               <Route exact path="/" component={Home}/>
+              <Route path="/login" component={Login}/>
               <Route path="/sign-up" component={SignUp}/>
               <Route component={Page404} />
             </Switch>
@@ -24,7 +44,12 @@ class App extends Component {
     );
   }
 }
+function mapStateToProps(state) {
+  return {
+    auth: state.auth,
+  };
+}
 
-export default App;
+export default connect(mapStateToProps)(App);
 
 

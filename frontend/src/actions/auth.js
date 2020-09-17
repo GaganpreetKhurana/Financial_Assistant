@@ -12,6 +12,7 @@ import {
 
   //Form Body 
   //converting data in format variable1=key1&variable2=key2...
+  //this needs to be checked with django api if this format not accepted then send json object
   function getFormBody(params) {
     let FormBody = [];
     for (let property in params) {
@@ -58,6 +59,7 @@ import {
       })
         .then((response) => response.json())
         .then((data) => {
+          //receiving response from api is token and user object
           if (data.success) {
             localStorage.setItem('token', data.data.token);
             dispatch(loginSuccess(data.data.user));

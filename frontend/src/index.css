@@ -11,7 +11,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-a {
+button a{
+  outline: none;
+  text-decoration: none;
+  color:white;
+
+}
+a{
+  color:white;
+
   outline: none;
   text-decoration: none;
 }
