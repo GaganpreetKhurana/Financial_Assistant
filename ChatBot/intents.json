@@ -16,19 +16,24 @@
             "responses": ["Happy to help!", "Any time!", "My pleasure"]
         },
         {
-            "tag": "hours",
-            "patterns": ["What hours are you open?", "What are your hours?", "When are you open?"],
-            "responses": ["We're open every day 9am-9pm", "Our hours are 9am-9pm every day"]
-        },
-        {
-            "tag": "payments",
-            "patterns": ["I bought something", "Update my transactions", "I spent money"],
+            "tag": "payments_debit",
+            "patterns": ["I bought something", "Update my credits", "I spent money"],
             "responses": ["what did you buy", "What was the cost"]
         },
         {
-            "tag": "opentoday",
-            "patterns": ["Are you open today?", "When do you open today?", "What are your hours today?"],
-            "responses": ["We're open every day from 9am-9pm", "Our hours are 9am-9pm every day"]
+            "tag": "payments_credit",
+            "patterns": ["I sold something", "Update my debits", "I gained money"],
+            "responses": ["How much did you sell for", "What did you get for selling"]
+        },
+        {
+            "tag": "amazon_add",
+            "patterns": ["Update my amazon wishlist", "Add to my amazon wishlist"],
+            "responses": ["Please enter the url of the item"]
+        },
+        {
+            "tag": "amazon_buy",
+            "patterns": ["Should i buy something on amazon", "Is there a price drop on amazon"],
+            "responses": ["Fetching amazon wishlist report"]
         }
     ]
 }

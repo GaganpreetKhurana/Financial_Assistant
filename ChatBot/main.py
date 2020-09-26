@@ -108,6 +108,7 @@ def bag_of_words(s, words):
 
 
 def chat():
+    print("Please delete models and cache after editing intents.json!")
     print("Start talking with the bot (type quit to stop)!")
     while True:
         inp = input("You: ")
@@ -124,6 +125,24 @@ def chat():
             if tg['tag'] == tag:
                 responses = tg['responses']
 
-        print(random.choice(responses))
+        answer = random.choice(responses)
+        
+        print(answer)
+        print(tag)
+
+        if(tag == "payments_debit"):
+            print("Calling function to add debit to database")
+        
+        elif(tag == "payments_credit"):
+            print("Calling function to add credit to database")
+
+        elif(tag == "amazon_add"):
+            print("Calling function to add item to amazon wishlist")
+
+        elif(tag == "amazon_buy"):
+            print("Calling function to add check status of amazon wishlist")
+
+        else:
+            print("No function to call")
 
 chat()
