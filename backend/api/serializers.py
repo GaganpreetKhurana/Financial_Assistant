@@ -4,18 +4,6 @@ from rest_framework import serializers
 from .models import Detail, Transaction
 
 
-class DetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Detail
-        fields = '__all__'
-
-
-class TransactionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Transaction
-        fields = '__all__'
-
-
 # Register Serializer
 class RegisterSerializer(serializers.ModelSerializer):
     password_confirm = serializers.CharField(style={'input_type': 'password'}, write_only=True)
@@ -35,3 +23,28 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+
+
+class UserDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email')
+        read_only_fields = '__all__'
+
+
+class FinancialDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Detail
+        fields = (
+            'income', 'savings', 'totalExpenditure', 'housing', 'food', 'healthcare', 'transportation', 'recreation',
+            'miscellaneous', 'totalTransactions')
+        read_only_fields = ['savings', 'totalExpenditure', 'totalTransactions']
+
+
+class TransactionSerializer(serializers.ModelSerializer):
+    category = serializers.CharField(source='get_category')
+
+    class Meta:
+        model = Transaction
+        fields = ('user', 'amount', 'time', 'category')
+        read_only_fields = ['user', 'time']

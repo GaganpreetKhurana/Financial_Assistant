@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from .models import Detail, Transaction
-from .serializers import DetailSerializer, TransactionSerializer, RegisterSerializer
+from .serializers import UserDetailsSerializer, TransactionSerializer, RegisterSerializer
 
 
 # Create your views here.
@@ -14,7 +14,7 @@ class DetailList(APIView):
 
     def get(self, request):
         stocks = Detail.objects.all()
-        serializer = DetailSerializer(stocks, many=True)
+        serializer = UserDetailsSerializer(stocks, many=True)
         return Response(serializer.data)
 
 
