@@ -12,3 +12,4 @@ matplotlib~=3.3.2
 django-rest-passwordreset~=1.1.0
 djangorestframework-simplejwt~=4.4.0
 scikit-learn~=0.23.2
+yfinance~=0.1.54
