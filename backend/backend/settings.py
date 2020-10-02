@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_rest_passwordreset',
     'api.apps.ApiConfig'
 ]
 
@@ -125,3 +126,8 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=2),
 
 }
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# python -m smtpd -n -c DebuggingServer localhost:1025
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_HOST = 'localhost'
+# EMAIL_PORT = 1025
