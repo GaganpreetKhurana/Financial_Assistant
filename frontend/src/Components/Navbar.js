@@ -1,24 +1,25 @@
-import React, { Component } from 'react';
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { logoutUser } from "../actions/auth";
+import React, {Component} from 'react';
+import {connect} from "react-redux";
+import {Link} from "react-router-dom";
+import {logoutUser} from "../actions/auth";
 
 class Navbar extends Component {
     logout = () => {
         localStorage.removeItem("token");
         this.props.dispatch(logoutUser());
-      };
+    };
+
     render() {
-        const { auth } = this.props;
+        const {auth} = this.props;
         return (
             <div className="navbar">
                 <div className="nav-left">
-                <Link to="/">DONNA</Link>
+                    <Link to="/">DONNA</Link>
                 </div>
                 <div className="nav-right">
-                    {!auth.isLoggedIn && (<button className="bttn-home"><Link to="/login">Login</Link></button>)} 
+                    {!auth.isLoggedIn && (<button className="bttn-home"><Link to="/login">Login</Link></button>)}
                     {auth.isLoggedIn && (<button className="bttn-home"> {auth.user.name} </button>)}
-                    {!auth.isLoggedIn && (<button className="bttn-home"><Link to="/sign-up">Sign Up</Link></button>)} 
+                    {!auth.isLoggedIn && (<button className="bttn-home"><Link to="/sign-up">Sign Up</Link></button>)}
                     {auth.isLoggedIn && (<button className="bttn-home">Log Out</button>)}
                 </div>
             </div>
@@ -28,8 +29,8 @@ class Navbar extends Component {
 
 function mapStateToProps(state) {
     return {
-      auth: state.auth,
+        auth: state.auth,
     };
-  }
-  
+}
+
 export default connect(mapStateToProps)(Navbar);

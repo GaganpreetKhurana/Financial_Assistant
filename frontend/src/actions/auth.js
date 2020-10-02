@@ -12,179 +12,180 @@ import {
     FORGOT_FAILURE,
     FORGOT_SUCCESS,
 
-  } from './actionTypes';
+} from './actionTypes';
 
-  //Form Body 
-  //converting data in format variable1=key1&variable2=key2...
-  //this needs to be checked with django api if this format not accepted then send json object
-  function getFormBody(params) {
+//Form Body
+//converting data in format variable1=key1&variable2=key2...
+//this needs to be checked with django api if this format not accepted then send json object
+function getFormBody(params) {
     let FormBody = [];
     for (let property in params) {
-      let encodedKey = encodeURIComponent(property);
-      let encodedValue = encodeURIComponent(params[property]);
-      FormBody.push(encodedKey + '=' + encodedValue);
+        let encodedKey = encodeURIComponent(property);
+        let encodedValue = encodeURIComponent(params[property]);
+        FormBody.push(encodedKey + '=' + encodedValue);
     }
     return FormBody.join('&');
-  }
+}
 
-  //login
-  export function startLogin() {
+//login
+export function startLogin() {
     return {
-      type: LOGIN_START,
+        type: LOGIN_START,
     };
-  }
+}
 
-  export function loginFailed(errormsg) {
+export function loginFailed(errormsg) {
     return {
-      type: LOGIN_FAILURE,
-      error: errormsg,
+        type: LOGIN_FAILURE,
+        error: errormsg,
     };
-  }
+}
 
-  export function loginSuccess(user) {
+export function loginSuccess(user) {
     return {
-      type: LOGIN_SUCCESS,
-      user: user,
+        type: LOGIN_SUCCESS,
+        user: user,
     };
-  }
+}
 
 
-
-  export function login(email, password) {
+export function login(email, password) {
     return (dispatch) => {
-      dispatch(startLogin());
-      const url = '/api/token';
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: getFormBody({ email, password }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          //receiving response from api is token and user object
-          if (data.success) {
-            localStorage.setItem('token', data.data.token);
-            //dispatch(loginSuccess(data.data.user));
-            return;
-          }
-          dispatch(loginFailed(data.message));
-        });
+        dispatch(startLogin());
+        const url = '/api/token';
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: getFormBody({email, password}),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                //receiving response from api is token and user object
+                if (data.success) {
+                    localStorage.setItem('token', data.data.token);
+                    //dispatch(loginSuccess(data.data.user));
+                    return;
+                }
+                dispatch(loginFailed(data.message));
+            });
     };
-  }
+}
 
-  //signup
-  export function startsignup() {
+//signup
+export function startsignup() {
     return {
-      type: SIGNUP_START,
+        type: SIGNUP_START,
     };
-  }
-  export function signupFailed(errormsg) {
-    return {
-      type: SIGNUP_FAILURE,
-      error: errormsg,
-    };
-  }
-  export function signupSuccess(user) {
-    return {
-      type: SIGNUP_SUCCESS,
-      user: user,
-    };
-  }
+}
 
-  export function signup(email, password, confirmpassword, name) {
+export function signupFailed(errormsg) {
+    return {
+        type: SIGNUP_FAILURE,
+        error: errormsg,
+    };
+}
+
+export function signupSuccess(user) {
+    return {
+        type: SIGNUP_SUCCESS,
+        user: user,
+    };
+}
+
+export function signup(email, password, confirmpassword, name) {
     return (dispatch) => {
-      dispatch(startsignup());
-      const url = '/register';
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: getFormBody({
-          email,
-          password,
-          password_confirm: confirmpassword,
-          first_name:name,
-          last_name:name
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("********************",data);
-          if (data.success) {
-            //localStorage.setItem('token', data.data.token);
-            dispatch(signupSuccess(data.data.user));
-            return;
-          }
-          dispatch(signupFailed(data.message));
-        });
+        dispatch(startsignup());
+        const url = '/register';
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: getFormBody({
+                username: name,
+                email,
+                password,
+                password_confirm: confirmpassword,
+                first_name: name,
+                last_name: name
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("********************", data);
+                if (data.success) {
+                    //localStorage.setItem('token', data.data.token);
+                    dispatch(signupSuccess(data.data.user));
+                    return;
+                }
+                dispatch(signupFailed(data.message));
+            });
     };
-  }
+}
 
-  //authenticate and logout
-  export function authenticateUser(user) {
+//authenticate and logout
+export function authenticateUser(user) {
     return {
-      type: AUTHENTICATE_USER,
-      user: user,
+        type: AUTHENTICATE_USER,
+        user: user,
     };
-  }
+}
 
-  export function logoutUser() {
+export function logoutUser() {
     return {
-      type: LOG_OUT,
+        type: LOG_OUT,
     };
-  }
-  export function clearAuth(){
-    return {
-      type:CLEAR_AUTH_STATE,
-    };
-  } 
+}
 
+export function clearAuth() {
+    return {
+        type: CLEAR_AUTH_STATE,
+    };
+}
 
 
 //FORGOT PASSWORD
 export function startForgot() {
-  return {
-    type: FORGOT_START,
-  };
+    return {
+        type: FORGOT_START,
+    };
 }
 
 export function forgotFailed(errormsg) {
-  return {
-    type: FORGOT_FAILURE,
-    error: errormsg,
-  };
+    return {
+        type: FORGOT_FAILURE,
+        error: errormsg,
+    };
 }
 
 export function forgotSuccess(successmsg) {
-  return {
-    type: FORGOT_SUCCESS,
-    error:successmsg,
-  };
+    return {
+        type: FORGOT_SUCCESS,
+        error: successmsg,
+    };
 }
 
 
-
 export function forgot(email) {
-  return (dispatch) => {
-    dispatch(startForgot());
-    const url = '/api/v1/forgot';
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: getFormBody({ email}),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          dispatch(forgotSuccess(data.message));
-          return;
-        }
-        dispatch(forgotFailed(data.message));
-      });
-  };
+    return (dispatch) => {
+        dispatch(startForgot());
+        const url = '/api/v1/forgot';
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: getFormBody({email}),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    dispatch(forgotSuccess(data.message));
+                    return;
+                }
+                dispatch(forgotFailed(data.message));
+            });
+    };
 }

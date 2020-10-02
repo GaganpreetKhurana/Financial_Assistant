@@ -1,20 +1,21 @@
-import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+import React, {Component} from "react";
+import {Redirect} from "react-router-dom";
+import {Link} from "react-router-dom";
+import {connect} from "react-redux";
 
 class Details extends Component {
 
     render() {
-    const { inProgress, error, isLoggedIn } = this.props.auth;
+        const {inProgress, error, isLoggedIn} = this.props.auth;
 
-    //so that not logged in user don't sees the details page
-    {
-        /*
-    if (!isLoggedIn) {
-      return <Redirect to="/" />;
-    }
-*/}
+        //so that not logged in user don't sees the details page
+        {
+            /*
+        if (!isLoggedIn) {
+          return <Redirect to="/" />;
+        }
+    */
+        }
 
         return (
             <div className="Main-Page">
@@ -27,7 +28,7 @@ class Details extends Component {
                     </div>
                 </div>
 
-                
+
             </div>
         );
     }
@@ -35,9 +36,9 @@ class Details extends Component {
 
 function mapStateToProps(state) {
     return {
-      auth: state.auth,
-      details : state.details,
+        auth: state.auth,
+        details: state.details,
     };
-  }
-  
-  export default connect(mapStateToProps)(Details);
+}
+
+export default connect(mapStateToProps)(Details);

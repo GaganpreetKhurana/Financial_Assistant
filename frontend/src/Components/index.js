@@ -6,7 +6,7 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import Login from './Login'
 
-export{
+export {
     App,
     SignUp,
     Page404,
