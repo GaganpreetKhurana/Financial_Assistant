@@ -53,7 +53,7 @@ import {
   export function login(email, password) {
     return (dispatch) => {
       dispatch(startLogin());
-      const url = '/api/v1/users/login';
+      const url = '/api/token';
       fetch(url, {
         method: 'POST',
         headers: {
@@ -66,7 +66,7 @@ import {
           //receiving response from api is token and user object
           if (data.success) {
             localStorage.setItem('token', data.data.token);
-            dispatch(loginSuccess(data.data.user));
+            //dispatch(loginSuccess(data.data.user));
             return;
           }
           dispatch(loginFailed(data.message));
@@ -96,7 +96,7 @@ import {
   export function signup(email, password, confirmpassword, name) {
     return (dispatch) => {
       dispatch(startsignup());
-      const url = '/api/v1/users/signup';
+      const url = '/register';
       fetch(url, {
         method: 'POST',
         headers: {
@@ -105,12 +105,14 @@ import {
         body: getFormBody({
           email,
           password,
-          confirm_password: confirmpassword,
-          name,
+          password_confirm: confirmpassword,
+          first_name:name,
+          last_name:name
         }),
       })
         .then((response) => response.json())
         .then((data) => {
+          console.log("********************",data);
           if (data.success) {
             //localStorage.setItem('token', data.data.token);
             dispatch(signupSuccess(data.data.user));
