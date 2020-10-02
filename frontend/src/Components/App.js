@@ -7,6 +7,7 @@ import Navbar from './Navbar';
 import Login from './Login';
 import Footer from './Footer';
 import Page404 from './Page404';
+import Forgot from './Forgot';
 import * as jwtDecode from "jwt-decode";
 import { authenticateUser } from '../actions/auth';
 
@@ -36,6 +37,7 @@ class App extends Component {
               <Route exact path="/" component={Home}/>
               <Route path="/login" component={Login}/>
               <Route path="/sign-up" component={SignUp}/>
+              <Route path="/forgot" component={Forgot}/>
               <Route component={Page404} />
             </Switch>
           <Footer/>

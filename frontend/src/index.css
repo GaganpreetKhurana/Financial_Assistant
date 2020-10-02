@@ -18,10 +18,13 @@ button a{
 
 }
 a{
-  color:white;
-
   outline: none;
   text-decoration: none;
+}
+
+.Forgot{
+  margin-left: -50px;
+
 }
 .navbar {
   display: flex;
@@ -79,7 +82,7 @@ a{
   margin: auto;
   width: 450px;
   height: auto;
-  min-height: 350px;
+  min-height: 420px;
   background-color: white;
   padding-top: 5px;
 }

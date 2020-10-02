@@ -58,7 +58,7 @@ class SignUp extends Component {
             <div className="home-screen">
             <div className="register-form">
                 <div className="header">
-                    <p>Log In</p>
+                    <p>Sign Up</p>
                 </div>
                 
                 <div className="form-fields">
