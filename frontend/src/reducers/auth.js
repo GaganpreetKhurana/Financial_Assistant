@@ -15,6 +15,7 @@ const {
   
   const initialAuthState = {
     user: {},
+    details:false,
     error: null,
     isLoggedIn: false,
     inProgress: false,

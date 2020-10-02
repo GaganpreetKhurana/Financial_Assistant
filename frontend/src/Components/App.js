@@ -8,6 +8,7 @@ import Login from './Login';
 import Footer from './Footer';
 import Page404 from './Page404';
 import Forgot from './Forgot';
+import Details from './Details';
 import * as jwtDecode from "jwt-decode";
 import { authenticateUser } from '../actions/auth';
 
@@ -38,6 +39,7 @@ class App extends Component {
               <Route path="/login" component={Login}/>
               <Route path="/sign-up" component={SignUp}/>
               <Route path="/forgot" component={Forgot}/>
+              <Route path="/details" component={Details}/>
               <Route component={Page404} />
             </Switch>
           <Footer/>

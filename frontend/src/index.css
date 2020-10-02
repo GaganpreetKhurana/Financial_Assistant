@@ -182,3 +182,36 @@ button:hover {
   font-size: 15px;
   color: white;
 }
+
+.Main-Page{
+  box-sizing: border-box;
+  width:70%;
+  margin:auto;
+  margin-top:40px;
+  margin-bottom:40px;
+  border: 2px solid black;
+  height:auto;
+  min-height:540px;
+  background-color: yellow;
+}
+
+.choice{
+  width:100%;
+  height:50px;
+  background-color: cyan;
+  display:flex;
+}
+.details{
+  width:50%;
+  height:inherit;
+  
+}
+.details button{
+  width:100%;
+  height:inherit;
+  background-color:none;
+  outline:none;
+  border:none;
+  font-size: 25px;
+  cursor:pointer;
+}
