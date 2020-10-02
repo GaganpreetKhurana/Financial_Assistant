@@ -12,6 +12,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PackageRequirementsSettings">
+    <option name="requirementsPath" value="C:\Users\Gaganpreet Khurana\WebstormProjects\Financial_Assistant\requirements.txt" />
     <option name="removeUnused" value="true" />
   </component>
 </module>
