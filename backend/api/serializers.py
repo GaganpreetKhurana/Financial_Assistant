@@ -22,6 +22,8 @@ class RegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'password': 'Passwords must Match'})
         user.set_password(password)
         user.save()
+        user_detail = Detail(user=user)
+        user_detail.save()
         return user
 
 
@@ -29,22 +31,39 @@ class UserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email')
-        read_only_fields = '__all__'
+        read_only_fields = ('username', 'first_name', 'last_name', 'email')
+
+
+class ChangePasswordSerializer(serializers.ModelSerializer):
+    old_password = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+    new_password = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+    password_confirm = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+
+    class Meta:
+        model = User
+        fields = ('username', 'old_password', 'new_password', 'password_confirm')
+        extra_kwargs = {'old_password': {'write_only': True}, 'new_password': {'write_only': True},
+                        'password_confirm': {'write_only': True}}
+        read_only_fields = ['username']
 
 
 class FinancialDetailsSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='get_username')
+
     class Meta:
         model = Detail
         fields = (
-            'income', 'savings', 'totalExpenditure', 'housing', 'food', 'healthcare', 'transportation', 'recreation',
+            'username', 'income', 'savings', 'totalExpenditure', 'housing', 'food', 'healthcare', 'transportation',
+            'recreation',
             'miscellaneous', 'totalTransactions')
-        read_only_fields = ['savings', 'totalExpenditure', 'totalTransactions']
+        read_only_fields = ['username' + 'savings', 'totalExpenditure', 'totalTransactions']
 
 
 class TransactionSerializer(serializers.ModelSerializer):
     category = serializers.CharField(source='get_category')
+    username = serializers.CharField(source='get_username')
 
     class Meta:
         model = Transaction
-        fields = ('user', 'amount', 'time', 'category')
-        read_only_fields = ['user', 'time']
+        fields = ('username', 'amount', 'time', 'category')
+        read_only_fields = ['username', 'time']

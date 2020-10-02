@@ -19,6 +19,9 @@ class Detail(models.Model):
     def __str__(self):
         return str(self.user)
 
+    def get_username(self):
+        return self.user.username
+
 
 categories = [
     (0, "Income"),
@@ -43,3 +46,6 @@ class Transaction(models.Model):
 
     def get_category(self):
         return categories[self.type][1]
+
+    def get_username(self):
+        return self.user.username

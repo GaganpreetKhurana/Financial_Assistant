@@ -32,3 +32,4 @@ class TransactionList(APIView):
 
 class RegisteredUserView(CreateAPIView):
     serializer_class = RegisterSerializer
+
