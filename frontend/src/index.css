@@ -86,6 +86,22 @@ a{
   background-color: white;
   padding-top: 5px;
 }
+.forgot-form {
+  box-shadow: 0 0 2px 2px #88888b;
+  border-radius: 6px;
+  margin: auto;
+  width: 450px;
+  height: auto;
+  min-height: 420px;
+  background-color: white;
+  padding-top: 5px;
+}
+h5{
+  margin-left:35px;
+  font-weight:400;
+  font-size:24px;
+  color:rgb(43, 44, 44);
+}
 .register-form {
   box-shadow: 0 0 2px 2px #88888b;
   border-radius: 6px;
@@ -114,7 +130,7 @@ a{
 }
 .alert-warn button {
   width: 90%;
-  hight: 30px;
+  height: 30px;
   margin-bottom: 8px;
 
   border: none;
@@ -123,7 +139,7 @@ a{
 }
 .alert-done button {
   width: 90%;
-  hight: 30px;
+  height: 30px;
   margin-bottom: 8px;
 
   border: none;

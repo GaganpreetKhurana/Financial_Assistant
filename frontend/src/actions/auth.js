@@ -7,7 +7,11 @@ import {
     SIGNUP_SUCCESS,
     AUTHENTICATE_USER,
     LOG_OUT,
-    CLEAR_AUTH_STATE
+    CLEAR_AUTH_STATE,
+    FORGOT_START,
+    FORGOT_FAILURE,
+    FORGOT_SUCCESS,
+
   } from './actionTypes';
 
   //Form Body 
@@ -135,3 +139,50 @@ import {
       type:CLEAR_AUTH_STATE,
     };
   } 
+
+
+
+//FORGOT PASSWORD
+export function startForgot() {
+  return {
+    type: FORGOT_START,
+  };
+}
+
+export function forgotFailed(errormsg) {
+  return {
+    type: FORGOT_FAILURE,
+    error: errormsg,
+  };
+}
+
+export function forgotSuccess(successmsg) {
+  return {
+    type: FORGOT_SUCCESS,
+    error:successmsg,
+  };
+}
+
+
+
+export function forgot(email) {
+  return (dispatch) => {
+    dispatch(startForgot());
+    const url = '/api/v1/forgot';
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: getFormBody({ email}),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch(forgotSuccess(data.message));
+          return;
+        }
+        dispatch(forgotFailed(data.message));
+      });
+  };
+}

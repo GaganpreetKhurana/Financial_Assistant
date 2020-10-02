@@ -8,6 +8,9 @@ const {
     AUTHENTICATE_USER,
     LOG_OUT,
     CLEAR_AUTH_STATE,
+    FORGOT_START,
+    FORGOT_SUCCESS,
+    FORGOT_FAILURE,
   } = require("../actions/actionTypes");
   
   const initialAuthState = {
@@ -24,7 +27,7 @@ const {
           ...state,
           error: null,
         };
-  
+      case FORGOT_START:
       case LOGIN_START:
       case SIGNUP_START:
         return {
@@ -40,6 +43,8 @@ const {
           error: null,
           isLoggedIn: true,
         };
+      case FORGOT_FAILURE:
+      case FORGOT_SUCCESS:
       case LOGIN_FAILURE:
       case SIGNUP_FAILURE:
         return {
