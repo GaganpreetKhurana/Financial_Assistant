@@ -13,6 +13,11 @@ import {
     FORGOT_SUCCESS,
 
 } from './actionTypes';
+ // @ts-ignore  
+ import jwt_decode from "jwt-decode";
+
+
+
 
 //Form Body
 //converting data in format variable1=key1&variable2=key2...
@@ -41,47 +46,47 @@ export function loginFailed(errormsg) {
     };
 }
 
-export function loginSuccess(user) {
+export function loginSuccess(successmsg,user) {
     return {
         type: LOGIN_SUCCESS,
-        user: user,
+        user,
+        success:successmsg,
     };
 }
 
 
 export function login(username, password) {
     return (dispatch) => {
-        console.log(username,password);
         var success =  false;
         dispatch(startLogin());
-        const url = '/api/token';
+        const url = '/api/token/';
         fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: getFormBody({
-                Username:username,
+                username:username,
                 password}),
         })
             .then((response) => 
-            {if(response.status === 201){
+            {if(response.status === 200){
                 success=true;
-                //console.log("@@@@@@@@@@@@@@@@@@@@@@",response);
                 return response.json();     
             }else{
-                //console.log("@@@@@@@@@@@@@@@@@@@@@@))))))))))))",response);
                 return response.json();
             }})
             .then((data) => {
-              console.log("********************", data);
-                //receiving response from api is token and user object
                 if (success) {
-                    //localStorage.setItem('token', data.data.token);
-                    dispatch(loginSuccess("Login Successfull"));
+                    localStorage.setItem('DONNA', data.access);
+                    const user = jwt_decode(data.access);
+                    dispatch(loginSuccess("Login Successfull",user.user_id));
                     return;
                 }
-                dispatch(loginFailed("Login Failed"));
+                else{
+                    dispatch(loginFailed("Username or Password is Incorrect"));
+                }
+                
             });
     };
 }
@@ -130,21 +135,16 @@ export function signup(email, password, confirmpassword, name,fname,lname) {
             {
                 if(response.status === 201){
                     success=true;
-                    //console.log("@@@@@@@@@@@@@@@@@@@@@@",response);
                     return response.json();     
                 }else{
-                    //console.log("@@@@@@@@@@@@@@@@@@@@@@))))))))))))",response);
                     return response.json();
                 }
             })
             .then((data) => {
-                //console.log("********************", data);
                 if (success) {
-                 // console.log("HELLLLLLLOOOOO");
-                    dispatch(signupFailed("SignUp successfull please LogIn to continue"));
+                    dispatch(signupSuccess("SignUp successfull please LogIn to continue"));
                     return;
                 }
-                //console.log("HELLLLLLLOOOOO222222222222222222222");
                 if(data.username)
                 {
                     dispatch(signupFailed("User with this UserName already exists"));
@@ -167,7 +167,7 @@ export function signup(email, password, confirmpassword, name,fname,lname) {
 export function authenticateUser(user) {
     return {
         type: AUTHENTICATE_USER,
-        user: user,
+        user: user.name,
     };
 }
 
@@ -201,7 +201,7 @@ export function forgotFailed(errormsg) {
 export function forgotSuccess(successmsg) {
     return {
         type: FORGOT_SUCCESS,
-        error: successmsg,
+        success: successmsg,
     };
 }
 
@@ -209,7 +209,8 @@ export function forgotSuccess(successmsg) {
 export function forgot(email) {
     return (dispatch) => {
         dispatch(startForgot());
-        const url = '/api/v1/forgot';
+        var success= false;
+        const url = '/api/password_reset/';
         fetch(url, {
             method: 'POST',
             headers: {
@@ -217,13 +218,28 @@ export function forgot(email) {
             },
             body: getFormBody({email}),
         })
-            .then((response) => response.json())
+        .then((response) => 
+        {
+            if(response.status === 200){
+                success=true;
+                return response.json();     
+            }else{
+                return response.json();
+            }
+        })
             .then((data) => {
-                if (data.success) {
-                    dispatch(forgotSuccess(data.message));
+                console.log(data);
+                
+                if (success) {
+                    dispatch(forgotSuccess("Reset Link Sent to your Registered Email Id"));
                     return;
                 }
-                dispatch(forgotFailed(data.message));
+                else if(data.email)
+                {
+                    dispatch(forgotFailed(data.email));
+                    return;
+                }
+                
             });
     };
 }

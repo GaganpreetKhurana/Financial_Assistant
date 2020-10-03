@@ -38,6 +38,14 @@ export default function auth(state = initialAuthState, action) {
                 inProgress: true,
             };
         case LOGIN_SUCCESS:
+            return {
+                ...state,
+                success: action.success,
+                isLoggedIn: true,
+                inProgress: false,
+                error: null,
+                user:action.user,
+            };
         case SIGNUP_SUCCESS:
             return {
                 ...state,
@@ -46,7 +54,6 @@ export default function auth(state = initialAuthState, action) {
                 error: null,
             };
         case FORGOT_FAILURE:
-        case FORGOT_SUCCESS:
         case LOGIN_FAILURE:
         case SIGNUP_FAILURE:
             return {
@@ -55,10 +62,17 @@ export default function auth(state = initialAuthState, action) {
                 error: action.error,
                 inProgress: false,
             };
+        case FORGOT_SUCCESS:
+            return {
+                ...state,
+                success:action.success,
+                error: null,
+                inProgress: false,
+            };
         case AUTHENTICATE_USER:
             return {
                 ...state,
-                user: action.user,
+                user:action.user,
                 isLoggedIn: true,
             };
         case LOG_OUT:

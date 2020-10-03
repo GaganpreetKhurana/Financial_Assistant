@@ -33,11 +33,11 @@ class Login extends Component {
     };
 
     render() {
-        const {inProgress, error, isLoggedIn} = this.props.auth;
+        const {inProgress, success,error, isLoggedIn} = this.props.auth;
 
         //so that logged in user don't sees the Forgot Password page even if he tries to manupalate url 
         if (isLoggedIn) {
-            return <Redirect to="/"/>;
+            return <Redirect to="/details"/>;
         }
         return (
             <div className="home-screen">
@@ -45,8 +45,11 @@ class Login extends Component {
                     <h5>Please Enter your Registered Email ID</h5>
 
                     <div className="form-fields">
-                        {error && <div className="alert-done">
-                            <button>Error</button>
+                        {error && <div className="alert-warn">
+                            <button>{error}</button>
+                        </div>}
+                        {success && <div className="alert-done">
+                            <button>{success}</button>
                         </div>}
                         <br></br>
                         <input type="email" placeholder="Email" required onChange={this.handleEmail}/>

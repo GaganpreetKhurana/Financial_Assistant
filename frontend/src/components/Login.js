@@ -37,7 +37,7 @@ class Login extends Component {
     };
 
     render() {
-        const {inProgress, error, isLoggedIn} = this.props.auth;
+        const {inProgress, error, isLoggedIn,success} = this.props.auth;
 
         //so that logged in user don't sees the login page
         if (isLoggedIn) {
@@ -52,8 +52,13 @@ class Login extends Component {
 
                     <div className="form-fields">
                         {error && (
+                            <div className="alert-warn">
+                                <button>{error}</button>
+                            </div>
+                        )}
+                        {success && (
                             <div className="alert-done">
-                                <button>Error</button>
+                                <button>{success}</button>
                             </div>
                         )}
 
