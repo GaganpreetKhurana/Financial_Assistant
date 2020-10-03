@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'django_rest_passwordreset',
-    'api.apps.ApiConfig'
+    'api.apps.ApiConfig',
+    'rest_framework_jwt',
+    'rest_framework_jwt.blacklist',
 ]
 
 MIDDLEWARE = [
@@ -119,13 +121,23 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework_simplejwt.authentication.JWTAuthentication',)
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
 }
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=2),
 
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': timedelta(days=1),
+    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=2),
+    'JWT_RESPONSE_PAYLOAD_HANDLER':
+        'api.helper.jwt_create_response_payload'
 }
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # python -m smtpd -n -c DebuggingServer localhost:1025
 # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
