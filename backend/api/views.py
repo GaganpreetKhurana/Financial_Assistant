@@ -1,12 +1,12 @@
 from django.contrib.auth.models import User
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .models import Detail, Transaction
 from .serializers import UserDetailsSerializer, TransactionSerializer, RegisterSerializer, FinancialDetailsSerializer, \
-    ChangePasswordSerializer
+    ChangePasswordSerializer, CreateTransactionSerializer, UpdateTransactionSerializer, DestroyTransactionSerializer
 
 
 # Create your views here.
@@ -14,11 +14,13 @@ from .serializers import UserDetailsSerializer, TransactionSerializer, RegisterS
 
 class RegisterUserView(CreateAPIView):
     serializer_class = RegisterSerializer
+    model = User
 
 
-class ViewUserView(ListAPIView):
+class RetrieveUserDetailsView(ListAPIView):
     serializer_class = UserDetailsSerializer
     permission_classes = [IsAuthenticated]
+    model = User
 
     def get_queryset(self):
         return User.objects.filter(id=self.request.user.id)
@@ -61,6 +63,42 @@ class ChangePasswordView(UpdateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class EditUserDetailsView(UpdateAPIView):
+    serializer_class = UserDetailsSerializer
+    model = User
+    permission_classes = [IsAuthenticated]
+
+    def update(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+
+            try:
+                request.user.first_name = request.data.get("first_name")
+                request.user.last_name = request.data.get("last_name")
+                request.user.username = request.data.get("username")
+                request.user.email = request.data.get("email")
+                request.user.save()
+            except():
+                response = {
+                    'status': 'failed',
+                    'code': status.HTTP_400_BAD_REQUEST,
+                    'message': 'Unable to change',
+                    'data': []
+                }
+                return Response(response)
+            response = {
+                'status': 'success',
+                'code': status.HTTP_200_OK,
+                'message': 'Details Updated',
+                'data': []
+            }
+
+            return Response(response)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class DetailsView(ListAPIView):
     serializer_class = FinancialDetailsSerializer
     permission_classes = [IsAuthenticated]
@@ -72,6 +110,70 @@ class DetailsView(ListAPIView):
 class TransactionList(ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = TransactionSerializer
+    model = Transaction
 
     def get_queryset(self):
         return Transaction.objects.filter(user=self.request.user)
+
+
+class CreateTransaction(CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = CreateTransactionSerializer
+    model = Transaction
+
+
+class UpdateTransaction(UpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = UpdateTransactionSerializer
+    model = Transaction
+    queryset = Transaction.objects.all()
+
+
+class DeleteTransaction(DestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = DestroyTransactionSerializer
+    model = Transaction
+    queryset = Transaction.objects.all()
+
+    def destroy(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+            if instance.user != request.user:
+                response = {
+                    "success": False,
+                    "message": "Object Not Found"
+                }
+                return Response(data=response, status=status.HTTP_204_NO_CONTENT)
+            details = Detail.objects.filter(user=request.user)
+            details = details[0]
+
+            if instance.type == 0:
+                details.income -= instance.amount
+            elif instance.type == 1:
+                details.housing -= instance.amount
+            elif instance.type == 2:
+                details.food -= instance.amount
+            elif instance.type == 3:
+                details.healthcare -= instance.amount
+            elif instance.type == 4:
+                details.transportation -= instance.amount
+            elif instance.type == 5:
+                details.recreation -= instance.amount
+            elif instance.type == 6:
+                details.miscellaneous -= instance.amount
+
+            details.totalExpenditure = (
+                    details.housing + details.food + details.healthcare + details.transportation + details.recreation + details.miscellaneous)
+            details.savings = details.income - details.totalExpenditure
+            details.save()
+            self.perform_destroy(instance)
+            response = {
+                "success": True,
+                "message": "Object Deleted"
+            }
+        except():
+            response = {
+                "success": False,
+                "message": "Object Not Deleted"
+            }
+        return Response(data=response, status=status.HTTP_204_NO_CONTENT)
