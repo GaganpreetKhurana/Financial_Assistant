@@ -1,12 +1,12 @@
 from django.contrib.auth.models import User
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .models import Detail, Transaction
 from .serializers import UserDetailsSerializer, TransactionSerializer, RegisterSerializer, FinancialDetailsSerializer, \
-    ChangePasswordSerializer, CreateTransactionSerializer, UpdateTransactionSerializer
+    ChangePasswordSerializer, CreateTransactionSerializer, UpdateTransactionSerializer, DestroyTransactionSerializer
 
 
 # Create your views here.
@@ -127,3 +127,53 @@ class UpdateTransaction(UpdateAPIView):
     serializer_class = UpdateTransactionSerializer
     model = Transaction
     queryset = Transaction.objects.all()
+
+
+class DeleteTransaction(DestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = DestroyTransactionSerializer
+    model = Transaction
+    queryset = Transaction.objects.all()
+
+    def destroy(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+            if instance.user != request.user:
+                response = {
+                    "success": False,
+                    "message": "Object Not Found"
+                }
+                return Response(data=response, status=status.HTTP_204_NO_CONTENT)
+            details = Detail.objects.filter(user=request.user)
+            details = details[0]
+
+            if instance.type == 0:
+                details.income -= instance.amount
+            elif instance.type == 1:
+                details.housing -= instance.amount
+            elif instance.type == 2:
+                details.food -= instance.amount
+            elif instance.type == 3:
+                details.healthcare -= instance.amount
+            elif instance.type == 4:
+                details.transportation -= instance.amount
+            elif instance.type == 5:
+                details.recreation -= instance.amount
+            elif instance.type == 6:
+                details.miscellaneous -= instance.amount
+
+            details.totalExpenditure = (
+                    details.housing + details.food + details.healthcare + details.transportation + details.recreation + details.miscellaneous)
+            details.savings = details.income - details.totalExpenditure
+            details.save()
+            self.perform_destroy(instance)
+            response = {
+                "success": True,
+                "message": "Object Deleted"
+            }
+        except():
+            response = {
+                "success": False,
+                "message": "Object Not Deleted"
+            }
+        return Response(data=response, status=status.HTTP_204_NO_CONTENT)
