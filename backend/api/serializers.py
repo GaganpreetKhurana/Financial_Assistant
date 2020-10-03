@@ -79,6 +79,7 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
         read_only_fields = ['time']
         extra_kwargs = {'amount': {'required': True}}
 
+    @transaction.atomic
     def save(self, **kwargs):
         details = Detail.objects.filter(user=self.context.get('request').user)
         details = details[0]
@@ -101,7 +102,8 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
             details.recreation += self.validated_data['amount']
         elif self.validated_data['category'] == 6:
             details.miscellaneous += self.validated_data['amount']
-        details.totalExpenditure = details.housing + details.food + details.healthcare + details.transportation + details.recreation + details.miscellaneous
+        details.totalExpenditure = (
+                details.housing + details.food + details.healthcare + details.transportation + details.recreation + details.miscellaneous)
         details.savings = details.income - details.totalExpenditure
         details.save()
         transaction.save()
@@ -116,7 +118,6 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
         fields = ('amount', 'time', 'category')
         read_only_fields = ['time']
         extra_kwargs = {'amount': {'required': True}}
-
     @transaction.atomic
     def update(self, instance, validated_data):
 
@@ -154,8 +155,19 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
 
         instance.type = validated_data['category']
         instance.amount = validated_data['amount']
-        details.totalExpenditure = details.housing + details.food + details.healthcare + details.transportation + details.recreation + details.miscellaneous
+        details.totalExpenditure = (
+                details.housing + details.food + details.healthcare + details.transportation + details.recreation + details.miscellaneous)
         details.savings = details.income - details.totalExpenditure
         details.save()
         instance.save()
         return validated_data
+
+
+class DestroyTransactionSerializer(serializers.ModelSerializer):
+    category = serializers.ChoiceField(choices=categories)
+
+    class Meta:
+        model = Transaction
+        fields = ('amount', 'time', 'category')
+        read_only_fields = ['time']
+        extra_kwargs = {'amount': {'required': True}}
