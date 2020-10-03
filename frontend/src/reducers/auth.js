@@ -19,6 +19,7 @@ const initialAuthState = {
     error: null,
     isLoggedIn: false,
     inProgress: false,
+    success:null,
 };
 
 export default function auth(state = initialAuthState, action) {
@@ -27,6 +28,7 @@ export default function auth(state = initialAuthState, action) {
             return {
                 ...state,
                 error: null,
+                success: null,
             };
         case FORGOT_START:
         case LOGIN_START:
@@ -39,10 +41,9 @@ export default function auth(state = initialAuthState, action) {
         case SIGNUP_SUCCESS:
             return {
                 ...state,
-                user: action.user,
+                success: action.success,
                 inProgress: false,
                 error: null,
-                isLoggedIn: true,
             };
         case FORGOT_FAILURE:
         case FORGOT_SUCCESS:
@@ -50,6 +51,7 @@ export default function auth(state = initialAuthState, action) {
         case SIGNUP_FAILURE:
             return {
                 ...state,
+                success:null,
                 error: action.error,
                 inProgress: false,
             };

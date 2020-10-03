@@ -49,8 +49,10 @@ export function loginSuccess(user) {
 }
 
 
-export function login(email, password) {
+export function login(username, password) {
     return (dispatch) => {
+        console.log(username,password);
+        var success =  false;
         dispatch(startLogin());
         const url = '/api/token';
         fetch(url, {
@@ -58,18 +60,28 @@ export function login(email, password) {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: getFormBody({email, password}),
+            body: getFormBody({
+                Username:username,
+                password}),
         })
-            .then((response) => response.json())
+            .then((response) => 
+            {if(response.status === 201){
+                success=true;
+                //console.log("@@@@@@@@@@@@@@@@@@@@@@",response);
+                return response.json();     
+            }else{
+                //console.log("@@@@@@@@@@@@@@@@@@@@@@))))))))))))",response);
+                return response.json();
+            }})
             .then((data) => {
               console.log("********************", data);
                 //receiving response from api is token and user object
-                if (data.success) {
-                    localStorage.setItem('token', data.data.token);
-                    //dispatch(loginSuccess(data.data.user));
+                if (success) {
+                    //localStorage.setItem('token', data.data.token);
+                    dispatch(loginSuccess("Login Successfull"));
                     return;
                 }
-                dispatch(loginFailed(data.message));
+                dispatch(loginFailed("Login Failed"));
             });
     };
 }
@@ -88,15 +100,16 @@ export function signupFailed(errormsg) {
     };
 }
 
-export function signupSuccess(user) {
+export function signupSuccess(msg) {
     return {
         type: SIGNUP_SUCCESS,
-        user: user,
+        success: msg,
     };
 }
 
-export function signup(email, password, confirmpassword, name) {
+export function signup(email, password, confirmpassword, name,fname,lname) {
     return (dispatch) => {
+        var success =  false;
         dispatch(startsignup());
         const url = '/register';
         fetch(url, {
@@ -109,20 +122,43 @@ export function signup(email, password, confirmpassword, name) {
                 email,
                 password,
                 password_confirm: confirmpassword,
-                first_name: name,
-                last_name: name
+                first_name: fname,
+                last_name: lname
             }),
         })
-            .then((response) => response.json())
+            .then((response) => 
+            {
+                if(response.status === 201){
+                    success=true;
+                    //console.log("@@@@@@@@@@@@@@@@@@@@@@",response);
+                    return response.json();     
+                }else{
+                    //console.log("@@@@@@@@@@@@@@@@@@@@@@))))))))))))",response);
+                    return response.json();
+                }
+            })
             .then((data) => {
-                console.log("********************", data);
-                if (data.success) {
-                  console.log("HELLLLLLLOOOOO");
-                    dispatch(signupSuccess(data.data.user));
+                //console.log("********************", data);
+                if (success) {
+                 // console.log("HELLLLLLLOOOOO");
+                    dispatch(signupFailed("SignUp successfull please LogIn to continue"));
                     return;
                 }
-                console.log("HELLLLLLLOOOOO222222222222222222222");
-                dispatch(signupFailed(data.message));
+                //console.log("HELLLLLLLOOOOO222222222222222222222");
+                if(data.username)
+                {
+                    dispatch(signupFailed("User with this UserName already exists"));
+                    return;
+                }
+                else if(data.password)
+                {
+                    dispatch(signupFailed("Password and Confirm Password fields Don't match"));
+                    return;
+                }
+                else{
+                    dispatch(signupFailed("Signup Failed Please Try Again"));
+                }
+                
             });
     };
 }

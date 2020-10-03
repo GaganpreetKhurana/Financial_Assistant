@@ -80,10 +80,11 @@ a {
 .home-screen {
     background-color: #f1f1f1;
     width: 100%;
-    height: inherit;
-    min-height: 84vh;
+    min-height: 90vh;
+    height: auto;
     padding-top: 25px;
     box-sizing: border-box;
+    padding-bottom: 30px;
 }
 
 .login-form {
@@ -119,9 +120,9 @@ h5 {
     box-shadow: 0 0 2px 2px #88888b;
     border-radius: 6px;
     margin: auto;
+    min-height: 580px;
     width: 450px;
     height: auto;
-    min-height: 470px;
     background-color: white;
     padding-top: 5px;
 }
