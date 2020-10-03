@@ -214,7 +214,7 @@ button:hover {
     border: 2px solid black;
     height: auto;
     min-height: 540px;
-    background-color: yellow;
+    background-color: white;
 }
 
 .choice {
@@ -227,7 +227,6 @@ button:hover {
 .details {
     width: 50%;
     height: inherit;
-
 }
 
 .details button {
@@ -238,4 +237,46 @@ button:hover {
     border: none;
     font-size: 25px;
     cursor: pointer;
+    border-bottom:1px solid black;
+    border-right:1px solid black;
+}
+.details button:hover {
+    width: 100%;
+    height: inherit;
+    background-color:rgb(72 72 80);
+    outline: none;
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+    border-bottom:1px solid black;
+    border-right:1px solid black;
+    color:white;
+}
+.chatbot {
+    width: 50%;
+    height: inherit;
+}
+
+.chatbot button {
+    width: 100%;
+    height: inherit;
+    background-color: none;
+    outline: none;
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+    border-bottom:1px solid black;
+    border-left:1px solid black;
+}
+.chatbot button:hover{
+    width: 100%;
+    height: inherit;
+    background-color:rgb(72 72 80);
+    color:white;
+    outline: none;
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+    border-bottom:1px solid black;
+    border-left:1px solid black;
 }
