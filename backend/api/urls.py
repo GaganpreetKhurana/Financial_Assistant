@@ -7,6 +7,7 @@ app_name = "api"
 urlpatterns = [
     path("transactions", TransactionList.as_view(), name="transactions"),
     path("create_transaction", CreateTransaction.as_view(), name="create_transactions"),
+    path("update_transaction/<int:pk>/", UpdateTransaction.as_view(), name="update_transactions"),
 
     path("register", RegisterUserView.as_view(), name="register"),
     path("change_password", ChangePasswordView.as_view(), name="change_password"),

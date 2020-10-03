@@ -6,7 +6,7 @@ from rest_framework.response import Response
 
 from .models import Detail, Transaction
 from .serializers import UserDetailsSerializer, TransactionSerializer, RegisterSerializer, FinancialDetailsSerializer, \
-    ChangePasswordSerializer, CreateTransactionSerializer
+    ChangePasswordSerializer, CreateTransactionSerializer, UpdateTransactionSerializer
 
 
 # Create your views here.
@@ -120,3 +120,10 @@ class CreateTransaction(CreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = CreateTransactionSerializer
     model = Transaction
+
+
+class UpdateTransaction(UpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = UpdateTransactionSerializer
+    model = Transaction
+    queryset = Transaction.objects.all()
