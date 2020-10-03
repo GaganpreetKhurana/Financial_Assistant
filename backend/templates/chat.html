@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Chat Bot Interface
+        </title>
+    </head>
+    <body>
+        
+    <form action = "/external/" method="post">
+        {% csrf_token %}
+        Input Text:
+        <input type = "text" name = "param" required><br><br>
+        {{data_external}}<br><br>
+        {{data1}}
+        <br><br>
+        <input type ="submit" value = "Send to Chat Bot">   
+    </form>
+
+    </body>
+</html>
