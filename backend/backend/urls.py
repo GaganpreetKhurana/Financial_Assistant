@@ -23,5 +23,6 @@ urlpatterns = [
     path('api/token/refresh/', refresh_jwt_token, name='refresh_token'),
     path('api/token/verify/', verify_jwt_token, name='verify_token'),
     path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
-    path('', include('api.urls'))
+    path('', include('api.urls')),
+    path('', include('chatbot.urls'))
 ]
