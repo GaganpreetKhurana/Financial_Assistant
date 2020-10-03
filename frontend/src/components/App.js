@@ -9,20 +9,20 @@ import Footer from './Footer';
 import Page404 from './Page404';
 import Forgot from './Forgot';
 import Details from './Details';
-import * as jwtDecode from "jwt-decode";
+ // @ts-ignore  
+ import jwt_decode from "jwt-decode";
 import {authenticateUser} from '../actions/auth';
 
 
 class App extends Component {
     componentDidMount() {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("DONNA");
 
         if (token) {
-            const user = jwtDecode(token);
+            const user = jwt_decode(token);
             this.props.dispatch(
                 authenticateUser({
-                    email: user.email,
-                    name: user.name,
+                    name: user.user_id,
                 })
             );
             //anything that has to be fetched initially

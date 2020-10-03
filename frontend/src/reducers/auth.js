@@ -38,6 +38,14 @@ export default function auth(state = initialAuthState, action) {
                 inProgress: true,
             };
         case LOGIN_SUCCESS:
+            return {
+                ...state,
+                success: action.success,
+                isLoggedIn: true,
+                inProgress: false,
+                error: null,
+                user:action.user,
+            };
         case SIGNUP_SUCCESS:
             return {
                 ...state,
@@ -58,7 +66,7 @@ export default function auth(state = initialAuthState, action) {
         case AUTHENTICATE_USER:
             return {
                 ...state,
-                user: action.user,
+                user:action.user,
                 isLoggedIn: true,
             };
         case LOG_OUT:

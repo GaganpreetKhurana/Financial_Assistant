@@ -79,7 +79,7 @@ class SignUp extends Component {
                         {error && <div className="alert-warn">
                             <button>{error}</button>
                         </div>}
-                        {success && <div className="alert-warn">
+                        {success && <div className="alert-done">
                             <button>{success}</button>
                         </div>}
                         <input type="text" placeholder="First Name" required onChange={this.handleFName}/>
