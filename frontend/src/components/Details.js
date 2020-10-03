@@ -8,26 +8,21 @@ class Details extends Component {
         const { isLoggedIn} = this.props.auth;
 
         //so that not logged in user don't sees the details page
-        
-            
-        if (!isLoggedIn) {
-          return <Redirect to="/" />;
-        }
-    
-        
-
+        //if (!isLoggedIn) {
+         // return <Redirect to="/" />;
+       // }
         return (
-            <div className="Main-Page">
-                <div className="choice">
-                    <div className="details">
-                        <button>FORM</button>
-                    </div>
-                    <div className="chatbot">
-                        <button>CHAT BOT</button>
+            <div className="home-screen">
+                <div className="Main-Page">
+                    <div className="choice">
+                        <div className="details">
+                            <button>DETAIL FORM</button>
+                        </div>
+                        <div className="chatbot">
+                            <button>CHAT BOT</button>
+                        </div>
                     </div>
                 </div>
-
-
             </div>
         );
     }
