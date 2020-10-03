@@ -62,6 +62,7 @@ export function login(email, password) {
         })
             .then((response) => response.json())
             .then((data) => {
+              console.log("********************", data);
                 //receiving response from api is token and user object
                 if (data.success) {
                     localStorage.setItem('token', data.data.token);
@@ -116,10 +117,11 @@ export function signup(email, password, confirmpassword, name) {
             .then((data) => {
                 console.log("********************", data);
                 if (data.success) {
-                    //localStorage.setItem('token', data.data.token);
+                  console.log("HELLLLLLLOOOOO");
                     dispatch(signupSuccess(data.data.user));
                     return;
                 }
+                console.log("HELLLLLLLOOOOO222222222222222222222");
                 dispatch(signupFailed(data.message));
             });
     };
