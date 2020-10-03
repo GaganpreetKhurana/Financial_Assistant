@@ -41,7 +41,7 @@ class Login extends Component {
 
         //so that logged in user don't sees the login page
         if (isLoggedIn) {
-            return <Redirect to="/"/>;
+            return <Redirect to="/details"/>;
         }
         return (
             <div className="home-screen">
@@ -58,8 +58,8 @@ class Login extends Component {
                         )}
 
                         <input
-                            type="email"
-                            placeholder="Email"
+                            type="text"
+                            placeholder="Username"
                             required
                             onChange={this.handleEmail}
                         />
