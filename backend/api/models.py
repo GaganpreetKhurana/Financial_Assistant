@@ -6,8 +6,19 @@ from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
 from django.core.mail import send_mail
 
-
 # Create your models here.
+
+User._meta.get_field('email')._unique = True
+User._meta.get_field('email').blank = False
+User._meta.get_field('email').null = False
+
+User._meta.get_field('first_name').blank = False
+User._meta.get_field('first_name').null = False
+
+User._meta.get_field('last_name').blank = False
+User._meta.get_field('last_name').null = False
+
+
 class Detail(models.Model):
     user = models.OneToOneField(User, verbose_name="USER", on_delete=models.CASCADE)
     income = models.FloatField(verbose_name="INCOME", default=0)
@@ -40,11 +51,11 @@ categories = [
 
 
 class Transaction(models.Model):
-    user = models.OneToOneField(User, verbose_name="USER", on_delete=models.CASCADE)
-    details = models.ForeignKey(Detail, on_delete=models.CASCADE, verbose_name="DETAILS")
+    user = models.ForeignKey(User, verbose_name="USER", on_delete=models.CASCADE,blank=False,null=False)
+    details = models.ForeignKey(Detail, on_delete=models.CASCADE, verbose_name="DETAILS",blank=False,null=False)
     time = models.DateTimeField(auto_now=True)
-    amount = models.FloatField(verbose_name="AMOUNT", default=0)
-    type = models.IntegerField(choices=categories, verbose_name="Type")
+    amount = models.FloatField(verbose_name="AMOUNT", default=0,blank=False,null=False)
+    type = models.IntegerField(choices=categories, verbose_name="Type",blank=False,null=False)
 
     def __str__(self):
         return str(self.user) + " / " + str(self.time) + " / " + str(self.amount) + " / " + categories[self.type][1]

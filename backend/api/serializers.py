@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from .models import Detail, Transaction
+from .models import Detail, Transaction, categories
 
 
 # Register Serializer
@@ -56,7 +56,7 @@ class FinancialDetailsSerializer(serializers.ModelSerializer):
             'username', 'income', 'savings', 'totalExpenditure', 'housing', 'food', 'healthcare', 'transportation',
             'recreation',
             'miscellaneous', 'totalTransactions')
-        read_only_fields = ['username' + 'savings', 'totalExpenditure', 'totalTransactions']
+        read_only_fields = ['username', 'savings', 'totalExpenditure', 'totalTransactions']
 
 
 class TransactionSerializer(serializers.ModelSerializer):
@@ -65,5 +65,45 @@ class TransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transaction
-        fields = ('username', 'amount', 'time', 'category')
-        read_only_fields = ['username', 'time']
+        fields = ('id', 'username', 'amount', 'time', 'category')
+        read_only_fields = ['id', 'username', 'amount', 'time', 'category']
+
+
+class CreateTransactionSerializer(serializers.ModelSerializer):
+    category = serializers.ChoiceField(choices=categories)
+
+    class Meta:
+        model = Transaction
+        fields = ('amount', 'time', 'category')
+        read_only_fields = ['time']
+        extra_kwargs = {'amount': {'required': True}}
+
+    def save(self, **kwargs):
+        print(self.validated_data['category'])
+        details = Detail.objects.filter(user=self.context.get('request').user)
+        details=details[0]
+        transaction = Transaction(user=self.context.get('request').user,
+                                  amount=self.validated_data['amount'],
+                                  type=self.validated_data['category'],
+                                  details=details)
+        print(transaction)
+        details.totalTransactions += 1
+        if self.validated_data['category'] == 0:
+            details.income += self.validated_data['amount']
+        elif self.validated_data['category'] == 1:
+            details.housing += self.validated_data['amount']
+        elif self.validated_data['category'] == 2:
+            details.food += self.validated_data['amount']
+        elif self.validated_data['category'] == 3:
+            details.healthcare += self.validated_data['amount']
+        elif self.validated_data['category'] == 4:
+            details.transportation += self.validated_data['amount']
+        elif self.validated_data['category'] == 5:
+            details.recreation += self.validated_data['amount']
+        elif self.validated_data['category'] == 6:
+            details.miscellaneous += self.validated_data['amount']
+        details.totalExpenditure = details.housing + details.food + details.healthcare + details.transportation + details.recreation + details.miscellaneous
+        details.savings = details.income - details.totalExpenditure
+        details.save()
+        transaction.save()
+        return transaction
