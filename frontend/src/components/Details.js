@@ -13,9 +13,6 @@ class Details extends Component {
         if (!isLoggedIn) {
           return <Redirect to="/" />;
         }
-    
-        
-
         return (
             <div className="Main-Page">
                 <div className="choice">

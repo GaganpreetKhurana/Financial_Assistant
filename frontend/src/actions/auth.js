@@ -201,7 +201,7 @@ export function forgotFailed(errormsg) {
 export function forgotSuccess(successmsg) {
     return {
         type: FORGOT_SUCCESS,
-        error: successmsg,
+        success: successmsg,
     };
 }
 
@@ -209,7 +209,8 @@ export function forgotSuccess(successmsg) {
 export function forgot(email) {
     return (dispatch) => {
         dispatch(startForgot());
-        const url = '/api/v1/forgot';
+        var success= false;
+        const url = '/api/password_reset/';
         fetch(url, {
             method: 'POST',
             headers: {
@@ -217,13 +218,28 @@ export function forgot(email) {
             },
             body: getFormBody({email}),
         })
-            .then((response) => response.json())
+        .then((response) => 
+        {
+            if(response.status === 200){
+                success=true;
+                return response.json();     
+            }else{
+                return response.json();
+            }
+        })
             .then((data) => {
-                if (data.success) {
-                    dispatch(forgotSuccess(data.message));
+                console.log(data);
+                
+                if (success) {
+                    dispatch(forgotSuccess("Reset Link Sent to your Registered Email Id"));
                     return;
                 }
-                dispatch(forgotFailed(data.message));
+                else if(data.email)
+                {
+                    dispatch(forgotFailed(data.email));
+                    return;
+                }
+                
             });
     };
 }
