@@ -51,11 +51,11 @@ categories = [
 
 
 class Transaction(models.Model):
-    user = models.ForeignKey(User, verbose_name="USER", on_delete=models.CASCADE,blank=False,null=False)
-    details = models.ForeignKey(Detail, on_delete=models.CASCADE, verbose_name="DETAILS",blank=False,null=False)
+    user = models.ForeignKey(User, verbose_name="USER", on_delete=models.CASCADE, blank=False, null=False)
+    details = models.ForeignKey(Detail, on_delete=models.CASCADE, verbose_name="DETAILS", blank=False, null=False)
     time = models.DateTimeField(auto_now=True)
-    amount = models.FloatField(verbose_name="AMOUNT", default=0,blank=False,null=False)
-    type = models.IntegerField(choices=categories, verbose_name="Type",blank=False,null=False)
+    amount = models.FloatField(verbose_name="AMOUNT", default=0, blank=False, null=False)
+    type = models.IntegerField(choices=categories, verbose_name="Type", blank=False, null=False)
 
     def __str__(self):
         return str(self.user) + " / " + str(self.time) + " / " + str(self.amount) + " / " + categories[self.type][1]

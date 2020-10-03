@@ -177,3 +177,27 @@ class DeleteTransaction(DestroyAPIView):
                 "message": "Object Not Deleted"
             }
         return Response(data=response, status=status.HTTP_204_NO_CONTENT)
+
+
+class DeleteUser(DestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserDetailsSerializer
+    queryset = User.objects.all()
+
+    def get_object(self):
+        return self.request.user
+
+    def destroy(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+            self.perform_destroy(instance)
+            response = {
+                "success": True,
+                "message": "User Deleted"
+            }
+        except():
+            response = {
+                "success": False,
+                "message": "User Not Deleted"
+            }
+        return Response(data=response, status=status.HTTP_204_NO_CONTENT)
