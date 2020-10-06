@@ -15,5 +15,5 @@ def ChatAnsRequest(request):
 
 def external(request):
     inp = request.POST.get('param')
-    chat_response = main.chat_web("Hi")
+    chat_response = main.chat_web(inp)
     return render(request,'chat.html',{'data1': chat_response})

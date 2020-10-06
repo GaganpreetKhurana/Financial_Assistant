@@ -1,6 +1,10 @@
 import nltk
 nltk.download('punkt')
 from nltk.stem.lancaster import LancasterStemmer
+from .AmazonPriceTracker import amazon_script
+from .StockTracker import stock_script
+
+
 
 stemmer = LancasterStemmer()
 
@@ -161,6 +165,31 @@ def fun(str):
 
 
 def chat_web(question):
+## Checking if the question is actually a Transaction reply
+    if(question.startswith("Transaction")):
+        list_parse = question.split()
+
+        if(list_parse[3]== "Debit"):
+            print("Calling function to add debit to database")
+
+        if(list_parse[3]== "Credit"):
+            print("Calling function to add credit to database")
+
+        return "Transaction Operation Successful!"
+
+## Checking if the question is actually a Amazon reply
+    if(question.startswith("Amazon")):
+        list_parse = question.split()
+        chat_response = "Amazon Operation Successful! "
+
+        if(list_parse[1] == "Add"):
+            url = list_parse[1]
+            chat_response += amazon_script.amazon_add_fun(url)
+
+        return chat_response
+
+
+
     print("Please delete models and cache after editing intents.json!")
     print("Start talking with the bot (type quit to stop)!")
     inp = question
@@ -181,13 +210,17 @@ def chat_web(question):
     ##print(answer)
     print(tag)
 
+    ## REplying user the instructions with matching tags
     if (tag == "payments_debit"):
+        answer += "\nPlease Reply the Category,Amount in the format 'Transaction *Category* *Amount* Dredit'"
         print("Calling function to add debit to database")
 
     elif (tag == "payments_credit"):
+        answer += "\nPlease Reply the Category,Amount in the format 'Transaction *Category* *Amount* Credit'"
         print("Calling function to add credit to database")
 
     elif (tag == "amazon_add"):
+        answer += "\nPlease Reply the url of wishlist in the format 'Amazon Add *url*'"
         print("Calling function to add item to amazon wishlist")
 
     elif (tag == "amazon_buy"):
@@ -197,3 +230,7 @@ def chat_web(question):
         print("No function to call")
 
     return answer
+
+
+
+print(stock_script.StockTest())
