@@ -7,6 +7,8 @@ const initialTransactionState = {
     chatBot: false,
     detailsForm: true,
     transactions: [],
+    error:null,
+    success:true,
 };
 
 export default function transaction(state = initialTransactionState, action) {

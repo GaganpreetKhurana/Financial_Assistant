@@ -36,6 +36,7 @@ a {
     width: 100%;
     background-color: rgb(47, 47, 54);
     height: 50px;
+    min-width: 700px;
 }
 
 .nav-left {
@@ -85,6 +86,7 @@ a {
     padding-top: 25px;
     box-sizing: border-box;
     padding-bottom: 30px;
+    min-width: 700px;
 }
 
 .login-form {
@@ -143,6 +145,11 @@ h5 {
     width: 90%;
     height: auto;
 }
+h2{
+    margin:auto;
+    margin-left:35%;
+
+}
 
 .alert-warn button {
     width: 90%;
@@ -197,6 +204,7 @@ button:hover {
     height: 50px;
     background-color: rgb(47, 47, 54);
     padding-top: 5px;
+    min-width: 700px;
 }
 
 .footer p {
@@ -215,6 +223,8 @@ button:hover {
     height: auto;
     min-height: 540px;
     background-color: white;
+    min-width:650px;
+    overflow:hidden;
 }
 
 .choice {
@@ -321,4 +331,64 @@ button:hover {
         border-bottom:1px solid black;
         border-left:1px solid black;
     
+}
+.form-box{
+    width:80%;
+    height:90%;
+    margin:auto;
+    margin-top:20px;
+    margin-bottom:20px;
+    box-sizing: border-box;
+    padding:30px;
+    min-width:650px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+.form-box label{
+
+    font-size:25px;
+    font-weight:430;
+
+}
+
+.form-box input{
+    font-size:24px;
+    width:390px;
+    font-weight:430;
+}
+
+.form-box select{
+    font-size:24px;
+    width:400px;
+    font-weight:430;
+}
+.add{
+    width:200px;
+    height:40px;
+    margin-left:35%;
+    font-size: 24px;
+    
+    font-weight:500;
+}
+
+.form-box .alert-warn button {
+    width: 93%;
+    height: 45px;
+    margin-bottom: 25px;
+    border: none;
+    font-size: 25px;
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.alert-done button {
+    font-size: 25px;
+    width: 93%;
+    height: 45px;
+    margin-bottom: 25px;
+
+    border: none;
+    background-color: #d4edda;
+    color: #155724;
 }
