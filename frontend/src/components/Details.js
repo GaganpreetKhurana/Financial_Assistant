@@ -2,14 +2,15 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import DetailsPage from './DetailsPage';
 import ChatBotPage from './ChatBotPage';
+import {showDetails, showChatBot} from "../actions/pages";
 
 class Details extends Component {
     applyDetailsForm = () => {    
-        this.props.dispatch();
+        this.props.dispatch(showDetails());
         };
 
     applyChatBot = () => {
-        this.props.dispatch();
+        this.props.dispatch(showChatBot());
         };
 
     render() {

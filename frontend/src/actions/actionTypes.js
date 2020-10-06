@@ -18,3 +18,7 @@ export const CLEAR_AUTH_STATE = "CLEAR_AUTH_STATE";
 export const FORGOT_START = "FORGOT_START";
 export const FORGOT_SUCCESS = "FORGOT_SUCCESS";
 export const FORGOT_FAILURE = "FORGOT_FAILURE";
+
+//switch tabs
+export const SHOW_DETAILS_PAGE ="SHOW_DETAILS_PAGE";
+export const SHOW_CHATBOT_PAGE ="SHOW_CHATBOT_PAGE";
