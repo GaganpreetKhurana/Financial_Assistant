@@ -225,7 +225,7 @@ button:hover {
 }
 
 .details {
-    width: 50%;
+    width: 34%;
     height: inherit;
 }
 
@@ -252,8 +252,36 @@ button:hover {
     border-right:1px solid black;
     color:white;
 }
+.view-details {
+    width: 33%;
+    height: inherit;
+}
+
+.view-details button {
+    width: 100%;
+    height: inherit;
+    background-color: none;
+    outline: none;
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+    border-bottom:1px solid black;
+    border-left:1px solid black;
+}
+.view-details button:hover {
+    width: 100%;
+    height: inherit;
+    background-color:rgb(72 72 80);
+    outline: none;
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+    border-bottom:1px solid black;
+    border-right:1px solid black;
+    color:white;
+}
 .chatbot {
-    width: 50%;
+    width: 33%;
     height: inherit;
 }
 

@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
+import {connect} from "react-redux";
 
 class DetailsPage extends Component {
     render() {
         return (
-            <div>
-                Details Page
+            <div >
+                Add Details
             </div>
         );
     }
 }
 
-export default DetailsPage;
+function mapStateToProps(state) {
+    return {
+        auth: state.auth,
+        details: state.details,
+    };
+}
+
+export default connect(mapStateToProps)(DetailsPage);

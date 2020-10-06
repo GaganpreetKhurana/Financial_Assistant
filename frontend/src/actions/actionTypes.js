@@ -22,3 +22,4 @@ export const FORGOT_FAILURE = "FORGOT_FAILURE";
 //switch tabs
 export const SHOW_DETAILS_PAGE ="SHOW_DETAILS_PAGE";
 export const SHOW_CHATBOT_PAGE ="SHOW_CHATBOT_PAGE";
+export const VIEW_DETAILS ="VIEW_DETAILS";
