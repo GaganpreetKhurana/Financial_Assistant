@@ -280,3 +280,17 @@ button:hover {
     border-bottom:1px solid black;
     border-left:1px solid black;
 }
+.tabactive-tab{
+    
+        width: 100%;
+        height: inherit;
+        background-color:rgb(115 112 112);
+        color:white;
+        outline: none;
+        border: none;
+        font-size: 25px;
+        cursor: pointer;
+        border-bottom:1px solid black;
+        border-left:1px solid black;
+    
+}
