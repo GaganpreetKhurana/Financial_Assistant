@@ -13,10 +13,8 @@ import {
     FORGOT_SUCCESS,
 
 } from './actionTypes';
- // @ts-ignore  
- import jwt_decode from "jwt-decode";
-
-
+// @ts-ignore
+import jwt_decode from "jwt-decode";
 
 
 //Form Body
@@ -46,20 +44,23 @@ export function loginFailed(errormsg) {
     };
 }
 
+
 export function loginSuccess(successmsg,username,email,user_id) {
+
     return {
         type: LOGIN_SUCCESS,
         username,
         email,
         user_id,
         success:successmsg,
+
     };
 }
 
 
 export function login(username, password) {
     return (dispatch) => {
-        var success =  false;
+        var success = false;
         dispatch(startLogin());
         const url = '/api/token/';
         fetch(url, {
@@ -68,27 +69,30 @@ export function login(username, password) {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: getFormBody({
-                username:username,
-                password}),
+                username: username,
+                password
+            }),
         })
-            .then((response) => 
-            {if(response.status === 200){
-                success=true;
-                return response.json();     
-            }else{
-                return response.json();
-            }})
+            .then((response) => {
+                if (response.status === 200) {
+                    success = true;
+                    return response.json();
+                } else {
+                    return response.json();
+                }
+            })
             .then((data) => {
                 if (success) {
                     localStorage.setItem('DONNA', data.token);
                     const user = jwt_decode(data.token);
                     dispatch(loginSuccess("Login Successfull",user.username,user.email,user.user_id));
+
+                
                     return;
-                }
-                else{
+                } else {
                     dispatch(loginFailed("Username or Password is Incorrect"));
                 }
-                
+
             });
     };
 }
@@ -114,9 +118,9 @@ export function signupSuccess(msg) {
     };
 }
 
-export function signup(email, password, confirmpassword, name,fname,lname) {
+export function signup(email, password, confirmpassword, name, fname, lname) {
     return (dispatch) => {
-        var success =  false;
+        var success = false;
         dispatch(startsignup());
         const url = '/register';
         fetch(url, {
@@ -133,12 +137,11 @@ export function signup(email, password, confirmpassword, name,fname,lname) {
                 last_name: lname
             }),
         })
-            .then((response) => 
-            {
-                if(response.status === 201){
-                    success=true;
-                    return response.json();     
-                }else{
+            .then((response) => {
+                if (response.status === 201) {
+                    success = true;
+                    return response.json();
+                } else {
                     return response.json();
                 }
             })
@@ -147,20 +150,16 @@ export function signup(email, password, confirmpassword, name,fname,lname) {
                     dispatch(signupSuccess("SignUp successfull please LogIn to continue"));
                     return;
                 }
-                if(data.username)
-                {
+                if (data.username) {
                     dispatch(signupFailed("User with this UserName already exists"));
                     return;
-                }
-                else if(data.password)
-                {
+                } else if (data.password) {
                     dispatch(signupFailed("Password and Confirm Password fields Don't match"));
                     return;
-                }
-                else{
+                } else {
                     dispatch(signupFailed("Signup Failed Please Try Again"));
                 }
-                
+
             });
     };
 }
@@ -211,7 +210,7 @@ export function forgotSuccess(successmsg) {
 export function forgot(email) {
     return (dispatch) => {
         dispatch(startForgot());
-        var success= false;
+        var success = false;
         const url = '/api/password_reset/';
         fetch(url, {
             method: 'POST',
@@ -220,28 +219,25 @@ export function forgot(email) {
             },
             body: getFormBody({email}),
         })
-        .then((response) => 
-        {
-            if(response.status === 200){
-                success=true;
-                return response.json();     
-            }else{
-                return response.json();
-            }
-        })
+            .then((response) => {
+                if (response.status === 200) {
+                    success = true;
+                    return response.json();
+                } else {
+                    return response.json();
+                }
+            })
             .then((data) => {
                 console.log(data);
-                
+
                 if (success) {
                     dispatch(forgotSuccess("Reset Link Sent to your Registered Email Id"));
                     return;
-                }
-                else if(data.email)
-                {
+                } else if (data.email) {
                     dispatch(forgotFailed(data.email));
                     return;
                 }
-                
+
             });
     };
 }
