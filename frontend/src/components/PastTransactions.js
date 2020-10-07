@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import { fetchTransactions } from '../actions/pages';
-import { clearAuth} from "../actions/pages";
+import { clearAuth,updateTransaction,deleteTransaction} from "../actions/pages";
 
 
 class PastTransactions extends Component {
@@ -15,7 +15,21 @@ class PastTransactions extends Component {
     componentWillUnmount(){
         this.props.dispatch(clearAuth());
     }
+    handleUpdate =(id) =>{
+        this.props.dispatch(updateTransaction(id));
+        setTimeout(() => {
+            //this.forceUpdate();
+            this.props.dispatch(clearAuth());
+        }, 10000);
+    }
 
+    handleDelete =(id) =>{
+        this.props.dispatch(deleteTransaction(id));
+        setTimeout(() => {
+            //this.forceUpdate();
+            this.props.dispatch(clearAuth());
+        }, 10000);
+    }
 
     render() {
         const {success,error} = this.props.details;
@@ -41,7 +55,7 @@ class PastTransactions extends Component {
                         )}
                 {!success && (
                     <div className="alert-done">
-                        <button>Transaction Updated Successfully</button>
+                        <button>{success}</button>
                     </div>
                 )}
                 <div className="transaction-entry">
@@ -57,8 +71,8 @@ class PastTransactions extends Component {
                         <div className="category ">Income</div>  
                         <div className="amount">22.22</div>
                         <div className="type">Credit</div>
-                        <div  className="update "><button>Update</button></div>
-                        <div  className="delete "><button>Delete</button></div>
+                        <div  className="update "><button onClick={this.handleUpdate(1)}>Update</button></div>
+                        <div  className="delete "><button onClick={this.handleDelete(1)}>Delete</button></div>
                    </div>
                    <div className="transaction-entry">
                         <div className="number "> 2. </div>
