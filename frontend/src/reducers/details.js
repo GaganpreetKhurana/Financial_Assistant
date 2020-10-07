@@ -6,6 +6,8 @@ const {
     TRANSACTION_FAILURE,
     TRANSACTION_SUCCESS,
     CLEAR_AUTH_STATE,
+    FETCH_TRANSACTIONS,
+    FETCH_TRANSACTION_START
 } = require("../actions/actionTypes");
 
 
@@ -18,11 +20,17 @@ const initialTransactionState = {
     error:null,
     success:null,
     inProgress:false,
+    loading:false,
 };
 
 export default function transaction(state = initialTransactionState, action) {
 
     switch (action.type) {
+        case FETCH_TRANSACTION_START:
+            return {
+                ...state,
+                loading:true
+            }
         case SHOW_DETAILS_PAGE:
             return {
                 ...state,
@@ -70,6 +78,12 @@ export default function transaction(state = initialTransactionState, action) {
                 error: null,
                 success: null,
             };
+        case FETCH_TRANSACTIONS:
+            return {
+                ...state,
+                transactions : action.transactions,
+                loading:false,
+            }
         default:
             return state;
 

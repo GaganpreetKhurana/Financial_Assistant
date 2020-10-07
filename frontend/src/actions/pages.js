@@ -8,6 +8,8 @@ import {
     TRANSACTION_SUCCESS,
     TRANSACTION_FAILURE,
     CLEAR_AUTH_STATE,
+    FETCH_TRANSACTIONS,
+    FETCH_TRANSACTION_START
 } from './actionTypes';
 
 
@@ -111,4 +113,51 @@ export function clearAuth() {
     return {
         type: CLEAR_AUTH_STATE,
     };
+}
+
+//fetch transactions
+export function startFetchTransaction() {
+    return {
+        type: FETCH_TRANSACTION_START,
+        
+    };
+}
+export function fetchedTransactions(transactions){
+    return {
+        type : FETCH_TRANSACTIONS,
+        transactions
+    }
+
+}
+export function fetchTransactions(){
+
+    return (dispatch) => {
+        var success =  false;
+        dispatch(startFetchTransaction());
+        const url = '/transactions/';
+        fetch(url, {
+            headers: {
+                'Authorization':`Bearer${localStorage.getItem('DONNA')}`
+            }
+        })
+            .then((response) => 
+            {if(response.status === 200){
+                success=true;
+                return response.json();     
+            }else{
+                return response.json();
+            }})
+            .then((data) => {
+                if (success) {
+                    dispatch(fetchedTransactions(data.transactions));
+                    return;
+                }
+                else{
+                    return;
+                }
+                
+            });
+    };
+
+
 }

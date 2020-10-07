@@ -10,7 +10,6 @@ class DetailsPage extends Component {
             type:'Credit',
             description:''
         };
-    
       }
       handleChange= (event)=>{
         this.setState({category: event.target.value});
@@ -34,6 +33,7 @@ class DetailsPage extends Component {
         console.log(category,type,description,amount);
         this.props.dispatch(addTransaction(category,type,description,amount));
         setTimeout(() => {
+            //this.forceUpdate();
             this.props.dispatch(clearAuth());
         }, 1000);
 
