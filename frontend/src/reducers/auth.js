@@ -44,7 +44,7 @@ export default function auth(state = initialAuthState, action) {
                 isLoggedIn: true,
                 inProgress: false,
                 error: null,
-                user:action.user,
+                user:{username:action.username,email:action.email},
             };
         case SIGNUP_SUCCESS:
             return {

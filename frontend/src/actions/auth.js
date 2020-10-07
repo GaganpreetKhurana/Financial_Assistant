@@ -46,10 +46,11 @@ export function loginFailed(errormsg) {
     };
 }
 
-export function loginSuccess(successmsg,user) {
+export function loginSuccess(successmsg,username,email) {
     return {
         type: LOGIN_SUCCESS,
-        user,
+        username,
+        email,
         success:successmsg,
     };
 }
@@ -78,9 +79,9 @@ export function login(username, password) {
             }})
             .then((data) => {
                 if (success) {
-                    localStorage.setItem('DONNA', data.access);
-                    const user = jwt_decode(data.access);
-                    dispatch(loginSuccess("Login Successfull",user.user_id));
+                    localStorage.setItem('DONNA', data.token);
+                    const user = jwt_decode(data.token);
+                    dispatch(loginSuccess("Login Successfull",user.username,user.email));
                     return;
                 }
                 else{
