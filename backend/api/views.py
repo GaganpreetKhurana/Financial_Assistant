@@ -15,6 +15,7 @@ from .serializers import UserDetailsSerializer, TransactionSerializer, RegisterS
 class RegisterUserView(CreateAPIView):
     serializer_class = RegisterSerializer
     model = User
+    permission_classes = []
 
 
 class RetrieveUserDetailsView(ListAPIView):
