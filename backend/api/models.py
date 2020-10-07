@@ -46,7 +46,8 @@ categories = [
     (3, "Healthcare"),
     (4, "Transportation"),
     (5, "Recreation"),
-    (6, "Miscellaneous")
+    (6, "Miscellaneous"),
+    (7, "Other")
 ]
 
 
@@ -56,9 +57,11 @@ class Transaction(models.Model):
     time = models.DateTimeField(auto_now=True)
     amount = models.FloatField(verbose_name="AMOUNT", default=0, blank=False, null=False)
     type = models.IntegerField(choices=categories, verbose_name="Type", blank=False, null=False)
+    description = models.TextField(blank=True, default="No Description Provided!", verbose_name="DESCRIPTION")
 
     def __str__(self):
-        return str(self.user) + " / " + str(self.time) + " / " + str(self.amount) + " / " + categories[self.type][1]
+        return str(self.user) + " / " + str(self.time) + " / " + str(self.amount) + " / " + categories[self.type][
+            1] + " / " + self.description
 
     def get_category(self):
         return categories[self.type][1]
