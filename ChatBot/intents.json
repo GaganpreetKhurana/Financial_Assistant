@@ -17,18 +17,23 @@
         },
         {
             "tag": "payments_debit",
-            "patterns": ["I bought something", "Update my credits", "I spent money"],
-            "responses": ["what did you buy", "What was the cost"]
+            "patterns": ["I bought something", "Update my credits", "I spent money","earned"],
+            "responses": ["What did you buy", "What was the cost","What did you spend money on?"]
         },
         {
             "tag": "payments_credit",
-            "patterns": ["I sold something", "Update my debits", "I gained money"],
-            "responses": ["How much did you sell for", "What did you get for selling"]
+            "patterns": ["I sold something", "Update my debits", "I gained money","sold"],
+            "responses": ["How much did you sell for", "What did you get for selling","What did you earn?"]
         },
         {
             "tag": "amazon_add",
-            "patterns": ["Update my amazon wishlist", "Add to my amazon wishlist"],
-            "responses": ["Please enter the url of the item"]
+            "patterns": ["Track an amazon wishlist", "Add to my amazon wishlist","Track this url on amazon"],
+            "responses": ["Ok what url item to be tracked and predicted in future?","Which item are you targeting"]
+        },
+        {
+            "tag": "amazon_buy",
+            "patterns": ["Should i buy something on amazon", "Is there a price drop on amazon","Prediction for this item on amazon"],
+            "responses": ["Fetching amazon wishlist report","Predicting best time to buy this item"]
         },
         {
             "tag": "amazon_buy",

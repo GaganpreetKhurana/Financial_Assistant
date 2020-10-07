@@ -22,20 +22,21 @@ labels = []
 docs_x = []  # pattern
 docs_y = []  # associated tag of the pattern
 
-script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
-
+parent_dir = os.path.dirname(os.path.abspath(__file__))
 
 # importing the chat intents into data
 rel_path_intent = 'intents.json'
-abs_path_intent = os.path.join(script_dir, rel_path_intent)
+abs_path_intent = os.path.join(parent_dir, rel_path_intent)
+
 rel_path_pickle = 'data.pickle'
-abs_path_pickle = os.path.join(script_dir, rel_path_pickle)
+abs_path_pickle = os.path.join(parent_dir, rel_path_pickle)
+print(abs_path_pickle)
 
 with open(abs_path_intent) as file:
     data = json.load(file)
-
 try:
     with open(abs_path_pickle, "rb") as f:
+        print("\n\n\nNo Need to Retrain Model\n\n\n")
         words, labels, training, output = pickle.load(f)
 except:
     for intent in data['intents']:
@@ -86,6 +87,7 @@ except:
     with open("data.pickle", "wb") as f:
         pickle.dump((words, labels, training, output), f)
 
+
 # Defining the tensorflow network
 model = keras.Sequential([
     keras.layers.Input(shape=(len(training[0], ))),
@@ -94,15 +96,20 @@ model = keras.Sequential([
     keras.layers.Dense(8, activation='relu'),
     keras.layers.Dense(len(output[0]), activation='softmax')
 ])
+
+rel_path_model = 'model.chatbot'
+abs_path_model= os.path.join(parent_dir, rel_path_model)
+print(abs_path_model)
+
 model.summary()
 model.compile(optimizer='sgd',
-              loss='categorical_crossentropy',
-              metrics=['accuracy'])
+            loss='categorical_crossentropy',
+            metrics=['accuracy'])
 try:
-    model.load("model.chatbot")
+    model.load(abs_path_model)
 except:
     model.fit(training, output, epochs=700, batch_size=8)
-    model.save("model.chatbot")
+    model.save(abs_path_model)
 
 
 def bag_of_words(s, words):
@@ -183,8 +190,12 @@ def chat_web(question):
         chat_response = "Amazon Operation Successful! "
 
         if(list_parse[1] == "Add"):
-            url = list_parse[1]
+            url = list_parse[2]
             chat_response += amazon_script.amazon_add_fun(url)
+
+        if(list_parse[1] == "Buy"):
+            url = list_parse[2]
+            chat_response += amazon_script.amazon_buy_fun(url)
 
         return chat_response
 
@@ -224,6 +235,7 @@ def chat_web(question):
         print("Calling function to add item to amazon wishlist")
 
     elif (tag == "amazon_buy"):
+        answer += "\nPlease Reply the url of wishlist in the format 'Amazon Buy *url*'"
         print("Calling function to add check status of amazon wishlist")
 
     else:
@@ -233,4 +245,4 @@ def chat_web(question):
 
 
 
-print(stock_script.StockTest())
+##print(stock_script.StockTest())

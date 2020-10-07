@@ -28,12 +28,12 @@
         {
             "tag": "amazon_add",
             "patterns": ["Track an amazon wishlist", "Add to my amazon wishlist","Track this url on amazon"],
-            "responses": ["Ok what url item to be tracked and predicted in future?","WHich item are you targeting"]
+            "responses": ["Ok what url item to be tracked and predicted in future?","Which item are you targeting"]
         },
         {
             "tag": "amazon_buy",
-            "patterns": ["Should i buy something on amazon", "Is there a price drop on amazon"],
-            "responses": ["Fetching amazon wishlist report"]
+            "patterns": ["Should i buy something on amazon", "Is there a price drop on amazon","Prediction for this item on amazon"],
+            "responses": ["Fetching amazon wishlist report","Predicting best time to buy this item"]
         },
         {
             "tag": "amazon_buy",

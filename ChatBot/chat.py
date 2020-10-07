@@ -1,6 +1,10 @@
 import nltk
 nltk.download('punkt')
 from nltk.stem.lancaster import LancasterStemmer
+import  amazon_script
+import  stock_script
+
+
 
 stemmer = LancasterStemmer()
 
@@ -11,17 +15,27 @@ import random
 import json
 import pickle
 
+import os
+
 words = []
 labels = []
 docs_x = []  # pattern
 docs_y = []  # associated tag of the pattern
 
+script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
+
+
 # importing the chat intents into data
-with open('intents.json') as file:
+rel_path_intent = 'intents.json'
+abs_path_intent = os.path.join(script_dir, rel_path_intent)
+rel_path_pickle = 'data.pickle'
+abs_path_pickle = os.path.join(script_dir, rel_path_pickle)
+
+with open(abs_path_intent) as file:
     data = json.load(file)
 
 try:
-    with open("data.pickle", "rb") as f:
+    with open(abs_path_pickle, "rb") as f:
         words, labels, training, output = pickle.load(f)
 except:
     for intent in data['intents']:
@@ -144,4 +158,83 @@ def chat():
             print("No function to call")
 
 
-chat()
+
+def fun(str):
+    print("\n\nFunction called in chat bot")
+    return "Hello" + str
+
+
+def chat_web(question):
+## Checking if the question is actually a Transaction reply
+    if(question.startswith("Transaction")):
+        list_parse = question.split()
+
+        if(list_parse[3]== "Debit"):
+            print("Calling function to add debit to database")
+
+        if(list_parse[3]== "Credit"):
+            print("Calling function to add credit to database")
+
+        return "Transaction Operation Successful!"
+
+## Checking if the question is actually a Amazon reply
+    if(question.startswith("Amazon")):
+        list_parse = question.split()
+        chat_response = "Amazon Operation Successful! "
+
+        if(list_parse[1] == "Add"):
+            url = list_parse[2]
+            chat_response += amazon_script.amazon_add_fun(url)
+
+        if(list_parse[1] == "Buy"):
+            url = list_parse[2]
+            chat_response += amazon_script.amazon_buy_fun(url)
+
+        return chat_response
+
+
+
+    print("Please delete models and cache after editing intents.json!")
+    print("Start talking with the bot (type quit to stop)!")
+    inp = question
+
+    temp = bag_of_words(inp, words)
+
+    print(temp.shape)
+    results = model.predict(temp.reshape(1, -1))
+    results_index = numpy.argmax(results)
+    tag = labels[results_index]
+
+    for tg in data["intents"]:
+        if tg['tag'] == tag:
+            responses = tg['responses']
+
+    answer = random.choice(responses)
+
+    ##print(answer)
+    print(tag)
+
+    ## REplying user the instructions with matching tags
+    if (tag == "payments_debit"):
+        answer += "\nPlease Reply the Category,Amount in the format 'Transaction *Category* *Amount* Dredit'"
+        print("Calling function to add debit to database")
+
+    elif (tag == "payments_credit"):
+        answer += "\nPlease Reply the Category,Amount in the format 'Transaction *Category* *Amount* Credit'"
+        print("Calling function to add credit to database")
+
+    elif (tag == "amazon_add"):
+        answer += "\nPlease Reply the url of wishlist in the format 'Amazon Add *url*'"
+        print("Calling function to add item to amazon wishlist")
+
+    elif (tag == "amazon_buy"):
+        answer += "\nPlease Reply the url of wishlist in the format 'Amazon Buy *url*'"
+        print("Calling function to add check status of amazon wishlist")
+
+    else:
+        print("No function to call")
+
+    return answer
+
+
+
