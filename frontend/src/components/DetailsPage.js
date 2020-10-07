@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-
+import {addTransaction, clearAuth} from "../actions/pages";
 class DetailsPage extends Component {
     constructor(props) {
         super(props);
@@ -30,7 +30,10 @@ class DetailsPage extends Component {
         //call dispatch
         e.preventDefault();
         const {category,type,description,amount} = this.state;
-        console.log("@@@@@@@@@@@@@@@@@@",category,type,description,amount);
+        this.props.dispatch(addTransaction(category,type,description,amount));
+      }
+      componentWillUnmount(){
+          this.props.dispatch(clearAuth());
       }
       
     render() {
@@ -45,7 +48,7 @@ class DetailsPage extends Component {
                         )}
                 {success && (
                     <div className="alert-done">
-                        <button>Transaction Added Successfully</button>
+                        <button>{success}</button>
                     </div>
                 )}
                 <div>
