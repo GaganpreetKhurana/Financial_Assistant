@@ -66,8 +66,8 @@ class TransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transaction
-        fields = ('id', 'username', 'amount', 'time', 'category')
-        read_only_fields = ['id', 'username', 'amount', 'time', 'category']
+        fields = ('id', 'username', 'amount', 'time', 'category', 'description')
+        read_only_fields = ['id', 'username', 'amount', 'time', 'category', 'description']
 
 
 class CreateTransactionSerializer(serializers.ModelSerializer):
@@ -75,18 +75,19 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transaction
-        fields = ('amount', 'time', 'category')
+        fields = ('amount', 'time', 'category', 'description')
         read_only_fields = ['time']
-        extra_kwargs = {'amount': {'required': True}}
+        extra_kwargs = {'amount': {'required': True}, 'category': {'required': True}}
 
     @transaction.atomic
     def save(self, **kwargs):
         details = Detail.objects.filter(user=self.context.get('request').user)
         details = details[0]
-        transaction = Transaction(user=self.context.get('request').user,
-                                  amount=self.validated_data['amount'],
-                                  type=self.validated_data['category'],
-                                  details=details)
+        transaction_new = Transaction(user=self.context.get('request').user,
+                                      amount=self.validated_data['amount'],
+                                      type=self.validated_data['category'],
+                                      details=details,
+                                      description=self.validated_data['description'])
         details.totalTransactions += 1
         if self.validated_data['category'] == 0:
             details.income += self.validated_data['amount']
@@ -106,8 +107,8 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
                 details.housing + details.food + details.healthcare + details.transportation + details.recreation + details.miscellaneous)
         details.savings = details.income - details.totalExpenditure
         details.save()
-        transaction.save()
-        return transaction
+        transaction_new.save()
+        return transaction_new
 
 
 class UpdateTransactionSerializer(serializers.ModelSerializer):
@@ -115,9 +116,10 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transaction
-        fields = ('amount', 'time', 'category')
+        fields = ('amount', 'time', 'category', 'description')
         read_only_fields = ['time']
-        extra_kwargs = {'amount': {'required': True}}
+        extra_kwargs = {'amount': {'required': True}, 'category': {'required': True}}
+
     @transaction.atomic
     def update(self, instance, validated_data):
 
@@ -155,6 +157,7 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
 
         instance.type = validated_data['category']
         instance.amount = validated_data['amount']
+        instance.description = validated_data['description']
         details.totalExpenditure = (
                 details.housing + details.food + details.healthcare + details.transportation + details.recreation + details.miscellaneous)
         details.savings = details.income - details.totalExpenditure
@@ -168,6 +171,4 @@ class DestroyTransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transaction
-        fields = ('amount', 'time', 'category')
-        read_only_fields = ['time']
-        extra_kwargs = {'amount': {'required': True}}
+        fields = '__all__'
