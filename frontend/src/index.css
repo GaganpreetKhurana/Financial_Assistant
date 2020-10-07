@@ -230,7 +230,6 @@ button:hover {
 .choice {
     width: 100%;
     height: 50px;
-    background-color: cyan;
     display: flex;
 }
 
@@ -391,4 +390,106 @@ button:hover {
     border: none;
     background-color: #d4edda;
     color: #155724;
+}
+.form-box2{
+    width:90%;
+    height:95%;
+    margin:auto;
+    margin-top:10px;
+    margin-bottom:10px;
+    box-sizing: border-box;
+    padding:20px;
+    min-width:650px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+.transactions-box{
+    width:100%;
+    height:90%;
+    max-height:500px;
+    overflow-y: auto;
+    
+}
+
+.transaction-entry{
+    display:flex;
+    width:100%;
+    height:50px;
+    font-size:20px;
+    font-weight:400;
+    padding-top:4px;
+    padding-left:8px;
+    padding-right:8px;
+    box-sizing:border-box;
+}
+.number{
+    width:6%;
+    height:40px;
+    padding-top:4px;
+    padding-left:8px;
+    padding-right:8px;
+    box-sizing:border-box;
+
+}
+.category{
+    width:30%;
+    height:40px;
+    overflow-x:auto;
+    padding-top:4px;
+    padding-left:12px;
+    padding-right:8px;
+    box-sizing:border-box;
+
+}
+.Options{
+    width:20%;
+    height:40px;
+    overflow-x:auto;
+    padding-top:4px;
+    padding-left:12px;
+    padding-right:8px;
+    box-sizing:border-box;
+
+}
+.amount{
+    width:20%;
+    height:40px;
+    overflow-x:auto;
+    background-color:white;
+    padding-top:4px;
+    padding-left:12px;
+    padding-right:8px;
+    box-sizing:border-box;
+}
+.type{
+    width:14%;
+    height:40px;
+    overflow-x:auto;
+    padding-top:4px;
+    padding-left:8px;
+    padding-right:8px;
+    box-sizing:border-box;
+}
+.update{
+    width:10%;
+    height:40px;
+    padding-top:4px;
+    padding-left:8px;
+    padding-right:8px;
+    box-sizing:border-box;
+
+}
+.delete{
+    width:10%;
+    height:40px;
+    padding-top:4px;
+    padding-left:8px;
+    padding-right:8px;
+    box-sizing:border-box;
+
+}
+.header{
+    border:1px solid black;
+    background-color: #f1f1f1;
 }

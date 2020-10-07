@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import { fetchTransactions } from '../actions/pages';
+import { clearAuth,updateTransaction,deleteTransaction} from "../actions/pages";
+
 
 class PastTransactions extends Component {
     
@@ -10,10 +12,29 @@ class PastTransactions extends Component {
     componentDidMount(){ 
         this.props.dispatch(fetchTransactions());
     }
+    componentWillUnmount(){
+        this.props.dispatch(clearAuth());
+    }
+    handleUpdate =(id) =>{
+        this.props.dispatch(updateTransaction(id));
+        setTimeout(() => {
+            //this.forceUpdate();
+            this.props.dispatch(clearAuth());
+        }, 10000);
+    }
 
+    handleDelete =(id) =>{
+        this.props.dispatch(deleteTransaction(id));
+        setTimeout(() => {
+            //this.forceUpdate();
+            this.props.dispatch(clearAuth());
+        }, 10000);
+    }
 
     render() {
-        const {transactions,loading} = this.props.details;
+        const {success,error} = this.props.details;
+        
+        //const {transactions,loading} = this.props.details;
         /*if(loading)
         {
             return <h2>Loading.....</h2>;
@@ -21,13 +42,63 @@ class PastTransactions extends Component {
         
         if(transactions.length === 0)
         {
-            return <h2>No Transactions to Display</h2>
+            return <h2>No Past Transactions to Display</h2>
         }
         */
         return (
-            <div>
-                
-                Past Transactions
+            <div className="form-box2">
+                <h2>PAST TRANSACTIONS</h2><br></br>
+                {error && (
+                    <div className="alert-warn">
+                        <button>{error}</button>
+                    </div>
+                        )}
+                {!success && (
+                    <div className="alert-done">
+                        <button>{success}</button>
+                    </div>
+                )}
+                <div className="transaction-entry">
+                    <div className="number header"> No. </div>
+                    <div className="category header">Category</div>  
+                    <div className="amount header">Amount &nbsp;(Rs.)</div>
+                    <div className="type header">Type</div>
+                    <div className="Options header">Options</div>
+                </div>
+                <div className="transactions-box">
+                   <div className="transaction-entry">
+                        <div className="number "> 1. </div>
+                        <div className="category ">Income</div>  
+                        <div className="amount">22.22</div>
+                        <div className="type">Credit</div>
+                        <div  className="update "><button onClick={this.handleUpdate(1)}>Update</button></div>
+                        <div  className="delete "><button onClick={this.handleDelete(1)}>Delete</button></div>
+                   </div>
+                   <div className="transaction-entry">
+                        <div className="number "> 2. </div>
+                        <div className="category ">Housing</div>  
+                        <div className="amount">4000</div>
+                        <div className="type">Debit</div>
+                        <div  className="update "><button>Update</button></div>
+                        <div  className="delete "><button>Delete</button></div>
+                   </div>
+                   <div className="transaction-entry">
+                        <div className="number "> 3. </div>
+                        <div className="category ">Transportation</div>  
+                        <div className="amount">5000</div>
+                        <div className="type">Debit</div>
+                        <div  className="update "><button>Update</button></div>
+                        <div  className="delete "><button>Delete</button></div>
+                   </div>
+                   <div className="transaction-entry">
+                        <div className="number "> 4. </div>
+                        <div className="category ">Bank Interest</div>  
+                        <div className="amount">40</div>
+                        <div className="type">Credit</div>
+                        <div  className="update "><button>Update</button></div>
+                        <div  className="delete "><button>Delete</button></div>
+                   </div>
+                </div>
                 
             </div>
         );
