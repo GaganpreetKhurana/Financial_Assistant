@@ -5,29 +5,32 @@ class DetailsPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            category: '',
+            category: 'Income',
             amount:'',
-            type:''
+            type:'Credit',
+            description:''
         };
     
-        this.handleChange = this.handleChange.bind(this);
-        this.handleChange2 = this.handleChange.bind(this);
-        this.handleChange3 = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
       }
-      handleChange(event) {
+      handleChange= (event)=>{
         this.setState({category: event.target.value});
       }
-      handleChange2(event) {
-        this.setState({amount: event.target.value2});
+      handleChange2= (event)=>{
+        this.setState({amount: event.target.value});
       }
 
-      handleChange3(event) {
-        this.setState({type: event.target.value3});
+      handleChange3= (event)=>{
+        this.setState({type: event.target.value});
+      }
+      handleChange4= (event)=>{
+        this.setState({description: event.target.value});
       }
     
-      handleSubmit() {
+      handleSubmit = (e) => {
         //call dispatch
+        e.preventDefault();
+        const {category,type,description,amount} = this.state;
+        console.log("@@@@@@@@@@@@@@@@@@",category,type,description,amount);
       }
       
     render() {
@@ -48,7 +51,7 @@ class DetailsPage extends Component {
                 <div>
                     <label>Chose Category</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <select value={this.state.value} onChange={this.handleChange} placeholder="Category">
+                    <select onChange={this.handleChange} placeholder="Category">
                         <option value="Income">Income</option>
                         <option value="Housing">Housing</option>
                         <option value="Food">Food</option>
@@ -56,19 +59,27 @@ class DetailsPage extends Component {
                         <option value="Transportation">Transportation</option>
                         <option value="Recreation">Recreation</option>
                         <option value="Miscellaneous">Miscellaneous</option>
+                        <option value="Other">Other</option>
                     </select>
                 </div><br></br>
+                {(this.state.category==='Other' || this.state.category==='Miscellaneous' ) && <div>
+                    <label>Please Specify</label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="text" onChange={this.handleChange4} placeholder="Description" required/>
+                    </div> }
+                {(this.state.category==='Other' || this.state.category==='Miscellaneous' )  && <br></br>}
+                
                 <div>
                     <label>Enter Amount</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="text" value2={this.state.value2} onChange={this.handleChange2} placeholder="00.00" required/>
+                    <input type="text" onChange={this.handleChange2} placeholder="00.00" required/>
                 </div><br></br>
                 <div>
                     <label>Chose Type</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <select value3={this.state.value3} onChange={this.handleChange3} placeholder="Type">
-                        <option value3="Credit">Credit</option>
-                        <option value3="Debit">Debit</option>
+                    <select onChange={this.handleChange3} placeholder="Type">
+                        <option value="Credit">Credit</option>
+                        <option value="Debit">Debit</option>
                     </select>
                 </div><br></br><br></br>
                 <button className="add" onClick={this.handleSubmit}>ADD</button>
