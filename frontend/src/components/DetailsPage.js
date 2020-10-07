@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-
+import {addTransaction, clearAuth} from "../actions/pages";
 class DetailsPage extends Component {
     constructor(props) {
         super(props);
@@ -10,7 +10,6 @@ class DetailsPage extends Component {
             type:'Credit',
             description:''
         };
-    
       }
       handleChange= (event)=>{
         this.setState({category: event.target.value});
@@ -25,16 +24,30 @@ class DetailsPage extends Component {
       handleChange4= (event)=>{
         this.setState({description: event.target.value});
       }
+
     
       handleSubmit = (e) => {
         //call dispatch
         e.preventDefault();
         const {category,type,description,amount} = this.state;
-        console.log("@@@@@@@@@@@@@@@@@@",category,type,description,amount);
+        console.log(category,type,description,amount);
+        this.props.dispatch(addTransaction(category,type,description,amount));
+        setTimeout(() => {
+            //this.forceUpdate();
+            this.props.dispatch(clearAuth());
+        }, 1000);
+
+      }
+      componentWillUnmount(){
+          this.props.dispatch(clearAuth());
       }
       
     render() {
-        const {success,error} = this.props.details;
+        const {success,error,inProgress} = this.props.details;
+        const {isLoggedIn} = this.props.auth;
+        //if (!isLoggedIn) {
+            //return <Redirect to="/login"/>;
+        //}
         return (
             <div className="form-box">
                 <h2>ADD DETAILS</h2><br></br>
@@ -45,7 +58,7 @@ class DetailsPage extends Component {
                         )}
                 {success && (
                     <div className="alert-done">
-                        <button>Transaction Added Successfully</button>
+                        <button>{success}</button>
                     </div>
                 )}
                 <div>
@@ -82,7 +95,7 @@ class DetailsPage extends Component {
                         <option value="Debit">Debit</option>
                     </select>
                 </div><br></br><br></br>
-                <button className="add" onClick={this.handleSubmit}>ADD</button>
+                <button className="add" onClick={this.handleSubmit} disabled={inProgress}>ADD</button>
             </div>
         );
     }
