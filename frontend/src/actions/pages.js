@@ -2,7 +2,9 @@ import {
     SHOW_DETAILS_PAGE,
     SHOW_CHATBOT_PAGE,
     VIEW_DETAILS,
-    UPDATE_TRANSACTION,
+    UPDATE_BOX_SHOW,
+    UPDATE_SUCCESS_TRANSACTION,
+    UPDATE_FAILURE_TRANSACTION,
     DELETE_TRANSACTION,
     TRANSACTION_START,
     TRANSACTION_SUCCESS,
@@ -75,28 +77,29 @@ export function addTransaction(category,type,description,amount) {
     return (dispatch) => {
         var success =  false;
         dispatch(startTransaction());
-        const url = '/create_transactions/';
+        const url = '/create_transaction';
         fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization':`Bearer${localStorage.getItem('DONNA')}`
+                Authorization:`Bearer ${localStorage.getItem('DONNA')}`
             },
             body: getFormBody({
+                amount,
                 category,
-                type,
-                description,
-                amount
+                description
                 }),
         })
             .then((response) => 
-            {if(response.status === 200){
+            {console.log("@@@@@@@@@@@@",response);
+                if(response.status === 200){
                 success=true;
                 return response.json();     
             }else{
                 return response.json();
             }})
             .then((data) => {
+                console.log("@@@@@@@@@@@@@@@",data);
                 if (success) {
                     dispatch(transactionSuccess("Transaction Added Successfully"));
                     return;
@@ -153,10 +156,71 @@ export function fetchTransactions(){
             .then((data) => {
                 console.log("@@@@@@@@@@@@@@@@@@",data);
                 if (success) {
-                    dispatch(fetchedTransactions(data.transactions));
+                    dispatch(fetchedTransactions(data));
                     return;
                 }
                 else{
+                    return;
+                }
+                
+            });
+    };
+
+
+}
+
+//update transaction
+export function showUpdateBox()
+{
+    return {
+        type:UPDATE_BOX_SHOW,
+    };
+}
+export function updateTransactionSuccess(msg)
+{
+    return {
+        type:UPDATE_SUCCESS_TRANSACTION,
+        success:msg
+    };
+}
+export function updateTransactionFailure(msg)
+{
+    return {
+        type:UPDATE_FAILURE_TRANSACTION,
+        success:msg
+    };
+}
+
+
+export function updateTransaction(id){
+    return (dispatch) => {
+        var success =  false;
+        dispatch(showUpdateBox());
+        const url =`/update_transaction/${id}`;
+        
+        fetch(url, {
+            method: 'POST',
+            headers : {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization : `Bearer ${localStorage.getItem('DONNA')}`
+            }
+        })
+            .then((response) => 
+            {console.log(response);
+                if(response.status === 200){
+                success=true;
+                return response.json();     
+            }else{
+                return response.json();
+            }})
+            .then((data) => {
+                console.log("@@@@@@@@@@@@@@@@@@",data);
+                if (success) {
+                    dispatch(updateTransactionSuccess("Transaction updated successfully"));
+                    return;
+                }
+                else{
+                    dispatch(updateTransactionFailure("Transaction was not able to update"));
                     return;
                 }
                 

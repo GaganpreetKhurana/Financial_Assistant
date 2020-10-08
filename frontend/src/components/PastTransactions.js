@@ -16,7 +16,7 @@ class PastTransactions extends Component {
         this.props.dispatch(clearAuth());
     }
     handleUpdate =(id) =>{
-        //this.props.dispatch(updateTransaction(id));
+        this.props.dispatch(updateTransaction(id));
         setTimeout(() => {
             //this.forceUpdate();
             this.props.dispatch(clearAuth());
