@@ -134,20 +134,24 @@ export function fetchTransactions(){
     return (dispatch) => {
         var success =  false;
         dispatch(startFetchTransaction());
-        const url = '/transactions/';
+        const url = '/transactions';
+        console.log(localStorage.getItem('DONNA'));
+        
         fetch(url, {
-            headers: {
-                'Authorization':`Bearer${localStorage.getItem('DONNA')}`
+            headers : {
+                Authorization : `Bearer ${localStorage.getItem('DONNA')}`
             }
         })
             .then((response) => 
-            {if(response.status === 200){
+            {console.log(response);
+                if(response.status === 200){
                 success=true;
                 return response.json();     
             }else{
                 return response.json();
             }})
             .then((data) => {
+                console.log("@@@@@@@@@@@@@@@@@@",data);
                 if (success) {
                     dispatch(fetchedTransactions(data.transactions));
                     return;

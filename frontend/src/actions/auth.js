@@ -169,7 +169,9 @@ export function signup(email, password, confirmpassword, name,fname,lname) {
 export function authenticateUser(user) {
     return {
         type: AUTHENTICATE_USER,
-        user: user.name,
+        username: user.username,
+        email:user.email,
+        user_id:user.user_id
     };
 }
 
