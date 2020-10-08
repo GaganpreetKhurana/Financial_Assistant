@@ -5,7 +5,7 @@ class DetailsPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            category: 'Income',
+            category:'0',
             amount:'',
             type:'Credit',
             description:'',
@@ -39,7 +39,7 @@ class DetailsPage extends Component {
             this.props.dispatch(clearAuth());
         }, 10000);
 
-        this.setState({category: 'Income',
+        this.setState({category:'0',
             amount:'',
             type:'Credit',
             description:'',
@@ -83,10 +83,10 @@ class DetailsPage extends Component {
                         <option value="7">Other</option>
                     </select>
                 </div><br></br>
-                {(this.state.category==='Other' || this.state.category==='Miscellaneous' ) && <div>
+                {(this.state.category==='6' || this.state.category==='7' ) && <div>
                     <label>Please Specify</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="text" onChange={this.handleChange4} placeholder="Description" required/>
+                    <input type="text" onChange={this.handleChange4} value={this.state.description} placeholder="Description" required/>
                     </div> }
                 {(this.state.category==='Other' || this.state.category==='Miscellaneous' )  && <br></br>}
                 

@@ -92,7 +92,7 @@ export function addTransaction(category,type,description,amount) {
         })
             .then((response) => 
             {console.log("@@@@@@@@@@@@",response);
-                if(response.status === 200){
+                if(response.status === 201){
                 success=true;
                 return response.json();     
             }else{
@@ -138,7 +138,6 @@ export function fetchTransactions(){
         var success =  false;
         dispatch(startFetchTransaction());
         const url = '/transactions';
-        console.log(localStorage.getItem('DONNA'));
         
         fetch(url, {
             headers : {
@@ -146,7 +145,7 @@ export function fetchTransactions(){
             }
         })
             .then((response) => 
-            {console.log(response);
+            {
                 if(response.status === 200){
                 success=true;
                 return response.json();     
@@ -154,7 +153,6 @@ export function fetchTransactions(){
                 return response.json();
             }})
             .then((data) => {
-                console.log("@@@@@@@@@@@@@@@@@@",data);
                 if (success) {
                     dispatch(fetchedTransactions(data));
                     return;
