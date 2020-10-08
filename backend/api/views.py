@@ -117,6 +117,33 @@ class TransactionList(ListAPIView):
         return Transaction.objects.filter(user=self.request.user)
 
 
+class TransactionListID(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = TransactionSerializer
+    model = Transaction
+
+    def get_queryset(self):
+        print(self.kwargs)
+        return Transaction.objects.filter(user=self.request.user, id=self.kwargs['id'])
+
+
+class TransactionListMonth(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = TransactionSerializer
+    model = Transaction
+
+    # filterset_fields = ('get_month')
+
+    def get_queryset(self):
+        print(self.kwargs)
+        query_set = Transaction.objects.filter(user=self.request.user)
+        [print(object, object.get_month, self.kwargs['month'], type(object.get_month), type(self.kwargs['month'])) for
+         object in query_set]
+
+        print([object for object in query_set if object.get_month == self.kwargs['month']])
+        return [object for object in query_set if object.get_month == self.kwargs['month']]
+
+
 class CreateTransaction(CreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = CreateTransactionSerializer

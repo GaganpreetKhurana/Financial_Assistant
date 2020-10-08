@@ -20,7 +20,7 @@ User._meta.get_field('last_name').null = False
 
 
 class Detail(models.Model):
-    user = models.OneToOneField(User, verbose_name="USER", on_delete=models.CASCADE)
+    user = models.OneToOneField(User, verbose_name="USER", on_delete=models.CASCADE, unique_for_month="date_created")
     income = models.FloatField(verbose_name="INCOME", default=0)
     savings = models.FloatField(verbose_name="SAVINGS", default=0)
     totalExpenditure = models.FloatField(verbose_name="TOTAL EXPENDITURE", default=0)
@@ -31,12 +31,21 @@ class Detail(models.Model):
     recreation = models.FloatField(verbose_name="RECREATION", default=0)
     miscellaneous = models.FloatField(verbose_name="MISCELLANEOUS", default=0)
     totalTransactions = models.IntegerField(verbose_name="TOTAL TRANSACTIONS", default=0)
+    date_created = models.DateField(auto_now_add=True, null=True)
 
     def __str__(self):
-        return str(self.user)
+        return str(self.user) + " / " + self.get_month() + " / " + self.get_year()
 
     def get_username(self):
         return self.user.username
+
+    @property
+    def get_month(self):
+        return self.date_created.strftime("%m")
+
+    @property
+    def get_year(self):
+        return self.date_created.strftime("%Y")
 
 
 categories = [
@@ -68,6 +77,14 @@ class Transaction(models.Model):
 
     def get_username(self):
         return self.user.username
+
+    @property
+    def get_month(self):
+        return self.time.strftime("%m")
+
+    @property
+    def get_year(self):
+        return self.time.strftime("%Y")
 
 
 @receiver(reset_password_token_created)
