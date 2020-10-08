@@ -80,7 +80,7 @@ export function addTransaction(category,type,description,amount) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization':`Bearer${localStorage.getItem('DONNA')}`
+                Authorization : `Bearer ${localStorage.getItem('DONNA')}`
             },
             body: getFormBody({
                 category,
@@ -138,9 +138,10 @@ export function fetchTransactions(){
         console.log(localStorage.getItem('DONNA'));
         
         fetch(url, {
-            headers : {
-                Authorization : `Bearer ${localStorage.getItem('DONNA')}`
-            }
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              Authorization: `Bearer ${localStorage.getItem('DONNA')}`,
+            },
         })
             .then((response) => 
             {console.log(response);

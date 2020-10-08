@@ -113,6 +113,7 @@ class TransactionList(ListAPIView):
     model = Transaction
 
     def get_queryset(self):
+        print(self.request.auth)
         return Transaction.objects.filter(user=self.request.user)
 
 

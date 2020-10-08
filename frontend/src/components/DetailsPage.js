@@ -73,7 +73,7 @@ class DetailsPage extends Component {
                 <div>
                     <label>Chose Category</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <select onChange={this.handleChange} placeholder="Category">
+                    <select onChange={this.handleChange} value={this.state.category} placeholder="Category">
                         <option value="Income">Income</option>
                         <option value="Housing">Housing</option>
                         <option value="Food">Food</option>
@@ -94,12 +94,12 @@ class DetailsPage extends Component {
                 <div>
                     <label>Enter Amount</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="text" onChange={this.handleChange2} placeholder="00.00" required/>
+                    <input type="text" onChange={this.handleChange2} value={this.state.amount} placeholder="00.00" required/>
                 </div><br></br>
                 <div>
                     <label>Chose Type</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <select onChange={this.handleChange3} placeholder="Type">
+                    <select onChange={this.handleChange3} value={this.state.type} placeholder="Type">
                         <option value="Credit">Credit</option>
                         <option value="Debit">Debit</option>
                     </select>
