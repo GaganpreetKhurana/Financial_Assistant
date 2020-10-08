@@ -8,7 +8,8 @@ class DetailsPage extends Component {
             category: 'Income',
             amount:'',
             type:'Credit',
-            description:''
+            description:'',
+            dummy:null,
         };
       }
       handleChange= (event)=>{
@@ -31,11 +32,18 @@ class DetailsPage extends Component {
         e.preventDefault();
         const {category,type,description,amount} = this.state;
         console.log(category,type,description,amount);
-        this.props.dispatch(addTransaction(category,type,description,amount));
+        //this.props.dispatch(addTransaction(category,type,description,amount));
+        
         setTimeout(() => {
             //this.forceUpdate();
             this.props.dispatch(clearAuth());
         }, 1000);
+
+        this.setState({category: 'Income',
+            amount:'',
+            type:'Credit',
+            description:'',
+            dummy:null,});
 
       }
       componentWillUnmount(){
@@ -43,6 +51,7 @@ class DetailsPage extends Component {
       }
       
     render() {
+        console.log("rendering");
         const {success,error,inProgress} = this.props.details;
         const {isLoggedIn} = this.props.auth;
         //if (!isLoggedIn) {

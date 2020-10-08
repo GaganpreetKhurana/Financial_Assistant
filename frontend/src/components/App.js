@@ -22,7 +22,9 @@ class App extends Component {
             const user = jwt_decode(token);
             this.props.dispatch(
                 authenticateUser({
-                    name: user.user_id,
+                    username: user.username,
+                    email :user.email,
+                    user_id:user.user_id
                 })
             );
             //anything that has to be fetched initially

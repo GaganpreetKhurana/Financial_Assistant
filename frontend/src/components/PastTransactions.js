@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import { fetchTransactions } from '../actions/pages';
-import { clearAuth,updateTransaction,deleteTransaction} from "../actions/pages";
+import { clearAuth} from "../actions/pages";
 
 
 class PastTransactions extends Component {
@@ -16,7 +16,7 @@ class PastTransactions extends Component {
         this.props.dispatch(clearAuth());
     }
     handleUpdate =(id) =>{
-        this.props.dispatch(updateTransaction(id));
+        //this.props.dispatch(updateTransaction(id));
         setTimeout(() => {
             //this.forceUpdate();
             this.props.dispatch(clearAuth());
@@ -24,7 +24,7 @@ class PastTransactions extends Component {
     }
 
     handleDelete =(id) =>{
-        this.props.dispatch(deleteTransaction(id));
+        //this.props.dispatch(deleteTransaction(id));
         setTimeout(() => {
             //this.forceUpdate();
             this.props.dispatch(clearAuth());
@@ -59,11 +59,11 @@ class PastTransactions extends Component {
                     </div>
                 )}
                 <div className="transaction-entry">
-                    <div className="number header"> No. </div>
-                    <div className="category header">Category</div>  
-                    <div className="amount header">Amount &nbsp;(Rs.)</div>
-                    <div className="type header">Type</div>
-                    <div className="Options header">Options</div>
+                    <div className="number headers"> No. </div>
+                    <div className="category headers">Category</div>  
+                    <div className="amount headers">Amount &nbsp;(Rs.)</div>
+                    <div className="type headers">Type</div>
+                    <div className="Options headers">Options</div>
                 </div>
                 <div className="transactions-box">
                    <div className="transaction-entry">

@@ -72,7 +72,7 @@ export default function auth(state = initialAuthState, action) {
         case AUTHENTICATE_USER:
             return {
                 ...state,
-                user:action.user,
+                user:{username:action.username,email:action.email,user_id:action.user_id},
                 isLoggedIn: true,
             };
         case LOG_OUT:
