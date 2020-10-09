@@ -82,7 +82,7 @@ export function login(username, password) {
                     localStorage.setItem('DONNA', data.token);
                     const user = jwt_decode(data.token);
                     dispatch(loginSuccess("Login Successfull", user.username, user.email));
-                    return;
+
                 } else {
                     dispatch(loginFailed("Username or Password is Incorrect"));
                 }
@@ -146,10 +146,10 @@ export function signup(email, password, confirmpassword, name, fname, lname) {
                 }
                 if (data.username) {
                     dispatch(signupFailed("User with this UserName already exists"));
-                    return;
+
                 } else if (data.password) {
                     dispatch(signupFailed("Password and Confirm Password fields Don't match"));
-                    return;
+
                 } else {
                     dispatch(signupFailed("Signup Failed Please Try Again"));
                 }
@@ -226,10 +226,10 @@ export function forgot(email) {
 
                 if (success) {
                     dispatch(forgotSuccess("Reset Link Sent to your Registered Email Id"));
-                    return;
+
                 } else if (data.email) {
                     dispatch(forgotFailed(data.email));
-                    return;
+
                 }
 
             });

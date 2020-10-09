@@ -130,7 +130,7 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
         details = Detail.objects.filter(user=self.context.get('request').user)
         details = details[0]
         factor = 1
-        if (validated_data['credit'] is False):
+        if validated_data['credit'] is False:
             factor = -1
         if validated_data['category'] == 0:
             details.income += factor * validated_data['amount']
@@ -148,7 +148,7 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
             details.miscellaneous += factor * validated_data['amount']
 
         factor = 1
-        if instance.credit == False:
+        if not instance.credit:
             factor = -1
         if instance.type == 0:
             details.income -= factor * instance.amount

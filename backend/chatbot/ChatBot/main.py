@@ -142,16 +142,16 @@ def chat():
         print(answer)
         print(tag)
 
-        if (tag == "payments_debit"):
+        if tag == "payments_debit":
             print("Calling function to add debit to database")
 
-        elif (tag == "payments_credit"):
+        elif tag == "payments_credit":
             print("Calling function to add credit to database")
 
-        elif (tag == "amazon_add"):
+        elif tag == "amazon_add":
             print("Calling function to add item to amazon wishlist")
 
-        elif (tag == "amazon_buy"):
+        elif tag == "amazon_buy":
             print("Calling function to add check status of amazon wishlist")
 
         else:
@@ -166,23 +166,23 @@ def fun(str):
 
 def chat_web(question):
 ## Checking if the question is actually a Transaction reply
-    if(question.startswith("Transaction")):
+    if question.startswith("Transaction"):
         list_parse = question.split()
 
-        if(list_parse[3]== "Debit"):
+        if list_parse[3]== "Debit":
             print("Calling function to add debit to database")
 
-        if(list_parse[3]== "Credit"):
+        if list_parse[3]== "Credit":
             print("Calling function to add credit to database")
 
         return "Transaction Operation Successful!"
 
 ## Checking if the question is actually a Amazon reply
-    if(question.startswith("Amazon")):
+    if question.startswith("Amazon"):
         list_parse = question.split()
         chat_response = "Amazon Operation Successful! "
 
-        if(list_parse[1] == "Add"):
+        if list_parse[1] == "Add":
             url = list_parse[1]
             chat_response += amazon_script.amazon_add_fun(url)
 
@@ -211,19 +211,19 @@ def chat_web(question):
     print(tag)
 
     ## REplying user the instructions with matching tags
-    if (tag == "payments_debit"):
+    if tag == "payments_debit":
         answer += "\nPlease Reply the Category,Amount in the format 'Transaction *Category* *Amount* Dredit'"
         print("Calling function to add debit to database")
 
-    elif (tag == "payments_credit"):
+    elif tag == "payments_credit":
         answer += "\nPlease Reply the Category,Amount in the format 'Transaction *Category* *Amount* Credit'"
         print("Calling function to add credit to database")
 
-    elif (tag == "amazon_add"):
+    elif tag == "amazon_add":
         answer += "\nPlease Reply the url of wishlist in the format 'Amazon Add *url*'"
         print("Calling function to add item to amazon wishlist")
 
-    elif (tag == "amazon_buy"):
+    elif tag == "amazon_buy":
         print("Calling function to add check status of amazon wishlist")
 
     else:

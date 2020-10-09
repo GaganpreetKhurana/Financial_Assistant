@@ -49,6 +49,10 @@ class Detail(models.Model):
     def get_year(self):
         return self.date_created.strftime("%Y")
 
+    @property
+    def get_date(self):
+        return self.date_created.strftime("%d")
+
 
 categories = [
     (0, "Income"),
@@ -89,6 +93,10 @@ class Transaction(models.Model):
     @property
     def get_year(self):
         return self.time.strftime("%Y")
+
+    @property
+    def get_date(self):
+        return self.time.strftime("%d")
 
     def clean(self):
         if self.details.user != self.user:

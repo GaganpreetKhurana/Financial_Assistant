@@ -123,7 +123,6 @@ class TransactionListID(ListAPIView):
     model = Transaction
 
     def get_queryset(self):
-        print(self.kwargs)
         return Transaction.objects.filter(user=self.request.user, id=self.kwargs['id'])
 
 
@@ -132,16 +131,42 @@ class TransactionListMonth(ListAPIView):
     serializer_class = TransactionSerializer
     model = Transaction
 
-    # filterset_fields = ('get_month')
+    def get_queryset(self):
+        query_set = Transaction.objects.filter(user=self.request.user)
+        return [object for object in query_set if object.get_month == self.kwargs['month']]
+
+
+class TransactionListYear(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = TransactionSerializer
+    model = Transaction
 
     def get_queryset(self):
-        print(self.kwargs)
         query_set = Transaction.objects.filter(user=self.request.user)
-        [print(object, object.get_month, self.kwargs['month'], type(object.get_month), type(self.kwargs['month'])) for
-         object in query_set]
+        return [object for object in query_set if object.get_year == self.kwargs['year']]
 
-        print([object for object in query_set if object.get_month == self.kwargs['month']])
-        return [object for object in query_set if object.get_month == self.kwargs['month']]
+
+class TransactionListYearMonth(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = TransactionSerializer
+    model = Transaction
+
+    def get_queryset(self):
+        query_set = Transaction.objects.filter(user=self.request.user)
+        return [object for object in query_set if
+                object.get_year == self.kwargs['year'] and object.get_month == self.kwargs['month']]
+
+
+class TransactionListDate(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = TransactionSerializer
+    model = Transaction
+
+    def get_queryset(self):
+        query_set = Transaction.objects.filter(user=self.request.user)
+        return [object for object in query_set if object.get_year == self.kwargs['year']
+                and object.get_month == self.kwargs['month']
+                and object.get_date == self.kwargs['date']]
 
 
 class CreateTransaction(CreateAPIView):
@@ -229,3 +254,34 @@ class DeleteUser(DestroyAPIView):
                 "message": "User Not Deleted"
             }
         return Response(data=response, status=status.HTTP_204_NO_CONTENT)
+
+
+class DetailsViewMonth(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = FinancialDetailsSerializer
+    model = Detail
+
+    def get_queryset(self):
+        query_set = Detail.objects.filter(user=self.request.user)
+        return [object for object in query_set if object.get_month == self.kwargs['month']]
+
+
+class DetailsViewYear(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = FinancialDetailsSerializer
+    model = Detail
+
+    def get_queryset(self):
+        query_set = Detail.objects.filter(user=self.request.user)
+        return [object for object in query_set if object.get_year == self.kwargs['year']]
+
+
+class DetailsViewYearMonth(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = FinancialDetailsSerializer
+    model = Detail
+
+    def get_queryset(self):
+        query_set = Detail.objects.filter(user=self.request.user)
+        return [object for object in query_set if
+                object.get_year == self.kwargs['year'] and object.get_month == self.kwargs['month']]
