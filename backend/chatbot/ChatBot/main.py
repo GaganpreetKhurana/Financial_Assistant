@@ -230,10 +230,10 @@ def chat_web(question):
         if(list_parse[1] == "portfolio"):
             
             if(list_parse[2] == "info"):
-                chat_response += stock_script.PortfolioSituation(stck)
+                chat_response += stock_script.PortfolioSituation()
             
             if(list_parse[2] == "predict"): 
-                chat_response += stock_script.PortfolioPrediction(stck)
+                chat_response += stock_script.PortfolioPrediction()
         
         
         return chat_response

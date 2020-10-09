@@ -62,7 +62,7 @@
         },
         {
             "tag": "stock_portfolio_info",
-            "patterns": ["Fetch this stock price prediction", "What will be this stock price"],
+            "patterns": ["Fetch my portfolio situation", "Fetch my portfolio situation"],
             "responses": ["Calculating your stock's portfolio prediction","Fetching stock portfolio prediction"]
         },
         {
