@@ -50,9 +50,9 @@ def StockHistoryPredict(stck):
     predicted_y= regsr.predict(to_predict_x)
     m= regsr.coef_
     c= regsr.intercept_
-    print("Predicted y:\n",predicted_y)
-    print("slope (m): ",m)
-    print("y-intercept (c): ",c)
+    ##print("Predicted y:\n",predicted_y)
+    ##print("slope (m): ",m)
+    ##print("y-intercept (c): ",c)
 
     return "Predicted y: " + str(predicted_y)
 
@@ -108,7 +108,7 @@ def PortfolioSituation():
     sql = f"SELECT owned_shares,stck,current_price,createdAt FROM owned_stock"
     db.execute(sql)
     results = db.fetchall()
-    print(results)
+    ##print(results)
     
     answer = []
     for r in results:
@@ -122,7 +122,7 @@ def PortfolioSituation():
         ##print(status)
         answer.append(status)
 
-    print(answer)
+    ##print(answer)
     return answer
 
 def PortfolioPrediction():
@@ -133,7 +133,7 @@ def PortfolioPrediction():
     sql = f"SELECT owned_shares,stck,current_price,createdAt FROM owned_stock"
     db.execute(sql)
     results = db.fetchall()
-    print(results)
+    ##print(results)
     
     answer = []
     for r in results:
@@ -147,7 +147,7 @@ def PortfolioPrediction():
         status += " Has a prediction of " + str(StockHistoryPredict(r[1]))
         answer.append(status)
 
-    print(answer)
+    ##print(answer)
     return answer
 
 
