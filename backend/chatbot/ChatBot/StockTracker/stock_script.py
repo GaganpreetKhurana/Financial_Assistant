@@ -66,7 +66,14 @@ def GetCurrentPrice(stck):
 def StockBuy(amount,stck):
     ## Storing and buying the stock
     current_price = GetCurrentPrice(stck)
-    db_object = sqlite3.connect('stock_db')
+
+    parent_dir = os.path.dirname(os.path.abspath(__file__))
+    rel_path_db = 'stock_db'
+    abs_path_db = os.path.join(parent_dir, rel_path_db)
+
+
+    db_object = sqlite3.connect(abs_path_db)
+
     db = db_object.cursor()
     db.execute("CREATE TABLE IF NOT EXISTS owned_stock (id INTEGER PRIMARY KEY AUTOINCREMENT,owned_shares DECIMAL (5, 2) NOT NULL DEFAULT 0,current_price DECIMAL (5, 2) NOT NULL DEFAULT 0,stck LONGVARCHAR,createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)")
     sql = f"INSERT INTO owned_stock (owned_shares,stck,current_price) VALUES (\"{str(amount)}\",\"{str(stck)}\",\"{str(current_price)}\")"
@@ -80,7 +87,14 @@ def StockBuy(amount,stck):
 
 def SellStock(amount,stck):
     current_price = GetCurrentPrice(stck)
-    db_object = sqlite3.connect('stock_db')
+
+    parent_dir = os.path.dirname(os.path.abspath(__file__))
+    rel_path_db = 'stock_db'
+    abs_path_db = os.path.join(parent_dir, rel_path_db)
+
+
+    db_object = sqlite3.connect(abs_path_db)
+
     db = db_object.cursor()
     sql = f"SELECT owned_shares,stck,current_price FROM owned_stock WHERE stck = \"{str(stck)}\""
     db.execute(sql)
@@ -103,7 +117,14 @@ def SellStock(amount,stck):
 def PortfolioSituation():
     ## Returns status of each stock in portfolio as a list
 
-    db_object = sqlite3.connect('stock_db')
+
+    parent_dir = os.path.dirname(os.path.abspath(__file__))
+    rel_path_db = 'stock_db'
+    abs_path_db = os.path.join(parent_dir, rel_path_db)
+
+
+    db_object = sqlite3.connect(abs_path_db)
+
     db = db_object.cursor()
     sql = f"SELECT owned_shares,stck,current_price,createdAt FROM owned_stock"
     db.execute(sql)
@@ -120,15 +141,23 @@ def PortfolioSituation():
         status += " Has a current price of " + str(current_price)
         status += " at a difference of " + str(r[0]*(current_price - r[2])) 
         ##print(status)
-        answer.append(status)
+        answer.append(str(status))
 
+    str1 = ''.join(str(e) for e in answer)
     ##print(answer)
-    return answer
+    return str1
 
 def PortfolioPrediction():
     ## Returns prediction of each stock in portfolio as a list
 
-    db_object = sqlite3.connect('stock_db')
+
+    parent_dir = os.path.dirname(os.path.abspath(__file__))
+    rel_path_db = 'stock_db'
+    abs_path_db = os.path.join(parent_dir, rel_path_db)
+
+
+    db_object = sqlite3.connect(abs_path_db)
+
     db = db_object.cursor()
     sql = f"SELECT owned_shares,stck,current_price,createdAt FROM owned_stock"
     db.execute(sql)
@@ -145,14 +174,15 @@ def PortfolioPrediction():
         status += "Has a current price of " + str(current_price)
         status += "at a difference of " + str(r[0]*(current_price - r[2])) 
         status += " Has a prediction of " + str(StockHistoryPredict(r[1]))
-        answer.append(status)
+        answer.append(str(status))
 
+    str1 = ''.join(str(e) for e in answer)
     ##print(answer)
-    return answer
+    return str1
 
 
 
-stck = "amd"
+##stck = "amd"
 ##print(stock_info(stck))
 
 ##stock_history(stck,10)
