@@ -36,7 +36,12 @@ def currentPrice(url):
 
 
 def storePrice(url, price):
-    db_object = sqlite3.connect('amazon_db')
+    parent_dir = os.path.dirname(os.path.abspath(__file__))
+    rel_path_db = 'amazon_db'
+    abs_path_db = os.path.join(parent_dir, rel_path_db)
+
+
+    db_object = sqlite3.connect(abs_path_db)
     db = db_object.cursor()
     db.execute(
         "CREATE TABLE IF NOT EXISTS product_prices (id INTEGER PRIMARY KEY AUTOINCREMENT,price DECIMAL (5, 2) NOT NULL DEFAULT 0,producturl LONGVARCHAR,createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)")

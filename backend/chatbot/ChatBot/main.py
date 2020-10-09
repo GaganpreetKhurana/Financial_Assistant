@@ -199,6 +199,45 @@ def chat_web(question):
 
         return chat_response
 
+## Checking if the question is actually a Stock reply
+
+    if(question.startswith("Stock")):
+        list_parse = question.split()
+        chat_response = "Stock Operation Successful! "
+
+        if(list_parse[1] == "info"):
+            stck = list_parse[2]
+            chat_response += stock_script.StockInfo(stck)
+
+        if(list_parse[1] == "history"):
+            stck = list_parse[2]
+            chat_response += stock_script.StockHistory(stck)
+
+        if(list_parse[1] == "buy"):
+            stck = list_parse[2]
+            amount = list_parse[3]
+            chat_response += stock_script.StockBuy(amount,stck)
+
+        if(list_parse[1] == "sell"):
+            stck = list_parse[2]
+            amount = list_parse[3]
+            chat_response += stock_script.SellStock(amount,stck)
+
+        if(list_parse[1] == "predict"):
+            stck = list_parse[2]
+            chat_response += stock_script.StockHistoryPredict(stck)
+
+        if(list_parse[1] == "portfolio"):
+            
+            if(list_parse[2] == "info"):
+                chat_response += stock_script.PortfolioSituation()
+            
+            if(list_parse[2] == "predict"): 
+                chat_response += stock_script.PortfolioPrediction()
+        
+        
+        return chat_response
+
 
 
     print("Please delete models and cache after editing intents.json!")
@@ -222,6 +261,9 @@ def chat_web(question):
     print(tag)
 
     ## REplying user the instructions with matching tags
+
+    ## Transaction Functions
+
     if (tag == "payments_debit"):
         answer += "\nPlease Reply the Category,Amount in the format 'Transaction *Category* *Amount* Dredit'"
         print("Calling function to add debit to database")
@@ -230,6 +272,9 @@ def chat_web(question):
         answer += "\nPlease Reply the Category,Amount in the format 'Transaction *Category* *Amount* Credit'"
         print("Calling function to add credit to database")
 
+    ## Amazon Functions
+
+    
     elif (tag == "amazon_add"):
         answer += "\nPlease Reply the url of wishlist in the format 'Amazon Add *url*'"
         print("Calling function to add item to amazon wishlist")
@@ -237,6 +282,38 @@ def chat_web(question):
     elif (tag == "amazon_buy"):
         answer += "\nPlease Reply the url of wishlist in the format 'Amazon Buy *url*'"
         print("Calling function to add check status of amazon wishlist")
+
+    ## Stock Functions
+    
+    elif (tag == "stock_info"):
+        answer += "\nPlease Reply the stock name in the format 'Stock info *stock_name*'"
+        print("Calling function to check info of stock")
+
+    elif (tag == "stock_history"):
+        answer += "\nPlease Reply the stock name in the format 'Stock history *stock_name*'"
+        print("Calling function to check history of stock")
+
+    elif (tag == "stock_buy"):
+        answer += "\nPlease Reply the stock name and amount in the format 'Stock buy *stock_name* *amount*'"
+        print("Calling function to buy stock")
+
+    elif (tag == "stock_sell"):
+        answer += "\nPlease Reply the stock name and amount in the format 'Stock sell *stock_name* *amount*'"
+        print("Calling function to sell stock")
+
+    elif (tag == "stock_predict"):
+        answer += "\nPlease Reply the stock name in the format 'Stock predict *stock_name*'"
+        print("Calling function to predict stock price")
+
+    elif (tag == "stock_portfolio_info"):
+        answer += "\nPlease Reply  in the format 'Stock portfolio info'"
+        print("Calling function to fetch Portfolio")
+
+    elif (tag == "stock_portfolio_prediction"):
+        answer += "\nPlease Reply  in the format 'Stock portfolio predict'"
+        print("Calling function to predict Portfolio")
+
+    ## No functions found 
 
     else:
         print("No function to call")
