@@ -66,8 +66,8 @@ class TransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transaction
-        fields = ('id', 'username', 'amount', 'time', 'category', 'description')
-        read_only_fields = ['id', 'username', 'amount', 'time', 'category', 'description']
+        fields = ('id', 'username', 'amount', 'time', 'category', 'description','credit')
+        read_only_fields = ['id', 'username', 'amount', 'time', 'category', 'description','credit']
 
 
 class CreateTransactionSerializer(serializers.ModelSerializer):
