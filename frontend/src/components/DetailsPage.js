@@ -88,7 +88,7 @@ class DetailsPage extends Component {
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <input type="text" onChange={this.handleChange4} value={this.state.description} placeholder="Description" required/>
                     </div> }
-                {(this.state.category==='Other' || this.state.category==='Miscellaneous' )  && <br></br>}
+                {(this.state.category==='6' || this.state.category==='7' )  && <br></br>}
                 
                 <div>
                     <label>Enter Amount</label>
@@ -97,7 +97,7 @@ class DetailsPage extends Component {
                 </div><br></br>
                 <div>
                     <label>Chose Type</label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <select onChange={this.handleChange3} value={this.state.type} placeholder="Type">
                         <option value="true">Credit</option>
                         <option value="false">Debit</option>

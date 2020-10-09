@@ -5,7 +5,7 @@ import {
     UPDATE_BOX_SHOW,
     UPDATE_SUCCESS_TRANSACTION,
     UPDATE_FAILURE_TRANSACTION,
-    DELETE_TRANSACTION,
+    UPDATE_TRANSACTION,
     TRANSACTION_START,
     TRANSACTION_SUCCESS,
     TRANSACTION_FAILURE,
@@ -169,10 +169,11 @@ export function fetchTransactions(){
 }
 
 //update transaction
-export function showUpdateBox()
+export function showUpdateBox(id)
 {
     return {
         type:UPDATE_BOX_SHOW,
+        id
     };
 }
 export function updateTransactionSuccess(msg)
@@ -191,11 +192,50 @@ export function updateTransactionFailure(msg)
 }
 
 
-export function updateTransaction(id){
+export function updateTransactions(id){
+    return (dispatch) => {
+        var success =  false;
+        const url =`/update_transaction/${id}`;
+        
+        fetch(url, {
+            method: 'POST',
+            headers : {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization : `Bearer ${localStorage.getItem('DONNA')}`
+            }
+        })
+            .then((response) => 
+            {console.log(response);
+                if(response.status === 200){
+                success=true;
+                return response.json();     
+            }else{
+                return response.json();
+            }})
+            .then((data) => {
+                console.log("@@@@@@@@@@@@@@@@@@",data);
+                if (success) {
+                    dispatch(updateTransactionSuccess("Transaction updated successfully"));
+                    return;
+                }
+                else{
+                    dispatch(updateTransactionFailure("Transaction was not able to update"));
+                    return;
+                }
+                
+            });
+    };
+
+
+}
+
+
+//delete transaction
+export function deleteTransaction(id){
     return (dispatch) => {
         var success =  false;
         dispatch(showUpdateBox());
-        const url =`/update_transaction/${id}`;
+        const url =`/delete_transaction/${id}`;
         
         fetch(url, {
             method: 'POST',

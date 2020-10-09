@@ -7,7 +7,8 @@ const {
     TRANSACTION_SUCCESS,
     CLEAR_AUTH_STATE,
     FETCH_TRANSACTIONS,
-    FETCH_TRANSACTION_START
+    FETCH_TRANSACTION_START,
+    UPDATE_BOX_SHOW
 } = require("../actions/actionTypes");
 
 
@@ -21,6 +22,8 @@ const initialTransactionState = {
     success:null,
     inProgress:false,
     loading:false,
+    id:'',
+    update:null,
 };
 
 export default function transaction(state = initialTransactionState, action) {
@@ -83,6 +86,12 @@ export default function transaction(state = initialTransactionState, action) {
                 ...state,
                 transactions : action.transactions,
                 loading:false,
+            }
+        case UPDATE_BOX_SHOW:
+            return {
+                ...state,
+                id:action.id,
+                update:true,
             }
         default:
             return state;

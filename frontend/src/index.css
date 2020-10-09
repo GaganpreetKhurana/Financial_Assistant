@@ -493,3 +493,42 @@ button:hover {
     border:1px solid black;
     background-color: #f1f1f1;
 }
+.update-box{
+    width:90%;
+    height:auto;
+    border:1px solid black;
+    padding-left:20px;
+    padding-top:20px;
+    padding-bottom:20px;
+}
+
+
+
+
+
+.update-box label{
+
+    font-size:25px;
+    font-weight:430;
+
+}
+
+.update-box input{
+    font-size:24px;
+    width:390px;
+    font-weight:430;
+}
+
+.update-box select{
+    font-size:24px;
+    width:400px;
+    font-weight:430;
+}
+.save{
+    width:150px;
+    height:35px;
+    margin-left:35%;
+    font-size: 24px;
+    
+    font-weight:500;
+}
