@@ -36,9 +36,39 @@
             "responses": ["Fetching amazon wishlist report","Predicting best time to buy this item"]
         },
         {
-            "tag": "amazon_buy",
-            "patterns": ["Should i buy something on amazon", "Is there a price drop on amazon"],
-            "responses": ["Fetching amazon wishlist report"]
+            "tag": "stock_info",
+            "patterns": ["Fetch info on this stock", "Explain this stock","What is this stock"],
+            "responses": ["Displaying info on this stock","Fetching stock info report"]
+        },
+        {
+            "tag": "stock_history",
+            "patterns": ["Fetch this stock history", "Explain this stock history","What is this stock history"],
+            "responses": ["Displaying this stock's history","Fetching stock history report"]
+        },
+        {
+            "tag": "stock_buy",
+            "patterns": ["Buy this stock", "I will buy this stock"],
+            "responses": ["Ready to buy this stock","How much do you want to buy"]
+        },
+        {
+            "tag": "stock_sell",
+            "patterns": ["Sell this stock", "I will sell this stock"],
+            "responses": ["Ready to sell this stock","How much do you want to sell"]
+        },
+        {
+            "tag": "stock_predict",
+            "patterns": ["Fetch this stock price prediction", "What will be this stock price"],
+            "responses": ["Calculating this stock's price prediction","Fetching stock history prediction"]
+        },
+        {
+            "tag": "stock_portfolio_info",
+            "patterns": ["Fetch this stock price prediction", "What will be this stock price"],
+            "responses": ["Calculating your stock's portfolio prediction","Fetching stock portfolio prediction"]
+        },
+        {
+            "tag": "stock_portfolio_prediction",
+            "patterns": ["Fetch my portfolio prediction", "How will my portfolio be in future"],
+            "responses": ["Calculating your portfolio prediction","Fetching portfolio prediction"]
         }
     ]
 }
