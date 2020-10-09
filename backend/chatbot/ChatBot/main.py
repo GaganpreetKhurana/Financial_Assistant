@@ -200,6 +200,21 @@ def chat_web(question):
         return chat_response
 
 
+    if(question.startswith("Stock")):
+        list_parse = question.split()
+        chat_response = "Stock Operation Successful! "
+
+        if(list_parse[1] == "info"):
+            stck = list_parse[2]
+            chat_response += stock_script.StockInfo(stck)
+
+        if(list_parse[1] == "history"):
+            stck = list_parse[2]
+            chat_response += amazon_script.StockHistory(stck)
+
+        return chat_response
+
+
 
     print("Please delete models and cache after editing intents.json!")
     print("Start talking with the bot (type quit to stop)!")
@@ -237,6 +252,34 @@ def chat_web(question):
     elif (tag == "amazon_buy"):
         answer += "\nPlease Reply the url of wishlist in the format 'Amazon Buy *url*'"
         print("Calling function to add check status of amazon wishlist")
+
+    elif (tag == "stock_info"):
+        answer += "\nPlease Reply the stock name in the format 'Stock info *stock_name*'"
+        print("Calling function to check info of stock")
+
+    elif (tag == "stock_history"):
+        answer += "\nPlease Reply the stock name in the format 'Stock history *stock_name*'"
+        print("Calling function to check history of stock")
+
+    elif (tag == "stock_buy"):
+        answer += "\nPlease Reply the stock name and amount in the format 'Stock buy *stock_name* *amount*'"
+        print("Calling function to buy stock")
+
+    elif (tag == "stock_sell"):
+        answer += "\nPlease Reply the stock name and amount in the format 'Stock sell *stock_name* *amount*'"
+        print("Calling function to sell stock")
+
+    elif (tag == "stock_predict"):
+        answer += "\nPlease Reply the stock name in the format 'Stock predict *stock_name*'"
+        print("Calling function to predict stock price")
+
+    elif (tag == "stock_portfolio_info"):
+        answer += "\nPlease Reply  in the format 'Stock portfolio info'"
+        print("Calling function to fetch Portfolio")
+
+    elif (tag == "stock_portfolio_prediction"):
+        answer += "\nPlease Reply  in the format 'Stock portfolio predict'"
+        print("Calling function to predict Portfolio")
 
     else:
         print("No function to call")

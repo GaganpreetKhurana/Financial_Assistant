@@ -23,7 +23,7 @@ def StockHistory(stck,days):
     stck_obj = yf.Ticker(stck)
     time_period = f"{str(days)}d"
     info = stck_obj.history(period=time_period)
-    print(info)
+    return info
 
 
 def StockHistoryPredict(stck):
