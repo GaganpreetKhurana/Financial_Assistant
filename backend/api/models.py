@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 from django.db import models
 
 from django.dispatch import receiver
@@ -34,7 +36,7 @@ class Detail(models.Model):
     date_created = models.DateField(auto_now_add=True, null=True)
 
     def __str__(self):
-        return str(self.user) + " / " + self.get_month() + " / " + self.get_year()
+        return str(self.user) + " / " + str(self.get_month) + " / " + str(self.get_year)
 
     def get_username(self):
         return self.user.username
@@ -62,10 +64,12 @@ categories = [
 
 class Transaction(models.Model):
     user = models.ForeignKey(User, verbose_name="USER", on_delete=models.CASCADE, blank=False, null=False)
-    details = models.ForeignKey(Detail, on_delete=models.CASCADE, verbose_name="DETAILS", blank=False, null=False)
+    details = models.ForeignKey(Detail, on_delete=models.CASCADE, verbose_name="DETAILS",
+                                blank=False, null=False)
     time = models.DateTimeField(auto_now=True)
     amount = models.FloatField(verbose_name="AMOUNT", default=0, blank=False, null=False)
     type = models.IntegerField(choices=categories, verbose_name="Type", blank=False, null=False)
+    credit = models.BooleanField(verbose_name="CREDIT", default=False, blank=False, null=False)
     description = models.TextField(blank=True, default="No Description Provided!", verbose_name="DESCRIPTION")
 
     def __str__(self):
@@ -85,6 +89,12 @@ class Transaction(models.Model):
     @property
     def get_year(self):
         return self.time.strftime("%Y")
+
+    def clean(self):
+        if self.details.user != self.user:
+            raise ValidationError(_('User does not own this Detail'))
+        if self.details.get_month != self.get_month or self.details.get_year != self.get_year:
+            raise ValidationError(_('Time of transaction and details do not match'))
 
 
 @receiver(reset_password_token_created)

@@ -75,9 +75,9 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transaction
-        fields = ('amount', 'time', 'category', 'description')
+        fields = ('amount', 'time', 'category', 'description', 'credit')
         read_only_fields = ['time']
-        extra_kwargs = {'amount': {'required': True}, 'category': {'required': True}}
+        extra_kwargs = {'amount': {'required': True}, 'category': {'required': True}, 'credit': {'required': True}}
 
     @transaction.atomic
     def save(self, **kwargs):
@@ -87,22 +87,26 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
                                       amount=self.validated_data['amount'],
                                       type=self.validated_data['category'],
                                       details=details,
-                                      description=self.validated_data['description'])
+                                      description=self.validated_data['description'],
+                                      credit=self.validated_data['credit'])
+        factor = 1
+        if self.validated_data['credit'] is False:
+            factor = -1
         details.totalTransactions += 1
         if self.validated_data['category'] == 0:
-            details.income += self.validated_data['amount']
+            details.income += factor * self.validated_data['amount']
         elif self.validated_data['category'] == 1:
-            details.housing += self.validated_data['amount']
+            details.housing += factor * self.validated_data['amount']
         elif self.validated_data['category'] == 2:
             details.food += self.validated_data['amount']
         elif self.validated_data['category'] == 3:
-            details.healthcare += self.validated_data['amount']
+            details.healthcare += factor * self.validated_data['amount']
         elif self.validated_data['category'] == 4:
-            details.transportation += self.validated_data['amount']
+            details.transportation += factor * self.validated_data['amount']
         elif self.validated_data['category'] == 5:
-            details.recreation += self.validated_data['amount']
+            details.recreation += factor * self.validated_data['amount']
         elif self.validated_data['category'] == 6:
-            details.miscellaneous += self.validated_data['amount']
+            details.miscellaneous += factor * self.validated_data['amount']
         details.totalExpenditure = (
                 details.housing + details.food + details.healthcare + details.transportation + details.recreation + details.miscellaneous)
         details.savings = details.income - details.totalExpenditure
@@ -116,48 +120,55 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transaction
-        fields = ('amount', 'time', 'category', 'description')
+        fields = ('amount', 'time', 'category', 'description', 'credit')
         read_only_fields = ['time']
-        extra_kwargs = {'amount': {'required': True}, 'category': {'required': True}}
+        extra_kwargs = {'amount': {'required': True}, 'category': {'required': True}, 'credit': {'required': True}}
 
     @transaction.atomic
     def update(self, instance, validated_data):
 
         details = Detail.objects.filter(user=self.context.get('request').user)
         details = details[0]
+        factor = 1
+        if (validated_data['credit'] is False):
+            factor = -1
         if validated_data['category'] == 0:
-            details.income += validated_data['amount']
+            details.income += factor * validated_data['amount']
         elif validated_data['category'] == 1:
-            details.housing += validated_data['amount']
+            details.housing += factor * validated_data['amount']
         elif validated_data['category'] == 2:
-            details.food += validated_data['amount']
+            details.food += factor * validated_data['amount']
         elif validated_data['category'] == 3:
-            details.healthcare += validated_data['amount']
+            details.healthcare += factor * validated_data['amount']
         elif validated_data['category'] == 4:
-            details.transportation += validated_data['amount']
+            details.transportation += factor * validated_data['amount']
         elif validated_data['category'] == 5:
-            details.recreation += validated_data['amount']
+            details.recreation += factor * validated_data['amount']
         elif validated_data['category'] == 6:
-            details.miscellaneous += validated_data['amount']
+            details.miscellaneous += factor * validated_data['amount']
 
+        factor = 1
+        if instance.credit == False:
+            factor = -1
         if instance.type == 0:
-            details.income -= instance.amount
+            details.income -= factor * instance.amount
         elif instance.type == 1:
-            details.housing -= instance.amount
+            details.housing -= factor * instance.amount
         elif instance.type == 2:
-            details.food -= instance.amount
+            details.food -= factor * instance.amount
         elif instance.type == 3:
-            details.healthcare -= instance.amount
+            details.healthcare -= factor * instance.amount
         elif instance.type == 4:
-            details.transportation -= instance.amount
+            details.transportation -= factor * instance.amount
         elif instance.type == 5:
-            details.recreation -= instance.amount
+            details.recreation -= factor * instance.amount
         elif instance.type == 6:
-            details.miscellaneous -= instance.amount
+            details.miscellaneous -= factor * instance.amount
 
         instance.type = validated_data['category']
         instance.amount = validated_data['amount']
         instance.description = validated_data['description']
+        instance.credit = validated_data['credit']
         details.totalExpenditure = (
                 details.housing + details.food + details.healthcare + details.transportation + details.recreation + details.miscellaneous)
         details.savings = details.income - details.totalExpenditure
