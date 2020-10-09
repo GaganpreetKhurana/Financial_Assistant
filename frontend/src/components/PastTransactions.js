@@ -36,6 +36,7 @@ class PastTransactions extends Component {
         const {success,error} = this.props.details;
         
         const {transactions,loading} = this.props.details;
+        console.log(transactions);
         if(loading)
         {
             return <h2>Loading.....</h2>;

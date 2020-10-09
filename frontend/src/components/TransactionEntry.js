@@ -9,7 +9,8 @@ class TransactionEntry extends Component {
                         <div className="number "> {index+1+"."} </div>
                         <div className="category ">{transaction.category}</div>  
                         <div className="amount">{transaction.amount}</div>
-                        <div className="type">Credit</div>
+                       {transaction.credit  && <div className="type">Credit</div>}
+                       {!transaction.credit  && <div className="type">Debit</div>}
                         <div  className="update "><button >Update</button></div>
                         <div  className="delete "><button >Delete</button></div>
                    </div>

@@ -7,7 +7,7 @@ class DetailsPage extends Component {
         this.state = {
             category:'0',
             amount:'',
-            type:'Credit',
+            type:'true',
             description:'',
             dummy:null,
         };
@@ -41,7 +41,7 @@ class DetailsPage extends Component {
 
         this.setState({category:'0',
             amount:'',
-            type:'Credit',
+            type:'true',
             description:'',
             dummy:null,});
 
@@ -99,8 +99,8 @@ class DetailsPage extends Component {
                     <label>Chose Type</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <select onChange={this.handleChange3} value={this.state.type} placeholder="Type">
-                        <option value="Credit">Credit</option>
-                        <option value="Debit">Debit</option>
+                        <option value="true">Credit</option>
+                        <option value="false">Debit</option>
                     </select>
                 </div><br></br><br></br>
                 <button className="add" onClick={this.handleSubmit} disabled={inProgress}>ADD</button>

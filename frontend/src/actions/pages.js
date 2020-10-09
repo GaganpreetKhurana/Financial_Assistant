@@ -73,7 +73,7 @@ export function transactionSuccess(successmsg) {
 }
 
 
-export function addTransaction(category,type,description,amount) {
+export function addTransaction(category,credit,description,amount) {
     return (dispatch) => {
         var success =  false;
         dispatch(startTransaction());
@@ -87,11 +87,12 @@ export function addTransaction(category,type,description,amount) {
             body: getFormBody({
                 amount,
                 category,
-                description
+                description,
+                credit
                 }),
         })
             .then((response) => 
-            {console.log("@@@@@@@@@@@@",response);
+            {
                 if(response.status === 201){
                 success=true;
                 return response.json();     
@@ -99,7 +100,7 @@ export function addTransaction(category,type,description,amount) {
                 return response.json();
             }})
             .then((data) => {
-                console.log("@@@@@@@@@@@@@@@",data);
+                
                 if (success) {
                     dispatch(transactionSuccess("Transaction Added Successfully"));
                     return;
