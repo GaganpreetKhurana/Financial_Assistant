@@ -5,7 +5,7 @@ class DetailsPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            category: 'Income',
+            category:'0',
             amount:'',
             type:'Credit',
             description:'',
@@ -32,14 +32,14 @@ class DetailsPage extends Component {
         e.preventDefault();
         const {category,type,description,amount} = this.state;
         console.log(category,type,description,amount);
-        //this.props.dispatch(addTransaction(category,type,description,amount));
+        this.props.dispatch(addTransaction(category,type,description,amount));
         
         setTimeout(() => {
             //this.forceUpdate();
             this.props.dispatch(clearAuth());
-        }, 1000);
+        }, 10000);
 
-        this.setState({category: 'Income',
+        this.setState({category:'0',
             amount:'',
             type:'Credit',
             description:'',
@@ -51,7 +51,6 @@ class DetailsPage extends Component {
       }
       
     render() {
-        console.log("rendering");
         const {success,error,inProgress} = this.props.details;
         const {isLoggedIn} = this.props.auth;
         //if (!isLoggedIn) {
@@ -73,33 +72,33 @@ class DetailsPage extends Component {
                 <div>
                     <label>Chose Category</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <select onChange={this.handleChange} placeholder="Category">
-                        <option value="Income">Income</option>
-                        <option value="Housing">Housing</option>
-                        <option value="Food">Food</option>
-                        <option value="Healthcare">Healthcare</option>
-                        <option value="Transportation">Transportation</option>
-                        <option value="Recreation">Recreation</option>
-                        <option value="Miscellaneous">Miscellaneous</option>
-                        <option value="Other">Other</option>
+                    <select onChange={this.handleChange} value={this.state.category} placeholder="Category">
+                        <option value="0">Income</option>
+                        <option value="1">Housing</option>
+                        <option value="2">Food</option>
+                        <option value="3">Healthcare</option>
+                        <option value="4">Transportation</option>
+                        <option value="5">Recreation</option>
+                        <option value="6">Miscellaneous</option>
+                        <option value="7">Other</option>
                     </select>
                 </div><br></br>
-                {(this.state.category==='Other' || this.state.category==='Miscellaneous' ) && <div>
+                {(this.state.category==='6' || this.state.category==='7' ) && <div>
                     <label>Please Specify</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="text" onChange={this.handleChange4} placeholder="Description" required/>
+                    <input type="text" onChange={this.handleChange4} value={this.state.description} placeholder="Description" required/>
                     </div> }
                 {(this.state.category==='Other' || this.state.category==='Miscellaneous' )  && <br></br>}
                 
                 <div>
                     <label>Enter Amount</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="text" onChange={this.handleChange2} placeholder="00.00" required/>
+                    <input type="text" onChange={this.handleChange2} value={this.state.amount} placeholder="00.00" required/>
                 </div><br></br>
                 <div>
                     <label>Chose Type</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <select onChange={this.handleChange3} placeholder="Type">
+                    <select onChange={this.handleChange3} value={this.state.type} placeholder="Type">
                         <option value="Credit">Credit</option>
                         <option value="Debit">Debit</option>
                     </select>

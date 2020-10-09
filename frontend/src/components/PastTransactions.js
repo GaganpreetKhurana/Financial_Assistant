@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {connect} from "react-redux";
 import { fetchTransactions } from '../actions/pages';
 import { clearAuth} from "../actions/pages";
+import TransactionEntry from './TransactionEntry';
 
 
 class PastTransactions extends Component {
@@ -34,8 +35,8 @@ class PastTransactions extends Component {
     render() {
         const {success,error} = this.props.details;
         
-        //const {transactions,loading} = this.props.details;
-        /*if(loading)
+        const {transactions,loading} = this.props.details;
+        if(loading)
         {
             return <h2>Loading.....</h2>;
         }
@@ -44,7 +45,6 @@ class PastTransactions extends Component {
         {
             return <h2>No Past Transactions to Display</h2>
         }
-        */
         return (
             <div className="form-box2">
                 <h2>PAST TRANSACTIONS</h2><br></br>
@@ -53,7 +53,7 @@ class PastTransactions extends Component {
                         <button>{error}</button>
                     </div>
                         )}
-                {!success && (
+                {success && (
                     <div className="alert-done">
                         <button>{success}</button>
                     </div>
@@ -66,38 +66,10 @@ class PastTransactions extends Component {
                     <div className="Options headers">Options</div>
                 </div>
                 <div className="transactions-box">
-                   <div className="transaction-entry">
-                        <div className="number "> 1. </div>
-                        <div className="category ">Income</div>  
-                        <div className="amount">22.22</div>
-                        <div className="type">Credit</div>
-                        <div  className="update "><button onClick={this.handleUpdate(1)}>Update</button></div>
-                        <div  className="delete "><button onClick={this.handleDelete(1)}>Delete</button></div>
-                   </div>
-                   <div className="transaction-entry">
-                        <div className="number "> 2. </div>
-                        <div className="category ">Housing</div>  
-                        <div className="amount">4000</div>
-                        <div className="type">Debit</div>
-                        <div  className="update "><button>Update</button></div>
-                        <div  className="delete "><button>Delete</button></div>
-                   </div>
-                   <div className="transaction-entry">
-                        <div className="number "> 3. </div>
-                        <div className="category ">Transportation</div>  
-                        <div className="amount">5000</div>
-                        <div className="type">Debit</div>
-                        <div  className="update "><button>Update</button></div>
-                        <div  className="delete "><button>Delete</button></div>
-                   </div>
-                   <div className="transaction-entry">
-                        <div className="number "> 4. </div>
-                        <div className="category ">Bank Interest</div>  
-                        <div className="amount">40</div>
-                        <div className="type">Credit</div>
-                        <div  className="update "><button>Update</button></div>
-                        <div  className="delete "><button>Delete</button></div>
-                   </div>
+                    { transactions.map((transaction,index)=>(
+                        <TransactionEntry transaction={transaction} index={index} key={`transaction.category-${index}`}/>
+                    ))
+                    }
                 </div>
                 
             </div>
