@@ -142,16 +142,16 @@ def chat():
         print(answer)
         print(tag)
 
-        if (tag == "payments_debit"):
+        if tag == "payments_debit":
             print("Calling function to add debit to database")
 
-        elif (tag == "payments_credit"):
+        elif tag == "payments_credit":
             print("Calling function to add credit to database")
 
-        elif (tag == "amazon_add"):
+        elif tag == "amazon_add":
             print("Calling function to add item to amazon wishlist")
 
-        elif (tag == "amazon_buy"):
+        elif tag == "amazon_buy":
             print("Calling function to add check status of amazon wishlist")
 
         else:

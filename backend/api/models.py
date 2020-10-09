@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 from django.db import models
 
 from django.dispatch import receiver
@@ -20,7 +22,7 @@ User._meta.get_field('last_name').null = False
 
 
 class Detail(models.Model):
-    user = models.OneToOneField(User, verbose_name="USER", on_delete=models.CASCADE)
+    user = models.OneToOneField(User, verbose_name="USER", on_delete=models.CASCADE, unique_for_month="date_created")
     income = models.FloatField(verbose_name="INCOME", default=0)
     savings = models.FloatField(verbose_name="SAVINGS", default=0)
     totalExpenditure = models.FloatField(verbose_name="TOTAL EXPENDITURE", default=0)
@@ -31,12 +33,25 @@ class Detail(models.Model):
     recreation = models.FloatField(verbose_name="RECREATION", default=0)
     miscellaneous = models.FloatField(verbose_name="MISCELLANEOUS", default=0)
     totalTransactions = models.IntegerField(verbose_name="TOTAL TRANSACTIONS", default=0)
+    date_created = models.DateField(auto_now_add=True, null=True)
 
     def __str__(self):
-        return str(self.user)
+        return str(self.user) + " / " + str(self.get_month) + " / " + str(self.get_year)
 
     def get_username(self):
         return self.user.username
+
+    @property
+    def get_month(self):
+        return self.date_created.strftime("%m")
+
+    @property
+    def get_year(self):
+        return self.date_created.strftime("%Y")
+
+    @property
+    def get_date(self):
+        return self.date_created.strftime("%d")
 
 
 categories = [
@@ -53,10 +68,12 @@ categories = [
 
 class Transaction(models.Model):
     user = models.ForeignKey(User, verbose_name="USER", on_delete=models.CASCADE, blank=False, null=False)
-    details = models.ForeignKey(Detail, on_delete=models.CASCADE, verbose_name="DETAILS", blank=False, null=False)
+    details = models.ForeignKey(Detail, on_delete=models.CASCADE, verbose_name="DETAILS",
+                                blank=False, null=False)
     time = models.DateTimeField(auto_now=True)
     amount = models.FloatField(verbose_name="AMOUNT", default=0, blank=False, null=False)
     type = models.IntegerField(choices=categories, verbose_name="Type", blank=False, null=False)
+    credit = models.BooleanField(verbose_name="CREDIT", default=False, blank=False, null=False)
     description = models.TextField(blank=True, default="No Description Provided!", verbose_name="DESCRIPTION")
 
     def __str__(self):
@@ -68,6 +85,24 @@ class Transaction(models.Model):
 
     def get_username(self):
         return self.user.username
+
+    @property
+    def get_month(self):
+        return self.time.strftime("%m")
+
+    @property
+    def get_year(self):
+        return self.time.strftime("%Y")
+
+    @property
+    def get_date(self):
+        return self.time.strftime("%d")
+
+    def clean(self):
+        if self.details.user != self.user:
+            raise ValidationError(_('User does not own this Detail'))
+        if self.details.get_month != self.get_month or self.details.get_year != self.get_year:
+            raise ValidationError(_('Time of transaction and details do not match'))
 
 
 @receiver(reset_password_token_created)

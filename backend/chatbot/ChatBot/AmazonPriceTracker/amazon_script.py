@@ -32,7 +32,7 @@ def currentPrice(url):
         price = 0
 
     Fprice = float(price)
-    return (title, Fprice)
+    return title, Fprice
 
 
 def storePrice(url, price):
@@ -48,7 +48,7 @@ def storePrice(url, price):
 
 
 def priceDropStatic(price, preset_target):
-    if (price <= preset_target):
+    if price <= preset_target:
         print("Good time to buy the item , Go for it")
     else:
         print("Not a good time to buy the item")
@@ -110,7 +110,7 @@ def priceDropPrediction(url, target):
     print("slope (m): ", m)
     print("y-intercept (c): ", c)
 
-    if (predicted_y[0] < target):
+    if predicted_y[0] < target:
         print("\n\nBad time to buy the product, It is expected to drop soon")
     else:
         print("\n\nGood time to buy the product, It is expected to Increase soon")

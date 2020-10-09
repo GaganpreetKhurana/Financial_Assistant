@@ -14,7 +14,7 @@ def current_price(url):
     title = soup.select("#productTitle")[0].get_text().strip()
     price = soup.find(id="priceblock_ourprice").get_text()[1:].strip().replace(',', '')
     Fprice = float(price)
-    return (title, Fprice)
+    return title, Fprice
 
 
 def store_price(url, price):
