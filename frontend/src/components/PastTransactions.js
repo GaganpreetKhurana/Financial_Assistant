@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import { fetchTransactions } from '../actions/pages';
-import { clearAuth} from "../actions/pages";
+import { clearAuth,updateTransaction} from "../actions/pages";
 import TransactionEntry from './TransactionEntry';
 
 
@@ -35,19 +35,12 @@ class PastTransactions extends Component {
         //call dispatch
         e.preventDefault();
         const {category,type,description,amount} = this.state;
-        console.log(category,type,description,amount);
-        //this.props.dispatch(addTransaction(category,type,description,amount));
+        this.props.dispatch(updateTransaction(category,type,description,amount,this.props.details.id));
         
         setTimeout(() => {
             //this.forceUpdate();
             this.props.dispatch(clearAuth());
-        }, 10000);
-
-        this.setState({category:'0',
-            amount:'',
-            type:'true',
-            description:'',
-            dummy:null,});
+        }, 50000);
 
       }
     
@@ -65,8 +58,7 @@ class PastTransactions extends Component {
     render() {
         const {success,error} = this.props.details;
         
-        const {transactions,loading,id,update,inProgress} = this.props.details;
-        console.log(transactions);
+        const {transactions,loading,update,inProgress} = this.props.details;
         if(loading)
         {
             return <h2>Loading.....</h2>;

@@ -5,7 +5,6 @@ import {
     UPDATE_BOX_SHOW,
     UPDATE_SUCCESS_TRANSACTION,
     UPDATE_FAILURE_TRANSACTION,
-    UPDATE_TRANSACTION,
     TRANSACTION_START,
     TRANSACTION_SUCCESS,
     TRANSACTION_FAILURE,
@@ -187,25 +186,30 @@ export function updateTransactionFailure(msg)
 {
     return {
         type:UPDATE_FAILURE_TRANSACTION,
-        success:msg
+        error:msg
     };
 }
 
 
-export function updateTransactions(id){
+export function updateTransaction(category,credit,description,amount,id){
     return (dispatch) => {
         var success =  false;
-        const url =`/update_transaction/${id}`;
-        
+        const url =`/update_transaction/${id}/`;
         fetch(url, {
-            method: 'POST',
+            method: 'PATCH',
             headers : {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 Authorization : `Bearer ${localStorage.getItem('DONNA')}`
-            }
+            },
+            body: getFormBody({
+                amount,
+                category,
+                description,
+                credit
+                }),
         })
             .then((response) => 
-            {console.log(response);
+            {
                 if(response.status === 200){
                 success=true;
                 return response.json();     
@@ -213,9 +217,9 @@ export function updateTransactions(id){
                 return response.json();
             }})
             .then((data) => {
-                console.log("@@@@@@@@@@@@@@@@@@",data);
                 if (success) {
                     dispatch(updateTransactionSuccess("Transaction updated successfully"));
+                    dispatch(fetchTransactions());
                     return;
                 }
                 else{
@@ -245,7 +249,7 @@ export function deleteTransaction(id){
             }
         })
             .then((response) => 
-            {console.log(response);
+            {
                 if(response.status === 200){
                 success=true;
                 return response.json();     
@@ -253,7 +257,6 @@ export function deleteTransaction(id){
                 return response.json();
             }})
             .then((data) => {
-                console.log("@@@@@@@@@@@@@@@@@@",data);
                 if (success) {
                     dispatch(updateTransactionSuccess("Transaction updated successfully"));
                     return;
