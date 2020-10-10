@@ -10,7 +10,9 @@ import {
     TRANSACTION_FAILURE,
     CLEAR_AUTH_STATE,
     FETCH_TRANSACTIONS,
-    FETCH_TRANSACTION_START
+    FETCH_TRANSACTION_START,
+    DELETE_SUCCESS_TRANSACTION,
+    DELETE_FAILURE_TRANSACTION
 } from './actionTypes';
 
 
@@ -235,38 +237,64 @@ export function updateTransaction(category,credit,description,amount,id){
 
 
 //delete transaction
+
+
+export function deleteSuccess(msg)
+{
+    return {
+        type:DELETE_SUCCESS_TRANSACTION,
+        success:msg
+    };
+}
+export function deleteFailure(msg)
+{
+    return {
+        type:DELETE_FAILURE_TRANSACTION,
+        error:msg
+    };
+}
 export function deleteTransaction(id){
     return (dispatch) => {
-        var success =  false;
-        dispatch(showUpdateBox());
-        const url =`/delete_transaction/${id}`;
-        
+        const url =`/delete_transaction/${id}/`;
+        var success = false;
         fetch(url, {
-            method: 'POST',
+            method: 'DELETE',
             headers : {
-                'Content-Type': 'application/x-www-form-urlencoded',
                 Authorization : `Bearer ${localStorage.getItem('DONNA')}`
             }
         })
-            .then((response) => 
-            {
-                if(response.status === 200){
+        .then((response) => 
+        {
+            if(response.status === 204){
                 success=true;
-                return response.json();     
-            }else{
                 return response.json();
-            }})
-            .then((data) => {
+            }
+            else
+            {
+                return response.json();
+            }
+        })
+        .then(() => {
                 if (success) {
-                    dispatch(updateTransactionSuccess("Transaction updated successfully"));
+                    dispatch(deleteSuccess("Transaction deleted successfully"));
+                    dispatch(fetchTransactions());
                     return;
                 }
                 else{
-                    dispatch(updateTransactionFailure("Transaction was not able to update"));
+                    dispatch(deleteFailure("Transaction was not able to delete"));
                     return;
                 }
                 
-            });
+        }).catch(()=>{
+            if (success) {
+                dispatch(deleteSuccess("Transaction deleted successfully"));
+                dispatch(fetchTransactions());
+                return;
+            }
+            else{
+                dispatch(deleteFailure("Transaction was not able to delete"));
+                return;
+            }});
     };
 
 

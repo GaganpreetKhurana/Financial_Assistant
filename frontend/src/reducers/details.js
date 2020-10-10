@@ -10,7 +10,9 @@ const {
     FETCH_TRANSACTION_START,
     UPDATE_BOX_SHOW,
     UPDATE_SUCCESS_TRANSACTION,
-    UPDATE_FAILURE_TRANSACTION
+    UPDATE_FAILURE_TRANSACTION,
+    DELETE_SUCCESS_TRANSACTION,
+    DELETE_FAILURE_TRANSACTION
 } = require("../actions/actionTypes");
 
 
@@ -96,6 +98,7 @@ export default function transaction(state = initialTransactionState, action) {
                 id:action.id,
                 update:true,
             }
+        case DELETE_SUCCESS_TRANSACTION:
         case UPDATE_SUCCESS_TRANSACTION:
             return{
                 ...state,
@@ -104,6 +107,7 @@ export default function transaction(state = initialTransactionState, action) {
                 success:action.success,
                 error:null
             }
+        case DELETE_FAILURE_TRANSACTION:
         case UPDATE_FAILURE_TRANSACTION:
             return{
                 ...state,

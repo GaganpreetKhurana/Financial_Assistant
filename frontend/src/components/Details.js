@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
+import {Redirect} from "react-router-dom";
 import DetailsPage from './DetailsPage';
 import ChatBotPage from './ChatBotPage';
 import PastTransactions from './PastTransactions';
@@ -25,9 +26,9 @@ class Details extends Component {
         
 
         //so that not logged in user don't sees the details page
-        //if (!isLoggedIn) {
-         // return <Redirect to="/" />;
-       // }
+        if (!isLoggedIn) {
+          return <Redirect to="/" />;
+        }
         return (
             //complete page
             <div className="home-screen">

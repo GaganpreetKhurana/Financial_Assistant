@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
+import {Redirect} from "react-router-dom";
 import {addTransaction, clearAuth} from "../actions/pages";
+
+
 class DetailsPage extends Component {
     constructor(props) {
         super(props);
@@ -31,7 +34,7 @@ class DetailsPage extends Component {
         //call dispatch
         e.preventDefault();
         const {category,type,description,amount} = this.state;
-        console.log(category,type,description,amount);
+        //console.log(category,type,description,amount);
         this.props.dispatch(addTransaction(category,type,description,amount));
         
         setTimeout(() => {
@@ -53,9 +56,9 @@ class DetailsPage extends Component {
     render() {
         const {success,error,inProgress} = this.props.details;
         const {isLoggedIn} = this.props.auth;
-        //if (!isLoggedIn) {
-            //return <Redirect to="/login"/>;
-        //}
+        if (!isLoggedIn) {
+            return <Redirect to="/login"/>;
+        }
         return (
             <div className="form-box">
                 <h2>ADD DETAILS</h2><br></br>

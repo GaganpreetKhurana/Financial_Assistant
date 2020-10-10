@@ -11,9 +11,8 @@ class TransactionEntry extends Component {
     handleDelete =(id) =>{
         this.props.dispatch(deleteTransaction(id));
         setTimeout(() => {
-            //this.forceUpdate();
             this.props.dispatch(clearAuth());
-        }, 10000);
+        }, 20000);
     }
     render() {
     const {transaction,index}=this.props;
