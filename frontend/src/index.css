@@ -38,7 +38,7 @@ a {
     height: 50px;
     min-width: 700px;
 }
-
+/* Home button and logo */
 .nav-left {
     height: 45px;
     box-sizing: border-box;
@@ -51,7 +51,7 @@ a {
     font-size: 35px;
     color: white;
 }
-
+/* User name login/signup/logout buttons */
 .nav-right {
     margin-right: 35px;
 }
@@ -78,6 +78,8 @@ a {
     cursor: pointer;
 }
 
+
+/* main home screen greyshade */
 .home-screen {
     background-color: #f1f1f1;
     width: 100%;
@@ -89,6 +91,7 @@ a {
     min-width: 700px;
 }
 
+/* login form */
 .login-form {
     box-shadow: 0 0 2px 2px #88888b;
     border-radius: 6px;
@@ -100,6 +103,7 @@ a {
     padding-top: 5px;
 }
 
+/* forgot form */
 .forgot-form {
     box-shadow: 0 0 2px 2px #88888b;
     border-radius: 6px;
@@ -111,6 +115,8 @@ a {
     padding-top: 5px;
 }
 
+
+/* for headings in form */
 h5 {
     margin-left: 35px;
     font-weight: 400;
@@ -118,6 +124,7 @@ h5 {
     color: rgb(43, 44, 44);
 }
 
+/* signup form */
 .register-form {
     box-shadow: 0 0 2px 2px #88888b;
     border-radius: 6px;
@@ -129,6 +136,8 @@ h5 {
     padding-top: 5px;
 }
 
+
+/* header section containing headings of form */
 .header p {
     margin-top: 20px;
     color: black;
@@ -137,6 +146,7 @@ h5 {
     text-align: center;
 }
 
+/* input fields of form */
 .form-fields {
     box-sizing: border-box;
     margin-top: -20px;
@@ -151,6 +161,7 @@ h2{
 
 }
 
+/* warn button */
 .alert-warn button {
     width: 90%;
     height: 30px;
@@ -161,6 +172,7 @@ h2{
     color: #721c24;
 }
 
+/* success button */
 .alert-done button {
     width: 90%;
     height: 30px;
@@ -198,6 +210,7 @@ button:hover {
     cursor: pointer;
 }
 
+/* footer section */
 .footer {
     box-sizing: border-box;
     width: 100%;
@@ -213,6 +226,7 @@ button:hover {
     color: white;
 }
 
+/* main details page visible on login */
 .Main-Page {
     box-sizing: border-box;
     width: 70%;
@@ -227,14 +241,16 @@ button:hover {
     overflow:hidden;
 }
 
+/* choice of 5 tabs */
 .choice {
     width: 100%;
     height: 50px;
     display: flex;
 }
 
+/* first tab */
 .details {
-    width: 34%;
+    width: 20%;
     height: inherit;
 }
 
@@ -261,8 +277,10 @@ button:hover {
     border-right:1px solid black;
     color:white;
 }
+
+/* second tab */
 .view-details {
-    width: 33%;
+    width: 20%;
     height: inherit;
 }
 
@@ -276,6 +294,7 @@ button:hover {
     cursor: pointer;
     border-bottom:1px solid black;
     border-left:1px solid black;
+    border-right:1px solid black;
 }
 .view-details button:hover {
     width: 100%;
@@ -289,8 +308,10 @@ button:hover {
     border-right:1px solid black;
     color:white;
 }
+
+/* third tab */
 .chatbot {
-    width: 33%;
+    width: 20%;
     height: inherit;
 }
 
@@ -317,6 +338,68 @@ button:hover {
     border-bottom:1px solid black;
     border-left:1px solid black;
 }
+
+/* forth tab */
+.amazon {
+    width: 20%;
+    height: inherit;
+}
+
+.amazon button {
+    width: 100%;
+    height: inherit;
+    background-color: none;
+    outline: none;
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+    border-bottom:1px solid black;
+    border-right:1px solid black;
+}
+.amazon button:hover {
+    width: 100%;
+    height: inherit;
+    background-color:rgb(72 72 80);
+    outline: none;
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+    border-bottom:1px solid black;
+    border-right:1px solid black;
+    color:white;
+}
+
+/* fifth tab */
+.stock {
+    width: 20%;
+    height: inherit;
+}
+
+.stock button {
+    width: 100%;
+    height: inherit;
+    background-color: none;
+    outline: none;
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+    border-bottom:1px solid black;
+    
+}
+.stock button:hover {
+    width: 100%;
+    height: inherit;
+    background-color:rgb(72 72 80);
+    outline: none;
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+    border-bottom:1px solid black;
+    border-right:1px solid black;
+    color:white;
+}
+
+/* coloured when tab is active */
 .tabactive-tab{
     
         width: 100%;
@@ -331,6 +414,8 @@ button:hover {
         border-left:1px solid black;
     
 }
+
+/* form box transactions */
 .form-box{
     width:80%;
     height:90%;
@@ -362,6 +447,8 @@ button:hover {
     width:400px;
     font-weight:430;
 }
+
+/* add button of transaction */
 .add{
     width:200px;
     height:40px;
@@ -391,6 +478,8 @@ button:hover {
     background-color: #d4edda;
     color: #155724;
 }
+
+/* show transactions outer box */
 .form-box2{
     width:90%;
     height:95%;
@@ -404,6 +493,7 @@ button:hover {
     flex-direction: column;
     flex-wrap: nowrap;
 }
+/* inner box */
 .transactions-box{
     width:100%;
     height:90%;
@@ -412,6 +502,7 @@ button:hover {
     
 }
 
+/* each transaction  entry */
 .transaction-entry{
     display:flex;
     width:100%;
@@ -423,6 +514,7 @@ button:hover {
     padding-right:8px;
     box-sizing:border-box;
 }
+/* fields of transaction entry 5 fields */
 .number{
     width:6%;
     height:40px;
@@ -489,10 +581,14 @@ button:hover {
     box-sizing:border-box;
 
 }
+
+/* headers of transaction table */
 .headers{
     border:1px solid black;
     background-color: #f1f1f1;
 }
+
+/* update box on clicking update button */
 .update-box{
     width:90%;
     height:auto;
@@ -502,11 +598,6 @@ button:hover {
     padding-bottom:20px;
     background-color: #f1f1f1;
 }
-
-
-
-
-
 .update-box label{
 
     font-size:25px;
@@ -530,6 +621,5 @@ button:hover {
     height:35px;
     margin-left:35%;
     font-size: 24px;
-    
     font-weight:500;
 }

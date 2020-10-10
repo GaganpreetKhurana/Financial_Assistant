@@ -1,6 +1,8 @@
 import {
     SHOW_DETAILS_PAGE,
     SHOW_CHATBOT_PAGE,
+    SHOW_STOCK_DETAILS,
+    SHOW_AMAZON_DETAILS,
     VIEW_DETAILS,
     UPDATE_BOX_SHOW,
     UPDATE_SUCCESS_TRANSACTION,
@@ -36,6 +38,20 @@ export function viewdetails()
         type:VIEW_DETAILS,
     }
 }
+export function showStockDetails()
+{
+    return{
+        type:SHOW_STOCK_DETAILS,
+    }
+}
+export function showAmazonDetails()
+{
+    return{
+        type:SHOW_AMAZON_DETAILS,
+    }
+}
+
+
 
 
 //Form Body

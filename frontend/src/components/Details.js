@@ -4,7 +4,9 @@ import {Redirect} from "react-router-dom";
 import DetailsPage from './DetailsPage';
 import ChatBotPage from './ChatBotPage';
 import PastTransactions from './PastTransactions';
-import {showDetails, showChatBot,viewdetails} from "../actions/pages";
+import StockPage from './StockPage';
+import AmazonPage from './AmazonPage';
+import {showDetails, showChatBot,viewdetails,showStockDetails,showAmazonDetails} from "../actions/pages";
 
 class Details extends Component {
     applyDetailsForm = () => {    
@@ -14,13 +16,19 @@ class Details extends Component {
     applyChatBot = () => {
         this.props.dispatch(showChatBot());
         };
+    applyStock = () => {
+        this.props.dispatch(showStockDetails());
+    };
+    applyAmazon = () => {
+        this.props.dispatch(showAmazonDetails());
+    };
     viewDetails = () => {
         this.props.dispatch(viewdetails());
     };
 
     render() {
         const { isLoggedIn} = this.props.auth;
-        const {detailsForm,chatBot,viewPastDetails} = this.props.details;
+        const {detailsForm,chatBot,viewPastDetails,amazon,stock} = this.props.details;
         
 
         
@@ -45,13 +53,21 @@ class Details extends Component {
                             <button className={`tab${chatBot?'active-tab':''}`} onClick={this.applyChatBot}>Chat Bot</button>
                         </div>
                         <div className="view-details">
-                            <button className={`tab${viewPastDetails?'active-tab':''}`} onClick={this.viewDetails}>View Details</button>
+                            <button className={`tab${viewPastDetails?'active-tab':''}`} onClick={this.viewDetails}>Transactions</button>
+                        </div>
+                        <div className="amazon">
+                            <button className={`tab${amazon?'active-tab':''}`} onClick={this.applyAmazon}>Amazon Details</button>
+                        </div>
+                        <div className="stock">
+                            <button className={`tab${stock?'active-tab':''}`} onClick={this.applyStock}>Stock Details</button>
                         </div>
                     </div>
 
                     {detailsForm && <DetailsPage/>}
                     {chatBot && <ChatBotPage/>}
                     {viewPastDetails && <PastTransactions/>}
+                    {stock && <StockPage/>}
+                    {amazon && <AmazonPage/>}
                 </div>
             </div>
         );

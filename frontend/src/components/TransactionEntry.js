@@ -12,7 +12,7 @@ class TransactionEntry extends Component {
         this.props.dispatch(deleteTransaction(id));
         setTimeout(() => {
             this.props.dispatch(clearAuth());
-        }, 20000);
+        }, 10000);
     }
     render() {
     const {transaction,index}=this.props;

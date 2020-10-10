@@ -2,6 +2,8 @@ const {
     SHOW_DETAILS_PAGE,
     SHOW_CHATBOT_PAGE,
     VIEW_DETAILS,
+    SHOW_STOCK_DETAILS,
+    SHOW_AMAZON_DETAILS,
     TRANSACTION_START,
     TRANSACTION_FAILURE,
     TRANSACTION_SUCCESS,
@@ -28,6 +30,8 @@ const initialTransactionState = {
     loading:false,
     id:'',
     update:null,
+    stock:false,
+    amazon:false
 };
 
 export default function transaction(state = initialTransactionState, action) {
@@ -44,6 +48,26 @@ export default function transaction(state = initialTransactionState, action) {
                 detailsForm: true,
                 chatBot: false,
                 viewPastDetails: false,
+                stock:false,
+                amazon:false
+            };
+        case SHOW_STOCK_DETAILS:
+            return {
+                ...state,
+                detailsForm: false,
+                chatBot: false,
+                viewPastDetails: false,
+                stock:true,
+                amazon:false
+            };
+        case SHOW_AMAZON_DETAILS:
+            return {
+                ...state,
+                detailsForm: false,
+                chatBot: false,
+                viewPastDetails: false,
+                stock:false,
+                amazon:true
             };
         case SHOW_CHATBOT_PAGE:
             return {
@@ -51,6 +75,8 @@ export default function transaction(state = initialTransactionState, action) {
                 detailsForm: false,
                 chatBot: true,
                 viewPastDetails: false,
+                stock:false,
+                amazon:false
             };
         case VIEW_DETAILS:
             return {
@@ -58,7 +84,8 @@ export default function transaction(state = initialTransactionState, action) {
                 detailsForm: false,
                 chatBot: false,
                 viewPastDetails:true,
-
+                stock:false,
+                amazon:false
             }
         case TRANSACTION_START:
             return {
