@@ -14,7 +14,8 @@ import {
     FETCH_TRANSACTIONS,
     FETCH_TRANSACTION_START,
     DELETE_SUCCESS_TRANSACTION,
-    DELETE_FAILURE_TRANSACTION
+    DELETE_FAILURE_TRANSACTION,
+    ADD_CHAT_MESSAGE
 } from './actionTypes';
 
 
@@ -314,4 +315,15 @@ export function deleteTransaction(id){
     };
 
 
+}
+
+
+
+//chat bot
+export function addChatMessage(msg)
+{
+    return {
+        type:ADD_CHAT_MESSAGE,
+        chatMsg:msg
+    };
 }
