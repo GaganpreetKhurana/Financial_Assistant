@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-
-
+import {connect} from "react-redux";
+import ChatMessage from './ChatMessage';
 
 
 class ChatBotPage extends Component {
@@ -23,22 +23,30 @@ class ChatBotPage extends Component {
         typedMessage: '',
       };
     }
+    //fetch first message from chatbot as well as past messages
+    componentDidMount(){ 
+
+        //this.props.dispatch(fetchTransactions());
+    }
+
+    //send the message to the chatbot
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const {typedMessage,messages} = this.state;
+        if (typedMessage) {
+            //this.props.dispatch(login(typedMessage));
+            var new_message={content:typedMessage,self:true};
+            messages.push(new_message);
+        }
+    };
     render() {
       const { typedMessage, messages } = this.state;
   
       return (
         <div className="chat-container">
           <div className="chat-messages">
-            {messages.map((message) => (
-              <div
-                className={
-                  message.self
-                    ? 'chat-bubble self-chat'
-                    : 'chat-bubble other-chat'
-                }
-              >
-                {message.content}
-              </div>
+            {messages.map((message,index) => (
+              <ChatMessage message={message} key={`message.content-${index}`} />
             ))}
           </div>
           <div className="chat-footer">
@@ -55,4 +63,11 @@ class ChatBotPage extends Component {
     }
   }
   
-  export default ChatBotPage;
+  function mapStateToProps(state) {
+    return {
+        auth: state.auth,
+        details: state.details,
+    };
+}
+
+export default connect(mapStateToProps)(ChatBotPage);

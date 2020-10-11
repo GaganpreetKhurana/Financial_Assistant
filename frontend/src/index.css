@@ -658,4 +658,59 @@ button:hover {
     position: relative;
   }
   
+  .chat-messages .other-chat:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-right-color: #e5e5e5;
+    border-left: 0;
+    border-bottom: 0;
+    margin-top: -1px;
+    margin-left: -10px;
+  }
+  .chat-messages .self-chat {
+    background: #c4f0c5;
+    margin-left:15%;
+  }
+  .chat-messages .self-chat:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-left-color: #c4f0c5;
+    border-right: 0;
+    border-bottom: 0;
+    margin-top: -1px;
+    margin-right: -10px;
+  }
+  .chat-footer {
+    height: 37px;
+    box-sizing: border-box;
+    display: flex;
+  }
+  .chat-footer input {
+    width: 100%;
+    outline: none;
+    font-size: 18px;
+    border: 1px solid black;
+
+    padding-left: 5px;
+  }
+  .chat-footer button {
+    background: #e5e5e5;
+    color: black;
+    border: 1px solid black;
+    outline: none;
+    font-size: 16px;
+  }
+  .chat-footer button:hover {
+    cursor: pointer;
+  }
   
