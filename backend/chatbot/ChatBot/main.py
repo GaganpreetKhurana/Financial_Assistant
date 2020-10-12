@@ -6,12 +6,23 @@ import sqlite3
 
 import nltk
 import numpy
+import requests
 from nltk.stem.lancaster import LancasterStemmer
 from tensorflow import keras
 
 from .AmazonPriceTracker import amazon_script
 from .StockTracker import stock_script
 
+categories = {
+    "income": 0,
+    "housing": 1,
+    "food": 2,
+    "healthcare": 3,
+    "transportation": 4,
+    "recreation": 5,
+    "miscellaneous": 6,
+    "other": 7
+}
 stemmer = LancasterStemmer()
 words = []
 labels = []
@@ -200,23 +211,29 @@ def chat_get(user_id, no_of_results):
     return str(results)
 
 
-def chat_web(question, user_id):
+def chat_web(question, user_id, request):
     #  Checking if the question is actually a Transaction reply
     if question.startswith("Transaction"):
         list_parse = question.split()
-        print(list_parse)
-
-        transaction_category = list_parse[2]
-        transaction_amount = list_parse[3]
-        transaction_description = list_parse[4]
-
+        credit = True
         if list_parse[1] == "Debit":
-            print("Calling function to add debit to database")
-
-        if list_parse[1] == "Credit":
-            print("Calling function to add credit to database")
-
-        return "Transaction Operation Successful!"
+            credit = False
+        data_bot = {
+            "amount": list_parse[3],
+            "category": categories[list_parse[2]],
+            "description": ' '.join(list_parse[4:]),
+            "credit": credit
+        }
+        header = {
+            "Authorization": "Bearer " + request.auth,
+        }
+        print("Calling function to add transaction to database")
+        response = requests.post(url="http://127.0.0.1:8000/create_transaction", data=data_bot,
+                                 headers=header)
+        if response.status_code == 201:
+            return "Transaction Operation Successful!"
+        else:
+            return "Transaction Operation Unsuccessful!"
 
     #  Checking if the question is actually a Amazon reply
     if question.startswith("Amazon"):
