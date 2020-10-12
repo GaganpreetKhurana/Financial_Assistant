@@ -205,10 +205,15 @@ def chat_web(question, user_id):
     if question.startswith("Transaction"):
         list_parse = question.split()
         print(list_parse)
-        if list_parse[3] == "Debit":
+
+        transaction_category = list_parse[2]
+        transaction_amount = list_parse[3]
+        transaction_description = list_parse[4]
+
+        if list_parse[1] == "Debit":
             print("Calling function to add debit to database")
 
-        if list_parse[3] == "Credit":
+        if list_parse[1] == "Credit":
             print("Calling function to add credit to database")
 
         return "Transaction Operation Successful!"
@@ -295,11 +300,11 @@ def chat_web(question, user_id):
     #  Transaction Functions
 
     if tag == "payments_debit":
-        answer += "\nPlease Reply the Category,Amount in the format 'Transaction *Category* *Amount* Dredit'"
+        answer += "\nPlease Reply the Category,Amount in the format 'Transaction Debit *Category* *Amount* *Description*'"
         print("Calling function to add debit to database")
 
     elif tag == "payments_credit":
-        answer += "\nPlease Reply the Category,Amount in the format 'Transaction *Category* *Amount* Credit'"
+        answer += "\nPlease Reply the Category,Amount in the format 'Transaction Credit *Category* *Amount* *Description*'"
         print("Calling function to add credit to database")
 
     #  Amazon Functions
