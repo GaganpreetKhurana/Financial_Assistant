@@ -1,22 +1,18 @@
-import nltk
-nltk.download('punkt')
-from nltk.stem.lancaster import LancasterStemmer
-from .AmazonPriceTracker import amazon_script
-from .StockTracker import stock_script
+import json
+import os
+import pickle
+import random
 import sqlite3
 
+import nltk
+import numpy
+from nltk.stem.lancaster import LancasterStemmer
+from tensorflow import keras
+
+from .AmazonPriceTracker import amazon_script
+from .StockTracker import stock_script
 
 stemmer = LancasterStemmer()
-
-import numpy
-import tensorflow
-from tensorflow import keras
-import random
-import json
-import pickle
-
-import os
-
 words = []
 labels = []
 docs_x = []  # pattern
@@ -49,7 +45,7 @@ except:
         if intent['tag'] not in labels:
             labels.append(intent['tag'])
 
-    ## Stemming the words eg thats -> that
+    # Stemming the words eg thats -> that
     words = [stemmer.stem(w.lower()) for w in words if w != "?"]
     # Sorting and unique
 
@@ -58,7 +54,7 @@ except:
     labels = sorted(labels)
 
     # One Hot Encoding 
-    training = []  ##bag of words one hot encoded
+    training = []  # bag of words one hot encoded
     output = []  # the length of the amount of labels/tags we have in our dataset
 
     out_empty = [0 for _ in range(len(labels))]
@@ -70,7 +66,7 @@ except:
 
         for w in words:
             if w in wrds:
-                bag.append(1)  ##updating the one hot encoding
+                bag.append(1)  # updating the one hot encoding
             else:
                 bag.append(0)
 
@@ -87,7 +83,6 @@ except:
     with open("data.pickle", "wb") as f:
         pickle.dump((words, labels, training, output), f)
 
-
 # Defining the tensorflow network
 model = keras.Sequential([
     keras.layers.Input(shape=(len(training[0], ))),
@@ -98,13 +93,13 @@ model = keras.Sequential([
 ])
 
 rel_path_model = 'model.chatbot'
-abs_path_model= os.path.join(parent_dir, rel_path_model)
+abs_path_model = os.path.join(parent_dir, rel_path_model)
 print(abs_path_model)
 
 model.summary()
 model.compile(optimizer='sgd',
-            loss='categorical_crossentropy',
-            metrics=['accuracy'])
+              loss='categorical_crossentropy',
+              metrics=['accuracy'])
 try:
     model.load(abs_path_model)
 except:
@@ -149,138 +144,131 @@ def chat():
         print(answer)
         print(tag)
 
-        if (tag == "payments_debit"):
+        if tag == "payments_debit":
             print("Calling function to add debit to database")
 
-        elif (tag == "payments_credit"):
+        elif tag == "payments_credit":
             print("Calling function to add credit to database")
 
-        elif (tag == "amazon_add"):
+        elif tag == "amazon_add":
             print("Calling function to add item to amazon wishlist")
 
-        elif (tag == "amazon_buy"):
+        elif tag == "amazon_buy":
             print("Calling function to add check status of amazon wishlist")
 
         else:
             print("No function to call")
 
 
-
-def fun(str):
+def fun(string):
     print("\n\nFunction called in chat bot")
-    return "Hello" + str
+    return "Hello" + string
 
 
-def chat_store(chatmessage,user_id):
+def chat_store(chatmessage, user_id):
     parent_dir = os.path.dirname(os.path.abspath(__file__))
     rel_path_db = 'chat_db'
     abs_path_db = os.path.join(parent_dir, rel_path_db)
-
 
     db_object = sqlite3.connect(abs_path_db)
     db = db_object.cursor()
     db.execute(
         "CREATE TABLE IF NOT EXISTS chat_store (id INTEGER PRIMARY KEY AUTOINCREMENT,chat_message LONGVARCHAR,userid LONGVARCHAR,createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)")
     sql = f"INSERT INTO chat_store (chat_message,userid) VALUES (\"{str(chatmessage)}\",\"{str(user_id)}\")"
-    ##print(sql)
+    # print(sql)
     db.execute(sql)
     db_object.commit()
     db_object.close()
 
 
-
-def chat_get(user_id,no_of_results):
-    ## Fethcing the chat from the database
+def chat_get(user_id, no_of_results):
+    #  Fethcing the chat from the database
     parent_dir = os.path.dirname(os.path.abspath(__file__))
     rel_path_db = 'chat_db'
     abs_path_db = os.path.join(parent_dir, rel_path_db)
 
-
     db_object = sqlite3.connect(abs_path_db)
     db = db_object.cursor()
     sql = f"SELECT chat_message FROM chat_store WHERE userid = \"{str(user_id)}\" ORDER BY createdAt LIMIT \"{str(no_of_results)}\""
-    ##print(sql)
+    # print(sql)
     db.execute(sql)
     results = db.fetchall()
-    ##print(results)
-    ##print(sql)
+    # print(results)
+    # print(sql)
     db_object.close()
 
     return str(results)
 
 
-
-def chat_web(question,user_id):
-## Checking if the question is actually a Transaction reply
-    if(question.startswith("Transaction")):
+def chat_web(question, user_id):
+    #  Checking if the question is actually a Transaction reply
+    if question.startswith("Transaction"):
         list_parse = question.split()
-
-        if(list_parse[3]== "Debit"):
+        print(list_parse)
+        if list_parse[3] == "Debit":
             print("Calling function to add debit to database")
 
-        if(list_parse[3]== "Credit"):
+        if list_parse[3] == "Credit":
             print("Calling function to add credit to database")
 
         return "Transaction Operation Successful!"
 
-## Checking if the question is actually a Amazon reply
-    if(question.startswith("Amazon")):
+    #  Checking if the question is actually a Amazon reply
+    if question.startswith("Amazon"):
         list_parse = question.split()
         chat_response = "Amazon Operation Successful! "
 
-        if(list_parse[1] == "Add"):
+        if list_parse[1] == "Add":
             url = list_parse[2]
-            chat_response += amazon_script.amazon_add_fun(url,user_id)
+            chat_response += amazon_script.amazon_add_fun(url, user_id)
 
-        if(list_parse[1] == "Buy"):
+        if list_parse[1] == "Buy":
             url = list_parse[2]
-            chat_response += amazon_script.amazon_buy_fun(url,user_id)
+            chat_response += amazon_script.amazon_buy_fun(url, user_id)
 
-        chat_store(chat_response,user_id)
+        chat_store(chat_response, user_id)
 
         return chat_response
 
-## Checking if the question is actually a Stock reply
+    #  Checking if the question is actually a Stock reply
 
-    if(question.startswith("Stock")):
+    if question.startswith("Stock"):
         list_parse = question.split()
         chat_response = "Stock Operation Successful! "
 
-        if(list_parse[1] == "info"):
+        if list_parse[1] == "info":
             stck = list_parse[2]
             chat_response += stock_script.StockInfo(stck)
 
-        if(list_parse[1] == "history"):
+        if list_parse[1] == "history":
             stck = list_parse[2]
             chat_response += stock_script.StockHistory(stck)
 
-        if(list_parse[1] == "buy"):
+        if list_parse[1] == "buy":
             stck = list_parse[2]
             amount = list_parse[3]
-            chat_response += stock_script.StockBuy(amount,stck,user_id)
+            chat_response += stock_script.StockBuy(amount, stck, user_id)
 
-        if(list_parse[1] == "sell"):
+        if list_parse[1] == "sell":
             stck = list_parse[2]
             amount = list_parse[3]
-            chat_response += stock_script.SellStock(amount,stck,user_id)
+            chat_response += stock_script.SellStock(amount, stck, user_id)
 
-        if(list_parse[1] == "predict"):
+        if list_parse[1] == "predict":
             stck = list_parse[2]
             chat_response += stock_script.StockHistoryPredict(stck)
 
-        if(list_parse[1] == "portfolio"):
-            
-            if(list_parse[2] == "info"):
+        if list_parse[1] == "portfolio":
+
+            if list_parse[2] == "info":
                 chat_response += stock_script.PortfolioSituation(user_id)
-            
-            if(list_parse[2] == "predict"): 
+
+            if list_parse[2] == "predict":
                 chat_response += stock_script.PortfolioPrediction(user_id)
-        
-        chat_store(chat_response,user_id)
+
+        chat_store(chat_response, user_id)
 
         return chat_response
-
-
 
     print("Please delete models and cache after editing intents.json!")
     print("Start talking with the bot (type quit to stop)!")
@@ -299,72 +287,68 @@ def chat_web(question,user_id):
 
     answer = random.choice(responses)
 
-    ##print(answer)
+    # print(answer)
     print(tag)
 
-    ## REplying user the instructions with matching tags
+    #  Replying user the instructions with matching tags
 
-    ## Transaction Functions
+    #  Transaction Functions
 
-    if (tag == "payments_debit"):
+    if tag == "payments_debit":
         answer += "\nPlease Reply the Category,Amount in the format 'Transaction *Category* *Amount* Dredit'"
         print("Calling function to add debit to database")
 
-    elif (tag == "payments_credit"):
+    elif tag == "payments_credit":
         answer += "\nPlease Reply the Category,Amount in the format 'Transaction *Category* *Amount* Credit'"
         print("Calling function to add credit to database")
 
-    ## Amazon Functions
+    #  Amazon Functions
 
-    
-    elif (tag == "amazon_add"):
+    elif tag == "amazon_add":
         answer += "\nPlease Reply the url of wishlist in the format 'Amazon Add *url*'"
         print("Calling function to add item to amazon wishlist")
 
-    elif (tag == "amazon_buy"):
+    elif tag == "amazon_buy":
         answer += "\nPlease Reply the url of wishlist in the format 'Amazon Buy *url*'"
         print("Calling function to add check status of amazon wishlist")
 
-    ## Stock Functions
-    
-    elif (tag == "stock_info"):
+    #  Stock Functions
+
+    elif tag == "stock_info":
         answer += "\nPlease Reply the stock name in the format 'Stock info *stock_name*'"
         print("Calling function to check info of stock")
 
-    elif (tag == "stock_history"):
+    elif tag == "stock_history":
         answer += "\nPlease Reply the stock name in the format 'Stock history *stock_name*'"
         print("Calling function to check history of stock")
 
-    elif (tag == "stock_buy"):
+    elif tag == "stock_buy":
         answer += "\nPlease Reply the stock name and amount in the format 'Stock buy *stock_name* *amount*'"
         print("Calling function to buy stock")
 
-    elif (tag == "stock_sell"):
+    elif tag == "stock_sell":
         answer += "\nPlease Reply the stock name and amount in the format 'Stock sell *stock_name* *amount*'"
         print("Calling function to sell stock")
 
-    elif (tag == "stock_predict"):
+    elif tag == "stock_predict":
         answer += "\nPlease Reply the stock name in the format 'Stock predict *stock_name*'"
         print("Calling function to predict stock price")
 
-    elif (tag == "stock_portfolio_info"):
+    elif tag == "stock_portfolio_info":
         answer += "\nPlease Reply  in the format 'Stock portfolio info'"
         print("Calling function to fetch Portfolio")
 
-    elif (tag == "stock_portfolio_prediction"):
+    elif tag == "stock_portfolio_prediction":
         answer += "\nPlease Reply  in the format 'Stock portfolio predict'"
         print("Calling function to predict Portfolio")
 
-    ## No functions found 
+    #  No functions found 
 
     else:
         print("No function to call")
 
-
-    chat_store(answer,'donna')
+    chat_store(answer, 'donna')
 
     return answer
 
-
-
-##print(stock_script.StockTest())
+# print(stock_script.StockTest())
