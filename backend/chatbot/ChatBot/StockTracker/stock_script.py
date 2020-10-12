@@ -63,7 +63,7 @@ def GetCurrentPrice(stck):
     return information["open"]
 
 
-def StockBuy(amount,stck):
+def StockBuy(amount,stck,user_id):
     ## Storing and buying the stock
     current_price = GetCurrentPrice(stck)
 
@@ -75,8 +75,8 @@ def StockBuy(amount,stck):
     db_object = sqlite3.connect(abs_path_db)
 
     db = db_object.cursor()
-    db.execute("CREATE TABLE IF NOT EXISTS owned_stock (id INTEGER PRIMARY KEY AUTOINCREMENT,owned_shares DECIMAL (5, 2) NOT NULL DEFAULT 0,current_price DECIMAL (5, 2) NOT NULL DEFAULT 0,stck LONGVARCHAR,createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)")
-    sql = f"INSERT INTO owned_stock (owned_shares,stck,current_price) VALUES (\"{str(amount)}\",\"{str(stck)}\",\"{str(current_price)}\")"
+    db.execute("CREATE TABLE IF NOT EXISTS owned_stock (id INTEGER PRIMARY KEY AUTOINCREMENT,owned_shares DECIMAL (5, 2) NOT NULL DEFAULT 0,current_price DECIMAL (5, 2) NOT NULL DEFAULT 0,stck LONGVARCHAR,userid LONGVARCHAR,createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)")
+    sql = f"INSERT INTO owned_stock (owned_shares,stck,current_price,userid) VALUES (\"{str(amount)}\",\"{str(stck)}\",\"{str(current_price)}\",\"{str(user_id)}\")"
     print(sql)
     db.execute(sql)
     db_object.commit()
@@ -85,7 +85,7 @@ def StockBuy(amount,stck):
     return "Stock Bought Successfully", current_price * amount
 
 
-def SellStock(amount,stck):
+def SellStock(amount,stck,user_id):
     current_price = GetCurrentPrice(stck)
 
     parent_dir = os.path.dirname(os.path.abspath(__file__))
@@ -96,7 +96,7 @@ def SellStock(amount,stck):
     db_object = sqlite3.connect(abs_path_db)
 
     db = db_object.cursor()
-    sql = f"SELECT owned_shares,stck,current_price FROM owned_stock WHERE stck = \"{str(stck)}\""
+    sql = f"SELECT owned_shares,stck,current_price FROM owned_stock WHERE (stck = \"{str(stck)}\" AND userid = \"{str(user_id)}\")"
     db.execute(sql)
     results = db.fetchall()
     print(results)
@@ -108,13 +108,13 @@ def SellStock(amount,stck):
 
     ## Committing to sql
     amount_left = results[0] - amount
-    sql = f"UPDATE owned_stock SET owned_shares = \"{str(amount_left)}\"  WHERE stck = \"{str(stck)}\""
+    sql = f"UPDATE owned_stock SET owned_shares = \"{str(amount_left)}\"  WHERE (stck = \"{str(stck)}\" AND userid = \"{str(user_id)}\")"
     db.execute(sql)
 
     return "Stock Sold Successfully", transaction_amount
 
 
-def PortfolioSituation():
+def PortfolioSituation(user_id):
     ## Returns status of each stock in portfolio as a list
 
 
@@ -126,7 +126,7 @@ def PortfolioSituation():
     db_object = sqlite3.connect(abs_path_db)
 
     db = db_object.cursor()
-    sql = f"SELECT owned_shares,stck,current_price,createdAt FROM owned_stock"
+    sql = f"SELECT owned_shares,stck,current_price,createdAt FROM owned_stock WHERE userid = \"{str(user_id)}\")"
     db.execute(sql)
     results = db.fetchall()
     ##print(results)
@@ -147,7 +147,7 @@ def PortfolioSituation():
     ##print(answer)
     return str1
 
-def PortfolioPrediction():
+def PortfolioPrediction(user_id):
     ## Returns prediction of each stock in portfolio as a list
 
 
@@ -159,7 +159,7 @@ def PortfolioPrediction():
     db_object = sqlite3.connect(abs_path_db)
 
     db = db_object.cursor()
-    sql = f"SELECT owned_shares,stck,current_price,createdAt FROM owned_stock"
+    sql = f"SELECT owned_shares,stck,current_price,createdAt FROM owned_stock WHERE userid = \"{str(user_id)}\")"
     db.execute(sql)
     results = db.fetchall()
     ##print(results)

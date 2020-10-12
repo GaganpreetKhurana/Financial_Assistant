@@ -171,7 +171,7 @@ def fun(str):
     return "Hello" + str
 
 
-def chat_web(question):
+def chat_web(question,user_id):
 ## Checking if the question is actually a Transaction reply
     if(question.startswith("Transaction")):
         list_parse = question.split()
