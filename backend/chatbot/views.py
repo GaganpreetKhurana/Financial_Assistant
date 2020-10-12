@@ -1,9 +1,12 @@
 from django.shortcuts import render
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+
 from .ChatBot import main
 
-print(main.chat_web("Hello"))
+
+# print(main.chat_web("Hello")) #fill user_id
 
 
 def button(request):
@@ -11,7 +14,7 @@ def button(request):
 
 
 def ChatAnsRequest(request):
-    chat_response = main.chat_web("Hi")
+    chat_response = main.chat_web("Hi")  # fill user_id
     print(chat_response)
     return render(request, 'chat.html', {'data': chat_response})
 
@@ -23,10 +26,11 @@ def ChatAnsRequest(request):
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def external(request):
-    user_id = "test_1"
+    user_id = request.user.id
     user_response = request.POST.get("content")
-    chat_response = main.chat_web(user_response,user_id)
+    chat_response = main.chat_web(user_response, user_id)
     data = {
         'self': False,
         'content': chat_response
