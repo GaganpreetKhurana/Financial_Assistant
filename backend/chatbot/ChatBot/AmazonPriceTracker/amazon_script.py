@@ -35,7 +35,7 @@ def currentPrice(url):
     return title, Fprice
 
 
-def storePrice(url, price):
+def storePrice(url, price,user_id):
     parent_dir = os.path.dirname(os.path.abspath(__file__))
     rel_path_db = 'amazon_db'
     abs_path_db = os.path.join(parent_dir, rel_path_db)
@@ -44,8 +44,8 @@ def storePrice(url, price):
     db_object = sqlite3.connect(abs_path_db)
     db = db_object.cursor()
     db.execute(
-        "CREATE TABLE IF NOT EXISTS product_prices (id INTEGER PRIMARY KEY AUTOINCREMENT,price DECIMAL (5, 2) NOT NULL DEFAULT 0,producturl LONGVARCHAR,createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)")
-    sql = f"INSERT INTO product_prices (price,producturl) VALUES (\"{str(price)}\",\"{url}\")"
+        "CREATE TABLE IF NOT EXISTS product_prices (id INTEGER PRIMARY KEY AUTOINCREMENT,price DECIMAL (5, 2) NOT NULL DEFAULT 0,producturl LONGVARCHAR,userid LONGVARCHAR,createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)")
+    sql = f"INSERT INTO product_prices (price,producturl,userid) VALUES (\"{str(price)}\",\"{url}\",\"{str(user_id)}\")"
     print(sql)
     db.execute(sql)
     db_object.commit()
@@ -59,14 +59,14 @@ def priceDropStatic(price, preset_target):
         print("Not a good time to buy the item")
 
 
-def getPastPrice(url):
+def getPastPrice(url,user_id):
     parent_dir = os.path.dirname(os.path.abspath(__file__))
     rel_path_db = 'amazon_db'
     abs_path_db = os.path.join(parent_dir, rel_path_db)
 
     db_object = sqlite3.connect(abs_path_db)
     db = db_object.cursor()
-    sql = f"SELECT price,createdAt FROM product_prices WHERE producturl = \"{str(url)}\" ORDER BY createdAt"
+    sql = f"SELECT price,createdAt FROM product_prices WHERE (producturl = \"{str(url)}\" AND userid = \"{str(user_id)}\") ORDER BY createdAt"
     print(sql)
     db.execute(sql)
     results = db.fetchall()
@@ -164,7 +164,7 @@ def amazon_buy_fun(url):
 
 ## Testing fetching of url
 
-url = "https://www.amazon.in/INNO3D-NVIDIA-GEFORCE-Gaming-Graphic/dp/B07V6V68YF"
+##url = "https://www.amazon.in/INNO3D-NVIDIA-GEFORCE-Gaming-Graphic/dp/B07V6V68YF"
 ##title,price = currentPrice(url)
 ##print(title,price)
 
@@ -182,4 +182,4 @@ url = "https://www.amazon.in/INNO3D-NVIDIA-GEFORCE-Gaming-Graphic/dp/B07V6V68YF"
 ##print(amazon_buy_fun(url))
 
 
-FileTest(url)
+##FileTest(url)

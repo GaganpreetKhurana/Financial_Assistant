@@ -3,7 +3,7 @@ nltk.download('punkt')
 from nltk.stem.lancaster import LancasterStemmer
 from .AmazonPriceTracker import amazon_script
 from .StockTracker import stock_script
-
+import sqlite3
 
 
 stemmer = LancasterStemmer()
@@ -171,7 +171,46 @@ def fun(str):
     return "Hello" + str
 
 
-def chat_web(question):
+def chat_store(chatmessage,user_id):
+    parent_dir = os.path.dirname(os.path.abspath(__file__))
+    rel_path_db = 'chat_db'
+    abs_path_db = os.path.join(parent_dir, rel_path_db)
+
+
+    db_object = sqlite3.connect(abs_path_db)
+    db = db_object.cursor()
+    db.execute(
+        "CREATE TABLE IF NOT EXISTS chat_store (id INTEGER PRIMARY KEY AUTOINCREMENT,chat_message LONGVARCHAR,userid LONGVARCHAR,createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)")
+    sql = f"INSERT INTO chat_store (chat_message,userid) VALUES (\"{str(chatmessage)}\",\"{str(user_id)}\")"
+    ##print(sql)
+    db.execute(sql)
+    db_object.commit()
+    db_object.close()
+
+
+
+def chat_get(user_id,no_of_results):
+    ## Fethcing the chat from the database
+    parent_dir = os.path.dirname(os.path.abspath(__file__))
+    rel_path_db = 'chat_db'
+    abs_path_db = os.path.join(parent_dir, rel_path_db)
+
+
+    db_object = sqlite3.connect(abs_path_db)
+    db = db_object.cursor()
+    sql = f"SELECT chat_message FROM chat_store WHERE userid = \"{str(user_id)}\" ORDER BY createdAt LIMIT \"{str(no_of_results)}\""
+    ##print(sql)
+    db.execute(sql)
+    results = db.fetchall()
+    ##print(results)
+    ##print(sql)
+    db_object.close()
+
+    return str(results)
+
+
+
+def chat_web(question,user_id):
 ## Checking if the question is actually a Transaction reply
     if(question.startswith("Transaction")):
         list_parse = question.split()
@@ -191,11 +230,13 @@ def chat_web(question):
 
         if(list_parse[1] == "Add"):
             url = list_parse[2]
-            chat_response += amazon_script.amazon_add_fun(url)
+            chat_response += amazon_script.amazon_add_fun(url,user_id)
 
         if(list_parse[1] == "Buy"):
             url = list_parse[2]
-            chat_response += amazon_script.amazon_buy_fun(url)
+            chat_response += amazon_script.amazon_buy_fun(url,user_id)
+
+        chat_store(chat_response,user_id)
 
         return chat_response
 
@@ -216,12 +257,12 @@ def chat_web(question):
         if(list_parse[1] == "buy"):
             stck = list_parse[2]
             amount = list_parse[3]
-            chat_response += stock_script.StockBuy(amount,stck)
+            chat_response += stock_script.StockBuy(amount,stck,user_id)
 
         if(list_parse[1] == "sell"):
             stck = list_parse[2]
             amount = list_parse[3]
-            chat_response += stock_script.SellStock(amount,stck)
+            chat_response += stock_script.SellStock(amount,stck,user_id)
 
         if(list_parse[1] == "predict"):
             stck = list_parse[2]
@@ -230,12 +271,13 @@ def chat_web(question):
         if(list_parse[1] == "portfolio"):
             
             if(list_parse[2] == "info"):
-                chat_response += stock_script.PortfolioSituation()
+                chat_response += stock_script.PortfolioSituation(user_id)
             
             if(list_parse[2] == "predict"): 
-                chat_response += stock_script.PortfolioPrediction()
+                chat_response += stock_script.PortfolioPrediction(user_id)
         
-        
+        chat_store(chat_response,user_id)
+
         return chat_response
 
 
@@ -317,6 +359,9 @@ def chat_web(question):
 
     else:
         print("No function to call")
+
+
+    chat_store(answer,'donna')
 
     return answer
 

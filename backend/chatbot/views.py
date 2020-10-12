@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
 from .ChatBot import main
 
 print(main.chat_web("Hello"))
@@ -25,8 +24,9 @@ def ChatAnsRequest(request):
 
 @api_view(['POST'])
 def external(request):
+    user_id = "test_1"
     user_response = request.POST.get("content")
-    chat_response = main.chat_web(user_response)
+    chat_response = main.chat_web(user_response,user_id)
     data = {
         'self': False,
         'content': chat_response
