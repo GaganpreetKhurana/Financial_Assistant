@@ -30,7 +30,7 @@ def ChatAnsRequest(request):
 def external(request):
     user_id = request.user.id
     user_response = request.POST.get("content")
-    chat_response = main.chat_web(user_response, user_id)
+    chat_response = main.chat_web(user_response, user_id,request)
     data = {
         'self': False,
         'content': chat_response
