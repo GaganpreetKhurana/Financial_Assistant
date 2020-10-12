@@ -12,7 +12,7 @@ Run the backend and the frontend server to start the project.
   <li>Change directory to backend  <b>cd backend</b></li>
   <li>Give command <b>python manage.py runserver</b> to run the backend server. </li>
 </ul>
-## Frontend
+<h2>Frontend</h2>
 <ul>
   <li>Change directory to frontend  <b>cd frontend</b></li>
   <li>Give command <b>npm install</b> to install the required dependencies.</li>
