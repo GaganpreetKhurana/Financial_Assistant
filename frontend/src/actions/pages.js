@@ -327,3 +327,43 @@ export function addChatMessage(msg)
         chatMsg:msg
     };
 }
+
+export function newMessage(typedMessage,self)
+{
+    return (dispatch) => {
+        var success =  false;
+        const url = '/external/';
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization:`Bearer ${localStorage.getItem('DONNA')}`
+            },
+            body: getFormBody({
+                content:typedMessage,
+                self
+                }),
+        })
+            .then((response) => 
+            {
+                if(response.status === 200){
+                success=true;
+                return response.json();     
+            }else{
+                return response.json();
+            }})
+            .then((data) => {
+                //console.log(data);
+                
+                if (success) {
+                    dispatch(addChatMessage(data));
+                    return;
+                }
+                else{
+                    return;
+                }
+                
+            });
+    };
+
+}

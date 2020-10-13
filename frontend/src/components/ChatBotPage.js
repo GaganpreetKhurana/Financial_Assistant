@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-import { addChatMessage} from "../actions/pages";
+import { addChatMessage,newMessage} from "../actions/pages";
 
 import ChatMessage from './ChatMessage';
 
@@ -13,7 +13,7 @@ class ChatBotPage extends Component {
         typedMessage: '',
       };
     }
-    //fetch past messages from the chatbot as well as first message to begin conversation
+    //fetch past messages from the chatbot
     componentDidMount(){ 
 
     }
@@ -29,6 +29,8 @@ class ChatBotPage extends Component {
         if (typedMessage) {
             var new_message={content:typedMessage,self:true};
             this.props.dispatch(addChatMessage(new_message));
+            var self =true;
+            this.props.dispatch(newMessage(typedMessage,self));
             this.setState = ({
                 typedMessage: '',
               });

@@ -33,18 +33,7 @@ const initialTransactionState = {
     update:null,
     stock:false,
     amazon:false,
-    messages: [{content:"Hii Test_1,Donna this side...",self:false},
-        {content:"Hii Donna, Nice to meet you",self:true},
-        {content:"So how can I help you ?",self:false},
-        {content:"Actually I was looking to buy a Titan watch... So if you could show me the best price available on amazon",self:true},
-        {content:"Sure why not..",self:false},
-        {content:"So Titan watches start from Rs 2000 and goes upto Rs 100000",self:false},
-        {content:"I think according to your current budget and your lavishing lifestyle the one around Rs 25000 would suit you better",self:false},
-        {content:"Hmmm that's a bit expensive",self:true},
-        {content:"I was looking to spend around 10000 or so..",self:true},
-        {content:"Ohh then you should go with 9499 one it covers most of the functionalities and will also suit your budget...",self:false},
-        {content:"Yaa that's interesting I would definately go with that one... Bye bye Donna",self:true},
-        {content:"Welcome test_1... Looking forward to help you out in future as well",self:false}]
+    messages: []
 };
 
 export default function transaction(state = initialTransactionState, action) {
@@ -159,7 +148,7 @@ export default function transaction(state = initialTransactionState, action) {
         case ADD_CHAT_MESSAGE:
             return {
                 ...state,
-                messages:[...initialTransactionState.messages,action.chatMsg]
+                messages:[...state.messages,action.chatMsg]
             }
         default:
             return state;
