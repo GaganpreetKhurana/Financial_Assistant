@@ -176,7 +176,7 @@ def fun(string):
     return "Hello" + string
 
 
-def chat_store(chatmessage, user_id):
+def chat_store(chatmessage, user_id,sender):
     parent_dir = os.path.dirname(os.path.abspath(__file__))
     rel_path_db = 'chat_db'
     abs_path_db = os.path.join(parent_dir, rel_path_db)
@@ -185,8 +185,8 @@ def chat_store(chatmessage, user_id):
     db = db_object.cursor()
     db.execute(
         "CREATE TABLE IF NOT EXISTS chat_store (id INTEGER PRIMARY KEY AUTOINCREMENT,chat_message LONGVARCHAR,"
-        "userid LONGVARCHAR,createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)")
-    sql = f"INSERT INTO chat_store (chat_message,userid) VALUES (\"{str(chatmessage)}\",\"{str(user_id)}\")"
+        "userid LONGVARCHAR,sender LONGVARCHAR,createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)")
+    sql = f"INSERT INTO chat_store (chat_message,userid,sender) VALUES (\"{str(chatmessage)}\",\"{str(user_id)}\",\"{str(sender)}\")"
     # print(sql)
     db.execute(sql)
     db_object.commit()
@@ -201,7 +201,9 @@ def chat_get(user_id, no_of_results):
 
     db_object = sqlite3.connect(abs_path_db)
     db = db_object.cursor()
-    sql = f"SELECT chat_message FROM chat_store WHERE userid = \"{str(user_id)}\" ORDER BY createdAt LIMIT \"{str(no_of_results)}\""
+
+    chat_bot = "donna"
+    sql = f"SELECT chat_message,sender FROM chat_store WHERE (userid = \"{str(user_id)}\" OR userid = \"{str(chat_bot)}\") ORDER BY createdAt LIMIT \"{str(no_of_results)}\""
     # print(sql)
     db.execute(sql)
     results = db.fetchall()
@@ -231,10 +233,16 @@ def chat_web(question, user_id, request):
         print("Calling function to add transaction to database")
         response = requests.post(url="http://127.0.0.1:8000/create_transaction", data=data_bot,
                                  headers=header)
+        
+        chat_response = ""
+
         if response.status_code == 201:
-            return "Transaction Operation Successful!"
+            chat_response += "Transaction Operation Successful!"
         else:
-            return "Transaction Operation Unsuccessful!"
+            chat_response += "Transaction Operation Unsuccessful!"
+
+        chat_store(chat_response, user_id,'True')
+        return chat_response
 
     #  Checking if the question is actually a Amazon reply
     if question.startswith("Amazon"):
@@ -249,7 +257,7 @@ def chat_web(question, user_id, request):
             url = list_parse[2]
             chat_response += amazon_script.amazon_buy_fun(url, user_id)
 
-        chat_store(chat_response, user_id)
+        chat_store(chat_response, user_id,'True')
 
         return chat_response
 
@@ -289,7 +297,7 @@ def chat_web(question, user_id, request):
             if list_parse[2] == "predict":
                 chat_response += stock_script.PortfolioPrediction(user_id)
 
-        chat_store(chat_response, user_id)
+        chat_store(chat_response, user_id,'True')
 
         return chat_response
 
@@ -372,7 +380,7 @@ def chat_web(question, user_id, request):
     else:
         print("No function to call")
 
-    chat_store(answer, 'donna')
+    chat_store(answer, 'donna','False')
 
     return answer
 

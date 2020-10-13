@@ -48,6 +48,6 @@ def get_previous_chats(request):
     for message in chat_response:
         data.append({
             'content': message[0],
-            # 'self': message[1],
+            'self': message[1],
         })
     return Response(data)
