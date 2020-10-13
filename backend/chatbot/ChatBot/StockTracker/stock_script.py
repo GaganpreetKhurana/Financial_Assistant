@@ -126,7 +126,7 @@ def PortfolioSituation(user_id):
     db_object = sqlite3.connect(abs_path_db)
 
     db = db_object.cursor()
-    sql = f"SELECT owned_shares,stck,current_price,createdAt FROM owned_stock WHERE userid = \"{str(user_id)}\")"
+    sql = f"SELECT owned_shares,stck,current_price,createdAt FROM owned_stock WHERE userid = \"{str(user_id)}\""
     db.execute(sql)
     results = db.fetchall()
     ##print(results)
@@ -159,7 +159,7 @@ def PortfolioPrediction(user_id):
     db_object = sqlite3.connect(abs_path_db)
 
     db = db_object.cursor()
-    sql = f"SELECT owned_shares,stck,current_price,createdAt FROM owned_stock WHERE userid = \"{str(user_id)}\")"
+    sql = f"SELECT owned_shares,stck,current_price,createdAt FROM owned_stock WHERE userid = \"{str(user_id)}\""
     db.execute(sql)
     results = db.fetchall()
     ##print(results)
@@ -179,18 +179,3 @@ def PortfolioPrediction(user_id):
     str1 = ''.join(str(e) for e in answer)
     ##print(answer)
     return str1
-
-
-
-##stck = "amd"
-##print(stock_info(stck))
-
-##stock_history(stck,10)
-
-##stock_history_predict(stck)
-
-
-##anslist = PortfolioSituation()
-##print(ans_list)
-##PortfolioPrediction()
-
