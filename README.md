@@ -69,10 +69,10 @@
 
 **Planned and in Progress** 
 
-- Visualization of User data
-- Improvement/COmpletion of UI, e.g., Home page
+- Visualization of user data
+- Improvement/Completion of UI, e.g., Home page
 - Assessing the feature for voice-based interaction through Text to speech 
-- Assessing multilingual interaction
+- Adding multilingual interaction
 
 ---
 
@@ -91,7 +91,7 @@
 
 **Project Discussion**
 
-- Our Preliminary domain had shortlisted to a web and ml based project
+- Our Preliminary domain was shortlisted to a web and ml based project
 - Among many other ideas, we decided to build an application which helps a user keep track of all their financial expenditures
 
 ---
