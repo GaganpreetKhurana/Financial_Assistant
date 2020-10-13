@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-import { addChatMessage,newMessage} from "../actions/pages";
+import { addChatMessage,newMessage,pastMessages} from "../actions/pages";
 
 import ChatMessage from './ChatMessage';
 
@@ -10,11 +10,12 @@ class ChatBotPage extends Component {
       super(props);
   
       this.state = {
-        typedMessage: '',
+        typedMessage:"",
       };
     }
     //fetch past messages from the chatbot
     componentDidMount(){ 
+      this.props.dispatch(pastMessages());
 
     }
 
@@ -31,11 +32,12 @@ class ChatBotPage extends Component {
             this.props.dispatch(addChatMessage(new_message));
             var self =true;
             this.props.dispatch(newMessage(typedMessage,self));
-            this.setState = ({
-                typedMessage: '',
-              });
+            
 
         }
+        this.setState({
+          typedMessage: "",
+        });
     };
     render() {
       const {messages} = this.props.details;

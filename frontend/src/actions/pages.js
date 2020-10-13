@@ -15,7 +15,8 @@ import {
     FETCH_TRANSACTION_START,
     DELETE_SUCCESS_TRANSACTION,
     DELETE_FAILURE_TRANSACTION,
-    ADD_CHAT_MESSAGE
+    ADD_CHAT_MESSAGE,
+    DISPLAY_CHAT_MESSAGE
 } from './actionTypes';
 
 
@@ -327,7 +328,13 @@ export function addChatMessage(msg)
         chatMsg:msg
     };
 }
-
+export function displayChatMessage(msg)
+{
+    return {
+        type:DISPLAY_CHAT_MESSAGE,
+        chatMsg:msg
+    };
+}
 export function newMessage(typedMessage,self)
 {
     return (dispatch) => {
@@ -357,6 +364,45 @@ export function newMessage(typedMessage,self)
                 
                 if (success) {
                     dispatch(addChatMessage(data));
+                    return;
+                }
+                else{
+                    return;
+                }
+                
+            });
+    };
+
+}
+
+
+export function pastMessages()
+{
+    return (dispatch) => {
+        var success =  false;
+        const url = '/old/';
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization:`Bearer ${localStorage.getItem('DONNA')}`
+            },
+            body: getFormBody({
+                results:100,
+                
+                }),
+        })
+            .then((response) => 
+            {
+                if(response.status === 200){
+                success=true;
+                return response.json();     
+            }else{
+                return response.json();
+            }})
+            .then((data) => {
+                if (success) {
+                    dispatch(displayChatMessage(data));
                     return;
                 }
                 else{

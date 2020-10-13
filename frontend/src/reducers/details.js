@@ -15,7 +15,8 @@ const {
     UPDATE_FAILURE_TRANSACTION,
     DELETE_SUCCESS_TRANSACTION,
     DELETE_FAILURE_TRANSACTION,
-    ADD_CHAT_MESSAGE
+    ADD_CHAT_MESSAGE,
+    DISPLAY_CHAT_MESSAGE
 } = require("../actions/actionTypes");
 
 
@@ -145,6 +146,12 @@ export default function transaction(state = initialTransactionState, action) {
                 error:action.error,
                 success:null
             }
+        case DISPLAY_CHAT_MESSAGE:
+            return {
+                ...state,
+                messages:action.chatMsg
+            }
+
         case ADD_CHAT_MESSAGE:
             return {
                 ...state,
