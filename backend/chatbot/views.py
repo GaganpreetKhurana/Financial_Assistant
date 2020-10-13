@@ -46,8 +46,11 @@ def get_previous_chats(request):
     chat_response = main.chat_get(user_id, no_of_results)
     data = []
     for message in chat_response:
+        sender = False
+        if message[1] == "True":
+            sender = True
         data.append({
             'content': message[0],
-            'self': message[1],
+            'self': sender
         })
     return Response(data)

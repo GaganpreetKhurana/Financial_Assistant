@@ -176,7 +176,7 @@ def fun(string):
     return "Hello" + string
 
 
-def chat_store(chatmessage, user_id,sender):
+def chat_store(chatmessage, user_id, sender):
     parent_dir = os.path.dirname(os.path.abspath(__file__))
     rel_path_db = 'chat_db'
     abs_path_db = os.path.join(parent_dir, rel_path_db)
@@ -215,6 +215,7 @@ def chat_get(user_id, no_of_results):
 
 
 def chat_web(question, user_id, request):
+    chat_store(question, user_id, 'True')
     #  Checking if the question is actually a Transaction reply
     if question.startswith("Transaction"):
         list_parse = question.split()
@@ -233,7 +234,7 @@ def chat_web(question, user_id, request):
         print("Calling function to add transaction to database")
         response = requests.post(url="http://127.0.0.1:8000/create_transaction", data=data_bot,
                                  headers=header)
-        
+
         chat_response = ""
 
         if response.status_code == 201:
@@ -241,7 +242,7 @@ def chat_web(question, user_id, request):
         else:
             chat_response += "Transaction Operation Unsuccessful!"
 
-        chat_store(chat_response, user_id,'True')
+        chat_store(chat_response, 'donna', 'False')
         return chat_response
 
     #  Checking if the question is actually a Amazon reply
@@ -257,7 +258,7 @@ def chat_web(question, user_id, request):
             url = list_parse[2]
             chat_response += amazon_script.amazon_buy_fun(url, user_id)
 
-        chat_store(chat_response, user_id,'True')
+        chat_store(chat_response, 'donna', 'False')
 
         return chat_response
 
@@ -297,7 +298,7 @@ def chat_web(question, user_id, request):
             if list_parse[2] == "predict":
                 chat_response += stock_script.PortfolioPrediction(user_id)
 
-        chat_store(chat_response, user_id,'True')
+        chat_store(chat_response, 'donna', 'False')
 
         return chat_response
 
@@ -380,7 +381,7 @@ def chat_web(question, user_id, request):
     else:
         print("No function to call")
 
-    chat_store(answer, 'donna','False')
+    chat_store(answer, 'donna', 'False')
 
     return answer
 
