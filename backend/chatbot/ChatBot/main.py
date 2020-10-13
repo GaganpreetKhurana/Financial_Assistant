@@ -184,7 +184,8 @@ def chat_store(chatmessage, user_id):
     db_object = sqlite3.connect(abs_path_db)
     db = db_object.cursor()
     db.execute(
-        "CREATE TABLE IF NOT EXISTS chat_store (id INTEGER PRIMARY KEY AUTOINCREMENT,chat_message LONGVARCHAR,userid LONGVARCHAR,createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)")
+        "CREATE TABLE IF NOT EXISTS chat_store (id INTEGER PRIMARY KEY AUTOINCREMENT,chat_message LONGVARCHAR,"
+        "userid LONGVARCHAR,createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)")
     sql = f"INSERT INTO chat_store (chat_message,userid) VALUES (\"{str(chatmessage)}\",\"{str(user_id)}\")"
     # print(sql)
     db.execute(sql)
@@ -193,10 +194,10 @@ def chat_store(chatmessage, user_id):
 
 
 def chat_get(user_id, no_of_results):
-    #  Fethcing the chat from the database
-    parent_dir = os.path.dirname(os.path.abspath(__file__))
+    #  Fetching the chat from the database
+    parent_directory = os.path.dirname(os.path.abspath(__file__))
     rel_path_db = 'chat_db'
-    abs_path_db = os.path.join(parent_dir, rel_path_db)
+    abs_path_db = os.path.join(parent_directory, rel_path_db)
 
     db_object = sqlite3.connect(abs_path_db)
     db = db_object.cursor()
@@ -207,8 +208,8 @@ def chat_get(user_id, no_of_results):
     # print(results)
     # print(sql)
     db_object.close()
-
-    return str(results)
+    # for
+    return results
 
 
 def chat_web(question, user_id, request):
@@ -317,11 +318,13 @@ def chat_web(question, user_id, request):
     #  Transaction Functions
 
     if tag == "payments_debit":
-        answer += "\nPlease Reply the Category,Amount in the format 'Transaction Debit *Category* *Amount* *Description*'"
+        answer += "\nPlease Reply the Category,Amount in the format 'Transaction Debit *Category* *Amount* " \
+                  "*Description*' "
         print("Calling function to add debit to database")
 
     elif tag == "payments_credit":
-        answer += "\nPlease Reply the Category,Amount in the format 'Transaction Credit *Category* *Amount* *Description*'"
+        answer += "\nPlease Reply the Category,Amount in the format 'Transaction Credit *Category* *Amount* " \
+                  "*Description*' "
         print("Calling function to add credit to database")
 
     #  Amazon Functions
