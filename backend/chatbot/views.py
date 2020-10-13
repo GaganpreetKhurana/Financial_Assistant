@@ -30,9 +30,24 @@ def ChatAnsRequest(request):
 def external(request):
     user_id = request.user.id
     user_response = request.POST.get("content")
-    chat_response = main.chat_web(user_response, user_id,request)
+    chat_response = main.chat_web(user_response, user_id, request)
     data = {
         'self': False,
         'content': chat_response
     }
+    return Response(data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def get_previous_chats(request):
+    user_id = request.user.id
+    no_of_results = request.POST.get("results")
+    chat_response = main.chat_get(user_id, no_of_results)
+    data = []
+    for message in chat_response:
+        data.append({
+            'content': message[0],
+            'self': message[1],
+        })
     return Response(data)
