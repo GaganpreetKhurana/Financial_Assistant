@@ -42,6 +42,7 @@
             <li><h4>Backend</h4>
             <ol>
               <li>Give command <code> pip install -r requirements.txt</code> to install the required dependencies.</li>
+              <li>Run <code> setup.py </code> </li>
               <li>Change directory to backend  <code>cd backend</code></li>
               <li>Give command <code>python manage.py runserver</code> to run the backend server. </li>
             </ol></li>
