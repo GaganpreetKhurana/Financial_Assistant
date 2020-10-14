@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -39,6 +38,32 @@ def get_previous_chats(request):
     return Response(data)
 
 
-user_id = 2
-print(stock_api.stock_list(user_id))
-print(amazon_api.amazon_wishlist(user_id))
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def stock_list_view(request):
+    stocks = stock_api.stock_list(request.user.id)
+    data = []
+    for stock in stocks:
+        data.append({
+            'owned': stock[0],
+            'stock': stock[1],
+            'current_price': stock[2],
+            'createdAt': stock[3]
+        })
+    # print(data)
+    return Response(data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def amazon_wishlist_view(request):
+    wishlist = amazon_api.amazon_wishlist(request.user.id)
+    data = []
+    for item in wishlist:
+        data.append({
+            'price': item[0],
+            'createdAt': item[1],
+            'url': item[2],
+        })
+    # print(data)
+    return Response(data)
