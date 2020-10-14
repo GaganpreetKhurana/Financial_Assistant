@@ -4,25 +4,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .ChatBot import main
-
-
-# print(main.chat_web("Hello")) #fill user_id
-
-
-def button(request):
-    return render(request, 'chat.html')
-
-
-def ChatAnsRequest(request):
-    chat_response = main.chat_web("Hi")  # fill user_id
-    print(chat_response)
-    return render(request, 'chat.html', {'data': chat_response})
-
-
-# def external(request):
-#     inp = request.POST.get('param')
-#     chat_response = main.chat_web(inp)
-#     return render(request, 'chat.html', {'data1': chat_response})
+from .ChatBot.AmazonPriceTracker import amazon_api
+from .ChatBot.StockTracker import stock_api
 
 
 @api_view(['POST'])
@@ -54,3 +37,8 @@ def get_previous_chats(request):
             'self': sender
         })
     return Response(data)
+
+
+user_id = 2
+print(stock_api.stock_list(user_id))
+print(amazon_api.amazon_wishlist(user_id))

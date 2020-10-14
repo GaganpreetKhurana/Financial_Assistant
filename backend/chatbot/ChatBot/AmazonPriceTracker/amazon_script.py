@@ -121,14 +121,14 @@ def priceDropPrediction(url, target):
         print("\n\nGood time to buy the product, It is expected to Increase soon")
 
 
-def amazon_add_fun(url):
+def amazon_add_fun(url,user_id):
     title,price = currentPrice(url)
-    storePrice(url,price)
-    return "Added Amazon Tracking for item " + title + " With current price " + price
+    storePrice(url,price,user_id)
+    return "Added Amazon Tracking for item " + title + " With current price " + str(price)
 
 
-def amazon_buy_fun(url):
-    past_price = getPastPrice(url)
+def amazon_buy_fun(url,user_id):
+    past_price = getPastPrice(url,user_id)
     for r in past_price:
         print(r)
     X = np.array(past_price)[:, 0].reshape(-1, 1)
@@ -162,6 +162,30 @@ def amazon_buy_fun(url):
     return chat_response
 
 
+def amazon_wishlist(user_id):
+    parent_dir = os.path.dirname(os.path.abspath(__file__))
+    rel_path_db = 'amazon_db'
+    abs_path_db = os.path.join(parent_dir, rel_path_db)
+
+    db_object = sqlite3.connect(abs_path_db)
+    db = db_object.cursor()
+    sql = f"SELECT price,createdAt,producturl FROM product_prices WHERE userid = \"{str(user_id)}\" ORDER BY createdAt"
+    print(sql)
+    db.execute(sql)
+    results = db.fetchall()
+    print(results)
+    
+    for r in range(len(results)):
+        results[r] = list(results[r])
+
+    for r in range(len(results)):
+        tmp = results[r][2]
+        title,price = currentPrice(tmp)
+        results[r][2] =  title
+
+    db_object.close()
+    return results
+    
 ## Testing fetching of url
 
 ##url = "https://www.amazon.in/INNO3D-NVIDIA-GEFORCE-Gaming-Graphic/dp/B07V6V68YF"
