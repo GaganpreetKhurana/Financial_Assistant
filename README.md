@@ -8,8 +8,8 @@
 ### Developers:
 
 - Vishal Thakur - 18103007
-- Gaganpreet Khurana - 18103032
-- Shayan Yaseen - 18103033
+- Shayan Yaseen - 18103032
+- Gaganpreet Singh Khurana - 18103033
 - Akshit Garg - 18103042
 
 ## Documentation:
@@ -29,6 +29,9 @@
     <ul>
     <li><h3>Batch Scripts</h3>
     <ul>
+        <h2>Linux</h2>
+        Run the makefile
+        <h2>Windows</h2>
         <li>
             <b>SETUP</b>
             - Run <code>install_requirements.bat</code> to setup the environment and install necessary packages.</li>
@@ -42,7 +45,6 @@
             <li><h4>Backend</h4>
             <ol>
               <li>Give command <code> pip install -r requirements.txt</code> to install the required dependencies.</li>
-              <li>Run <code> setup.py </code> </li>
               <li>Change directory to backend  <code>cd backend</code></li>
               <li>Give command <code>python manage.py runserver</code> to run the backend server. </li>
             </ol></li>
