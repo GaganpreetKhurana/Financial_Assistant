@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import transaction
+from django.utils.datetime_safe import datetime
 from rest_framework import serializers
 
 from .models import Detail, Transaction, categories
@@ -54,10 +55,11 @@ class FinancialDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Detail
         fields = (
-            'username', 'income', 'savings', 'totalExpenditure', 'housing', 'food', 'healthcare', 'transportation',
+            'username', 'income', 'savings', 'totalExpenditure', 'housing', 'food', 'healthcare',
+            'transportation',
             'recreation',
-            'miscellaneous', 'totalTransactions')
-        read_only_fields = ['username', 'savings', 'totalExpenditure', 'totalTransactions']
+            'miscellaneous', 'totalTransactions', 'date_created')
+        read_only_fields = ['username', 'savings', 'totalExpenditure', 'totalTransactions', 'date_created']
 
 
 class TransactionSerializer(serializers.ModelSerializer):
@@ -66,8 +68,8 @@ class TransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transaction
-        fields = ('id', 'username', 'amount', 'time', 'category', 'description','credit')
-        read_only_fields = ['id', 'username', 'amount', 'time', 'category', 'description','credit']
+        fields = ('id', 'username', 'amount', 'time', 'last_updated', 'category', 'description', 'credit')
+        read_only_fields = ['id', 'username', 'amount', 'time', 'last_updated', 'category', 'description', 'credit']
 
 
 class CreateTransactionSerializer(serializers.ModelSerializer):
@@ -75,14 +77,21 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transaction
-        fields = ('amount', 'time', 'category', 'description', 'credit')
-        read_only_fields = ['time']
+        fields = ('user', 'amount', 'time', 'last_updated', 'category', 'description', 'credit')
+        read_only_fields = ['user', 'time', 'last_updated']
         extra_kwargs = {'amount': {'required': True}, 'category': {'required': True}, 'credit': {'required': True}}
 
     @transaction.atomic
     def save(self, **kwargs):
-        details = Detail.objects.filter(user=self.context.get('request').user)
-        details = details[0]
+        month = datetime.now().month
+        year = datetime.now().year
+        details = Detail.objects.filter(user=self.context.get('request').user,
+                                        date_created__month=month,
+                                        date_created__year=year)
+        if len(details) == 0:
+            details = Detail(user=self.context.get('request').user)
+        else:
+            details = details[0]
         transaction_new = Transaction(user=self.context.get('request').user,
                                       amount=self.validated_data['amount'],
                                       type=self.validated_data['category'],
@@ -120,14 +129,18 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transaction
-        fields = ('amount', 'time', 'category', 'description', 'credit')
-        read_only_fields = ['time']
+        fields = ('user', 'amount', 'time', 'last_updated', 'category', 'description', 'credit')
+        read_only_fields = ['user', 'time', 'last_updated']
         extra_kwargs = {'amount': {'required': True}, 'category': {'required': True}, 'credit': {'required': True}}
 
     @transaction.atomic
     def update(self, instance, validated_data):
 
-        details = Detail.objects.filter(user=self.context.get('request').user)
+        month = instance.get_month
+        year = instance.get_year
+        details = Detail.objects.filter(user=self.context.get('request').user,
+                                        date_created__month=month,
+                                        date_created__year=year)
         details = details[0]
         factor = 1
         if validated_data['credit'] is False:
