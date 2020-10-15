@@ -25,14 +25,16 @@
 ## Run Instructions
 <ol>
     <li>Clone the repository.</li>
-    <li>Run the backend and the frontend server to start the project.
+    <li>Run the backend, and the frontend server to start the project.
     <ul>
     <li><h3>Batch Scripts</h3>
     <ul>
         <h2>Linux</h2>
         <li>
             <b>SETUP</b>
-            - Run <code>make install</code> in bash shell to setup the environment and install necessary packages.</li>
+            - Install python3-venv on Debian base <code>sudo apt install python3-venv</code>
+            - Create python3-venv in the backend using <code>sudo python3 -m venv backend/venv</code>
+            - Run <code>sudo make install</code> in bash shell to set up the environment and install necessary packages.</li>
         <li>
             <b>RUN</b> 
             - Run <code>make</code> to start the servers. Wait for the browser to open.</li>
@@ -107,8 +109,8 @@
 
 **Framework Training and Initial Commits**
 
-- We decided to use Django for backend and React for the frontend
-- A appropriate period was used to learn the new framework
+- We decided to use Django for the backend and React for the frontend
+- An appropriate period was used to learn the new framework
 - The project was divided into three modules trackers-chatbot, backend, and frontend 
 - The three sub-modules were developed to provide basic features in this period
 - Integration of the modules was absent in this period
