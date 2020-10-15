@@ -5,6 +5,7 @@ install:
 	bash -c "pip3 install -r requirements.txt"
 	bash -c "python3 setup.py"
 	bash -c "source backend/venv/bin/activate"
+	bash -c "cd frontend && npm install"
 	bash -c "echo Installation complete"
 
 django:
