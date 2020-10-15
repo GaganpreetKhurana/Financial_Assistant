@@ -14,5 +14,4 @@ react:
 	bash -c "cd frontend && npm start"
 
 run:
-	make install
 	make django & make react

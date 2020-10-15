@@ -35,7 +35,7 @@ def currentPrice(url):
     return title, Fprice
 
 
-def storePrice(url, price,user_id):
+def storePrice(url, price,user_id,title):
     parent_dir = os.path.dirname(os.path.abspath(__file__))
     rel_path_db = 'amazon_db'
     abs_path_db = os.path.join(parent_dir, rel_path_db)
@@ -46,8 +46,16 @@ def storePrice(url, price,user_id):
     db.execute(
         "CREATE TABLE IF NOT EXISTS product_prices (id INTEGER PRIMARY KEY AUTOINCREMENT,price DECIMAL (5, 2) NOT NULL DEFAULT 0,producturl LONGVARCHAR,userid LONGVARCHAR,createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)")
     sql = f"INSERT INTO product_prices (price,producturl,userid) VALUES (\"{str(price)}\",\"{url}\",\"{str(user_id)}\")"
-    print(sql)
+    ##print(sql)
     db.execute(sql)
+
+    db.execute(
+        "CREATE TABLE IF NOT EXISTS product_wishlist (producturl LONGVARCHAR PRIMARY KEY UNIQUE,price DECIMAL (5, 2) NOT NULL DEFAULT 0,userid LONGVARCHAR,title LONGVARCHAR,createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)")
+
+    sql = f"INSERT OR REPLACE INTO product_wishlist (producturl,price,userid,title) VALUES (\"{url}\",\"{str(price)}\",\"{str(user_id)}\",\"{str(title)}\")"
+
+    db.execute(sql)
+
     db_object.commit()
     db_object.close()
 
@@ -123,7 +131,7 @@ def priceDropPrediction(url, target):
 
 def amazon_add_fun(url,user_id):
     title,price = currentPrice(url)
-    storePrice(url,price,user_id)
+    storePrice(url,price,user_id,title)
     return "Added Amazon Tracking for item " + title + " With current price " + str(price)
 
 
@@ -188,13 +196,13 @@ def amazon_wishlist(user_id):
     
 ## Testing fetching of url
 
-##url = "https://www.amazon.in/INNO3D-NVIDIA-GEFORCE-Gaming-Graphic/dp/B07V6V68YF"
-##title,price = currentPrice(url)
+url = "https://www.amazon.in/INNO3D-NVIDIA-GEFORCE-Gaming-Graphic/dp/B07V6V68YF"
+title,price = currentPrice(url)
 ##print(title,price)
 
 ## Testing storing of url
 
-##storePrice("https://www.amazon.in/INNO3D-NVIDIA-GEFORCE-Gaming-Graphic/dp/B07V6V68YF",price)
+storePrice("https://www.amazon.in/INNO3D-NVIDIA-GEFORCE-Gaming-Graphic/dp/B07V6V68YF",price,2,title)
 
 ## Testing price drop predictions of url
 
