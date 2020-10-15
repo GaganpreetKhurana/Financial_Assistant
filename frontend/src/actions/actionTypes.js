@@ -60,3 +60,6 @@ export const ADD_CHAT_MESSAGE ="ADD_CHAT_MESSAGE";
 
 //wishlist
 export const SHOW_WISHLIST = "SHOW_WISHLIST";
+
+//stocklist
+export const SHOW_STOCKLIST = "SHOW_STOCKLIST";

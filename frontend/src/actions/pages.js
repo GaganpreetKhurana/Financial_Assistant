@@ -17,7 +17,8 @@ import {
     DELETE_FAILURE_TRANSACTION,
     ADD_CHAT_MESSAGE,
     DISPLAY_CHAT_MESSAGE,
-    SHOW_WISHLIST
+    SHOW_WISHLIST,
+    SHOW_STOCKLIST
 } from './actionTypes';
 
 
@@ -431,6 +432,53 @@ export function fetchWishlist(){
     return (dispatch) => {
         var success =  false;
         const url = '/wishlist/';
+        
+        fetch(url, {
+            headers : {
+                Authorization : `Bearer ${localStorage.getItem('DONNA')}`
+            }
+        })
+            .then((response) => 
+            {
+                if(response.status === 200){
+                success=true;
+                return response.json();     
+            }else{
+                return response.json();
+            }})
+            .then((data) => {
+                if (success) {
+                    dispatch(showWishlist(data));
+                    return;
+                }
+                else{
+                    return;
+                }
+                
+            });
+    };
+
+
+}
+
+
+
+
+//stocklist
+export function showStocklist(stocklist)
+{
+    return {
+        type:SHOW_STOCKLIST,
+        stocklist
+    };
+}
+
+
+export function fetchStocklist(){
+
+    return (dispatch) => {
+        var success =  false;
+        const url = '/stock_list/';
         
         fetch(url, {
             headers : {
