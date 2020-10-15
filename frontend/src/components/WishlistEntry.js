@@ -8,7 +8,7 @@ class WishlistEntry extends Component {
     const {entry,index}=this.props;
         return (
             
-                   <div className="transaction-entry">
+                   <div className="wishlist-entry">
                         <div className="numb "> {index+1+"."} </div>
                         <div className="url ">{entry.url}</div>  
                         <div className="price">&nbsp;&nbsp;&nbsp;&nbsp;{entry.price}</div>

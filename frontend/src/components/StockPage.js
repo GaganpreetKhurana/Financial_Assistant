@@ -21,9 +21,9 @@ class StockPage extends Component {
                <div className="form-box2">
                 <div className="wishlist-entry">
                         <div className="numbs headers"> No. </div>
-                        <div className="stocks headers">Category</div> 
+                        <div className="stocks headers">Stocks</div> 
                         <div className="owned headers">Owned Price &nbsp;(Rs.)</div>   
-                        <div className="price headers">Current Price &nbsp;(Rs.)</div>   
+                        <div className="prices headers">Current Price &nbsp;(Rs.)</div>   
                 
                 </div>
                {stocklist.length === 0 && <div><br></br><h2>No Stocklist to display</h2></div>}
@@ -33,7 +33,7 @@ class StockPage extends Component {
                    <div className="numbs"> {index+1+"."} </div>
                    <div className="stocks ">{entry.stock}</div>  
                    <div className="owned">&nbsp;&nbsp;&nbsp;&nbsp;{entry.owned}</div> 
-                   <div className="price">&nbsp;&nbsp;&nbsp;&nbsp;{entry.current_price}</div>  
+                   <div className="prices">&nbsp;&nbsp;&nbsp;&nbsp;{entry.current_price}</div>  
                 </div>
                     ))
                 }
