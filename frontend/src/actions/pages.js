@@ -424,3 +424,39 @@ export function showWishlist(wishlist)
         wishlist
     };
 }
+
+
+export function fetchWishlist(){
+
+    return (dispatch) => {
+        var success =  false;
+        const url = '/wishlist/';
+        
+        fetch(url, {
+            headers : {
+                Authorization : `Bearer ${localStorage.getItem('DONNA')}`
+            }
+        })
+            .then((response) => 
+            {
+                if(response.status === 200){
+                success=true;
+                return response.json();     
+            }else{
+                return response.json();
+            }})
+            .then((data) => {
+                console.log("@@@@@@@@@@@",data);
+                if (success) {
+                    dispatch(showWishlist(data));
+                    return;
+                }
+                else{
+                    return;
+                }
+                
+            });
+    };
+
+
+}
