@@ -32,9 +32,9 @@
         <h2>Linux</h2>
         <li>
             <b>SETUP</b>
-            - Install python3-venv on Debian base <code>sudo apt install python3-venv</code>
+            - Install python3-venv on Debian based distros run <code>sudo apt install python3-venv</code>
             - Create python3-venv in the backend using <code>sudo python3 -m venv backend/venv</code>
-            - Run <code>sudo make install</code> in bash shell to set up the environment and install necessary packages.</li>
+            - Run <code>make install</code> in bash shell to set up the environment and install necessary packages.</li>
         <li>
             <b>RUN</b> 
             - Run <code>make</code> to start the servers. Wait for the browser to open.</li>
