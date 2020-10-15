@@ -61,9 +61,10 @@ def amazon_wishlist_view(request):
     data = []
     for item in wishlist:
         data.append({
-            'price': item[0],
-            'createdAt': item[1],
-            'url': item[2],
+            'url': item[0],
+            'price': item[1],
+            'title': item[2],
+            'createdAt': item[2]
         })
     # print(data)
     return Response(data)
