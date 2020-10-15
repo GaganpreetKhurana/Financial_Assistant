@@ -496,7 +496,7 @@ export function fetchStocklist(){
             .then((data) => {
                 console.log("@@@@@@@@@@@",data);
                 if (success) {
-                    dispatch(showWishlist(data));
+                    dispatch(showStocklist(data));
                     return;
                 }
                 else{

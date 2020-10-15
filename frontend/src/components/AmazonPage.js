@@ -10,7 +10,7 @@ class AmazonPage extends Component {
 
 
 
-     //fetch wishlist<div><h2>No Wishlist to display</h2>  </div>
+     //fetch wishlist
      componentDidMount(){ 
         this.props.dispatch(fetchWishlist());
     }
