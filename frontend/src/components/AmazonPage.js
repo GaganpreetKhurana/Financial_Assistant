@@ -25,7 +25,7 @@ class AmazonPage extends Component {
                <div className="form-box2">
                <div className="wishlist-entry">
                     <div className="numb headers2"> No. </div>
-                    <div className="url headers2">URL</div>  
+                    <div className="url headers2">TITLE</div>  
                     <div className="price headers2">Amount &nbsp;(Rs.)</div>
                    
                 </div>
