@@ -64,7 +64,7 @@ def amazon_wishlist_view(request):
             'url': item[0],
             'price': item[1],
             'title': item[2],
-            'createdAt': item[2]
+            'createdAt': item[3]
         })
     # print(data)
     return Response(data)
