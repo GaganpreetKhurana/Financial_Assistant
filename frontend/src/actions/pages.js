@@ -16,7 +16,8 @@ import {
     DELETE_SUCCESS_TRANSACTION,
     DELETE_FAILURE_TRANSACTION,
     ADD_CHAT_MESSAGE,
-    DISPLAY_CHAT_MESSAGE
+    DISPLAY_CHAT_MESSAGE,
+    SHOW_WISHLIST
 } from './actionTypes';
 
 
@@ -412,4 +413,14 @@ export function pastMessages()
             });
     };
 
+}
+
+
+//wishlist
+export function showWishlist(wishlist)
+{
+    return {
+        type:SHOW_WISHLIST,
+        wishlist
+    };
 }

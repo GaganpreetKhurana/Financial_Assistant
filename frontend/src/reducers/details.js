@@ -16,7 +16,8 @@ const {
     DELETE_SUCCESS_TRANSACTION,
     DELETE_FAILURE_TRANSACTION,
     ADD_CHAT_MESSAGE,
-    DISPLAY_CHAT_MESSAGE
+    DISPLAY_CHAT_MESSAGE,
+    SHOW_WISHLIST
 } = require("../actions/actionTypes");
 
 
@@ -34,7 +35,8 @@ const initialTransactionState = {
     update:null,
     stock:false,
     amazon:false,
-    messages: []
+    messages: [],
+    wishlist: []
 };
 
 export default function transaction(state = initialTransactionState, action) {
@@ -156,6 +158,11 @@ export default function transaction(state = initialTransactionState, action) {
             return {
                 ...state,
                 messages:[...state.messages,action.chatMsg]
+            }
+        case SHOW_WISHLIST:
+            return {
+                ...state,
+                wishlist:action.wishlist
             }
         default:
             return state;
