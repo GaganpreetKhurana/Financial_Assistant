@@ -10,7 +10,7 @@ class AmazonPage extends Component {
 
 
 
-     //fetch wishlist<div><h2>No Wishlist to display</h2>  </div>
+     //fetch wishlist
      componentDidMount(){ 
         this.props.dispatch(fetchWishlist());
     }
@@ -25,7 +25,7 @@ class AmazonPage extends Component {
                <div className="form-box2">
                <div className="wishlist-entry">
                     <div className="numb headers2"> No. </div>
-                    <div className="url headers2">Category</div>  
+                    <div className="url headers2">URL</div>  
                     <div className="price headers2">Amount &nbsp;(Rs.)</div>
                    
                 </div>
