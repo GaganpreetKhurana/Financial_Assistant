@@ -30,7 +30,12 @@
     <li><h3>Batch Scripts</h3>
     <ul>
         <h2>Linux</h2>
-        Run the makefile
+        <li>
+            <b>SETUP</b>
+            - Run <code>make install</code> in bash shell to setup the environment and install necessary packages.</li>
+        <li>
+            <b>RUN</b> 
+            - Run <code>make</code> to start the servers. Wait for the browser to open.</li>
         <h2>Windows</h2>
         <li>
             <b>SETUP</b>
