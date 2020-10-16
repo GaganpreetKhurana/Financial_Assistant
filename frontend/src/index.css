@@ -11,6 +11,18 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+/* Multilingual select option */
+goog-te-banner-frame.skiptranslate {
+    display: none !important;
+    } 
+body {
+    top: 40px !important; 
+    }
+
+#google_translate_element{
+    padding-top:12px;
+}
+
 
 button a {
     outline: none;
@@ -801,3 +813,5 @@ button:hover {
     padding-right:8px;
     box-sizing:border-box;
 }
+
+
