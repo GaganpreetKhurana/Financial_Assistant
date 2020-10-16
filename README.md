@@ -8,8 +8,8 @@
 ### Developers:
 
 - Vishal Thakur - 18103007
-- Shayan Yaseen - 18103032
-- Gaganpreet Singh Khurana - 18103033
+- Gaganpreet Singh Khurana - 18103032
+- Shayan Yaseen - 18103033
 - Akshit Garg - 18103042
 
 ## Documentation:
