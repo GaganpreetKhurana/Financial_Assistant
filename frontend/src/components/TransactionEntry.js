@@ -19,7 +19,7 @@ class TransactionEntry extends Component {
         return (
             
                    <div className="transaction-entry">
-                        <div className="number "> {index+1+"."} </div>
+                        <div className="number "> {index+1} </div>
                         <div className="category ">{transaction.category==='Miscellaneous' || transaction.category==='Other' ?transaction.description:transaction.category}</div>  
                         <div className="amount">{transaction.amount}</div>
                        {transaction.credit  && <div className="type">Credit</div>}

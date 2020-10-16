@@ -17,7 +17,7 @@ class Navbar extends Component {
                 <div className="nav-left">
                     <Link to="/">DONNA</Link>
                 </div>
-                <div id="google_translate_element"></div>
+                <div id="google_translate_element</html>"></div>
                 <div className="nav-right">
                     {!auth.isLoggedIn && (<button className="bttn-home"><Link to="/login">Login</Link></button>)}
                     {auth.isLoggedIn && (<button className="bttn-home"> {auth.user.username} </button>)}
