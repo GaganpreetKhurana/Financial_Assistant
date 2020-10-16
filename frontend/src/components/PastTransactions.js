@@ -102,8 +102,8 @@ class PastTransactions extends Component {
                             <input type="text" onChange={this.handleChange2} value={this.state.amount} placeholder="00.00" required/>
                         </div><br></br>
                         <div>
-                            <label>Chose Type</label>
-                            &nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label>Type</label>
+                            &nbsp;  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <select onChange={this.handleChange3} value={this.state.type} placeholder="Type">
                                 <option value="true">Credit</option>
                                 <option value="false">Debit</option>
@@ -130,7 +130,7 @@ class PastTransactions extends Component {
                     </div>
                 )}
                 <div className="transaction-entry">
-                    <div className="number headers"> No. </div>
+                    <div className="number headers"> S.No. </div>
                     <div className="category headers">Category</div>  
                     <div className="amount headers">Amount &nbsp;(Rs.)</div>
                     <div className="type headers">Type</div>

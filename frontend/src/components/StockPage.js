@@ -20,7 +20,7 @@ class StockPage extends Component {
                <h2><br></br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Stocklist</h2>
                <div className="form-box2">
                 <div className="wishlist-entry">
-                        <div className="numbs headers"> No. </div>
+                        <div className="numbs headers"> S.No. </div>
                         <div className="stocks headers">Stocks</div> 
                         <div className="owned headers">Owned Price &nbsp;(Rs.)</div>   
                         <div className="prices headers">Current Price &nbsp;(Rs.)</div>   
@@ -30,7 +30,7 @@ class StockPage extends Component {
                <div className="transactions-box">
                {stocklist.map((entry,index)=>(
                 <div className="transaction-entry" key={`entry.createdAt-${index}`}>
-                   <div className="numbs"> {index+1+"."} </div>
+                   <div className="numbs"> {index+1} </div>
                    <div className="stocks ">{entry.stock}</div>  
                    <div className="owned">&nbsp;&nbsp;&nbsp;&nbsp;{entry.owned}</div> 
                    <div className="prices">&nbsp;&nbsp;&nbsp;&nbsp;{entry.current_price}</div>  
