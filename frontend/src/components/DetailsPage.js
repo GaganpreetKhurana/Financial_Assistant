@@ -94,12 +94,13 @@ class DetailsPage extends Component {
                 {(this.state.category==='6' || this.state.category==='7' )  && <br></br>}
                 
                 <div>
-                    <label>Enter Amount</label>
+                    <label>Enter Amount </label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <input type="text" onChange={this.handleChange2} value={this.state.amount} placeholder="00.00" required/>
                 </div><br></br>
                 <div>
-                    <label>Chose Type</label>
+                    <label>Type</label>
+                    &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <select onChange={this.handleChange3} value={this.state.type} placeholder="Type">
                         <option value="true">Credit</option>
