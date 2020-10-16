@@ -30,14 +30,14 @@
     <li><h3>Batch Scripts</h3>
     <ul>
         <h2>Linux</h2>
+            <li><b>SETUP</b></li>
+            <li> - Install python3-venv on Debian based distros run <code>sudo apt install python3-venv</code> </li>
+            <li> - Create python3-venv in the backend using <code>sudo python3 -m venv backend/venv</code></li>
+            <li> - Install espeak on Debian based distros run <code>sudo apt-get install espeak</code></li>
+            <li> - Run <code>make install</code> in bash shell to set up the environment and install necessary packages.</li>
         <li>
-            <b>SETUP</b>
-            - Install python3-venv on Debian based distros run <code>sudo apt install python3-venv</code>
-            - Create python3-venv in the backend using <code>sudo python3 -m venv backend/venv</code>
-            - Run <code>make install</code> in bash shell to set up the environment and install necessary packages.</li>
-        <li>
-            <b>RUN</b> 
-            - Run <code>make</code> to start the servers. Wait for the browser to open.</li>
+            <li><b>RUN</b></li>
+            <li>- Run <code>make</code> to start the servers. Wait for the browser to open.</li>
         <h2>Windows</h2>
         <li>
             <b>SETUP</b>

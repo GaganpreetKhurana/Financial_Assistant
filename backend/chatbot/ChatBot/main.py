@@ -10,6 +10,9 @@ import requests
 from nltk.stem.lancaster import LancasterStemmer
 from tensorflow import keras
 
+import pyttsx3
+
+
 from .AmazonPriceTracker import amazon_script
 from .StockTracker import stock_script
 
@@ -258,6 +261,11 @@ def chat_web(question, user_id, request):
             url = list_parse[2]
             chat_response += amazon_script.amazon_buy_fun(url, user_id)
 
+        if(list_parse[-1] == "Speak"):
+            engine = pyttsx3.init()
+            engine.say(chat_response)
+            engine.runAndWait()
+
         chat_store(chat_response, 'donna', 'False')
 
         return chat_response
@@ -298,9 +306,21 @@ def chat_web(question, user_id, request):
             if list_parse[2] == "predict":
                 chat_response += stock_script.PortfolioPrediction(user_id)
 
+        if(list_parse[-1] == "Speak"):
+            engine = pyttsx3.init()
+            engine.say(chat_response)
+            engine.runAndWait()
+
         chat_store(chat_response, 'donna', 'False')
 
         return chat_response
+
+    ## Questions
+    speak_flag = False
+
+    if(len(question)>5 and question[-5:]=="Speak"):
+        speak_flag = True
+        question = question[:-5]
 
     print("Please delete models and cache after editing intents.json!")
     print("Start talking with the bot (type quit to stop)!")
@@ -382,6 +402,11 @@ def chat_web(question, user_id, request):
         print("No function to call")
 
     chat_store(answer, 'donna', 'False')
+
+    if(speak_flag):
+        engine = pyttsx3.init()
+        engine.say(answer)
+        engine.runAndWait()
 
     return answer
 
