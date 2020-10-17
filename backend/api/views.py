@@ -135,9 +135,8 @@ class TransactionListMonth(ListAPIView):
     model = Transaction
 
     def get_queryset(self):
-        query_set = Transaction.objects.filter(user=self.request.user)
-        return [object for object in query_set
-                if object.get_month == self.kwargs['month']]
+        return Transaction.objects.filter(user=self.request.user,
+                                          time__month=self.kwargs['month'])
 
 
 class TransactionListYear(ListAPIView):
@@ -146,9 +145,8 @@ class TransactionListYear(ListAPIView):
     model = Transaction
 
     def get_queryset(self):
-        query_set = Transaction.objects.filter(user=self.request.user)
-        return [object for object in query_set
-                if object.get_year == self.kwargs['year']]
+        return Transaction.objects.filter(user=self.request.user,
+                                          time__year=self.kwargs['year'])
 
 
 class TransactionListYearMonth(ListAPIView):
@@ -157,11 +155,9 @@ class TransactionListYearMonth(ListAPIView):
     model = Transaction
 
     def get_queryset(self):
-        query_set = Transaction.objects.filter(user=self.request.user)
-        return [object for object in query_set if
-                object.get_year == self.kwargs['year']
-                and object.get_month == self.kwargs['month']
-                ]
+        return Transaction.objects.filter(user=self.request.user,
+                                          time__month=self.kwargs['month'],
+                                          time__year=self.kwargs['year'])
 
 
 class TransactionListDate(ListAPIView):
@@ -170,12 +166,10 @@ class TransactionListDate(ListAPIView):
     model = Transaction
 
     def get_queryset(self):
-        query_set = Transaction.objects.filter(user=self.request.user)
-        return [object for object in query_set
-                if object.get_year == self.kwargs['year']
-                and object.get_month == self.kwargs['month']
-                and object.get_date == self.kwargs['date']
-                ]
+        return Transaction.objects.filter(user=self.request.user,
+                                          time__month=self.kwargs['month'],
+                                          time__year=self.kwargs['year'],
+                                          time__date=self.kwargs['date'])
 
 
 class CreateTransaction(CreateAPIView):
@@ -206,7 +200,10 @@ class DeleteTransaction(DestroyAPIView):
                     "message": "Object Not Found"
                 }
                 return Response(data=response, status=status.HTTP_204_NO_CONTENT)
-            details = Detail.objects.filter(user=request.user)
+            print(instance, instance.time, type(instance.time))
+            details = Detail.objects.filter(user=request.user,
+                                            date_created__year=instance.time.strftime("%Y"),
+                                            date_created__month=instance.time.strftime("%m"))
             details = details[0]
 
             if instance.type == 0:
@@ -274,9 +271,8 @@ class DetailsViewMonth(ListAPIView):
     model = Detail
 
     def get_queryset(self):
-        query_set = Detail.objects.filter(user=self.request.user)
-        return [object for object in query_set
-                if object.get_month == self.kwargs['month']]
+        return Detail.objects.filter(user=self.request.user,
+                                     date_created__month=self.kwargs['month'])
 
 
 class DetailsViewYear(ListAPIView):
@@ -285,9 +281,8 @@ class DetailsViewYear(ListAPIView):
     model = Detail
 
     def get_queryset(self):
-        query_set = Detail.objects.filter(user=self.request.user)
-        return [object for object in query_set
-                if object.get_year == self.kwargs['year']]
+        return Detail.objects.filter(user=self.request.user,
+                                     date_created__year=self.kwargs['year'])
 
 
 class DetailsViewYearMonth(ListAPIView):
@@ -296,8 +291,6 @@ class DetailsViewYearMonth(ListAPIView):
     model = Detail
 
     def get_queryset(self):
-        query_set = Detail.objects.filter(user=self.request.user)
-        return [object for object in query_set if
-                object.get_year == self.kwargs['year']
-                and object.get_month == self.kwargs['month']
-                ]
+        return Detail.objects.filter(user=self.request.user,
+                                     date_created__month=self.kwargs['month'],
+                                     date_created__year=self.kwargs['year'])
