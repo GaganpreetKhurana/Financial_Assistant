@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 import {addTransaction, clearAuth} from "../actions/pages";
@@ -8,65 +8,69 @@ class DetailsPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            category:'0',
-            amount:'',
-            type:'true',
-            description:'',
-            dummy:null,
+            category: '0',
+            amount: '',
+            type: 'true',
+            description: '',
+            dummy: null,
         };
-      }
-      handleChange= (event)=>{
+    }
+
+    handleChange = (event) => {
         this.setState({category: event.target.value});
-      }
-      handleChange2= (event)=>{
+    }
+    handleChange2 = (event) => {
         this.setState({amount: event.target.value});
-      }
+    }
 
-      handleChange3= (event)=>{
+    handleChange3 = (event) => {
         this.setState({type: event.target.value});
-      }
-      handleChange4= (event)=>{
+    }
+    handleChange4 = (event) => {
         this.setState({description: event.target.value});
-      }
+    }
 
-    
-      handleSubmit = (e) => {
+
+    handleSubmit = (e) => {
         //call dispatch
         e.preventDefault();
-        const {category,type,description,amount} = this.state;
+        const {category, type, description, amount} = this.state;
         //console.log(category,type,description,amount);
-        this.props.dispatch(addTransaction(category,type,description,amount));
-        
+        this.props.dispatch(addTransaction(category, type, description, amount));
+
         setTimeout(() => {
             //this.forceUpdate();
             this.props.dispatch(clearAuth());
         }, 10000);
 
-        this.setState({category:'0',
-            amount:'',
-            type:'true',
-            description:'',
-            dummy:null,});
+        this.setState({
+            category: '0',
+            amount: '',
+            type: 'true',
+            description: '',
+            dummy: null,
+        });
 
-      }
-      componentWillUnmount(){
-          this.props.dispatch(clearAuth());
-      }
-      
+    }
+
+    componentWillUnmount() {
+        this.props.dispatch(clearAuth());
+    }
+
     render() {
-        const {success,error,inProgress} = this.props.details;
+        const {success, error, inProgress} = this.props.details;
         const {isLoggedIn} = this.props.auth;
         if (!isLoggedIn) {
             return <Redirect to="/login"/>;
         }
         return (
             <div className="form-box">
-                <h2>ADD DETAILS</h2><br></br>
+                <h2>ADD DETAILS</h2><br/>
                 {error && (
                     <div className="alert-warn">
                         <button>{error}</button>
                     </div>
-                        )}
+                )}
                 {success && (
                     <div className="alert-done">
                         <button>{success}</button>
@@ -85,19 +89,23 @@ class DetailsPage extends Component {
                         <option value="6">Miscellaneous</option>
                         <option value="7">Other</option>
                     </select>
-                </div><br></br>
-                {(this.state.category==='6' || this.state.category==='7' ) && <div>
-                    <label>Please Specify</label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="text" onChange={this.handleChange4} value={this.state.description} placeholder="Description" required/>
-                    </div> }
-                {(this.state.category==='6' || this.state.category==='7' )  && <br></br>}
-                
+                </div>
+                <br/>
                 <div>
-                    <label>Enter  Amount </label>
+                    <label>Description</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="text" onChange={this.handleChange2} value={this.state.amount} placeholder="00.00" required/>
-                </div><br></br>
+                    <input type="text" onChange={this.handleChange4} value={this.state.description}
+                           placeholder="Description" required/>
+                </div>
+                <br/>
+
+                <div>
+                    <label>Enter Amount </label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="text" onChange={this.handleChange2} value={this.state.amount} placeholder="00.00"
+                           required/>
+                </div>
+                <br/>
                 <div>
                     <label>Type</label>
                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
@@ -106,7 +114,8 @@ class DetailsPage extends Component {
                         <option value="true">Credit</option>
                         <option value="false">Debit</option>
                     </select>
-                </div><br></br><br></br>
+                </div>
+                <br/><br/>
                 <button className="add" onClick={this.handleSubmit} disabled={inProgress}>ADD</button>
             </div>
         );

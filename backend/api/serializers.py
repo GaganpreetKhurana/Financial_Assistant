@@ -92,11 +92,16 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
             details = Detail(user=self.context.get('request').user)
         else:
             details = details[0]
+
+        description = self.validated_data['description']
+        if description is None or description == '':
+            description = "Description Not Provided!"
+
         transaction_new = Transaction(user=self.context.get('request').user,
                                       amount=self.validated_data['amount'],
                                       type=self.validated_data['category'],
                                       details=details,
-                                      description=self.validated_data['description'],
+                                      description=description,
                                       credit=self.validated_data['credit'])
         factor = 1
         if self.validated_data['credit'] is False:
@@ -117,7 +122,10 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
         elif self.validated_data['category'] == 6:
             details.miscellaneous += factor * self.validated_data['amount']
         details.totalExpenditure = (
-                details.housing + details.food + details.healthcare + details.transportation + details.recreation + details.miscellaneous)
+                details.housing + details.food + details.healthcare
+                + details.transportation + details.recreation
+                + details.miscellaneous
+        )
         details.savings = details.income - details.totalExpenditure
         details.save()
         transaction_new.save()
@@ -180,10 +188,18 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
 
         instance.type = validated_data['category']
         instance.amount = validated_data['amount']
-        instance.description = validated_data['description']
+
+        description = validated_data['description']
+        if description is None or description == '':
+            description = "Description Not Provided!"
+        instance.description = description
+
         instance.credit = validated_data['credit']
         details.totalExpenditure = (
-                details.housing + details.food + details.healthcare + details.transportation + details.recreation + details.miscellaneous)
+                details.housing + details.food + details.healthcare
+                + details.transportation + details.recreation
+                + details.miscellaneous
+        )
         details.savings = details.income - details.totalExpenditure
         details.save()
         instance.save()

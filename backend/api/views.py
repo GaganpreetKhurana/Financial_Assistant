@@ -41,9 +41,11 @@ class ChangePasswordView(UpdateAPIView):
         if serializer.is_valid():
             # Check old password
             if not self.request.user.check_password(request.data.get("old_password")):
-                return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"old_password": ["Wrong password."]},
+                                status=status.HTTP_400_BAD_REQUEST)
 
-            if request.data.get("new_password") != request.data.get("password_confirm"):
+            if request.data.get("new_password") \
+                    != request.data.get("password_confirm"):
                 response = {
                     'status': 'failed',
                     'code': status.HTTP_400_BAD_REQUEST,
@@ -123,7 +125,8 @@ class TransactionListID(ListAPIView):
     model = Transaction
 
     def get_queryset(self):
-        return Transaction.objects.filter(user=self.request.user, id=self.kwargs['id'])
+        return Transaction.objects.filter(user=self.request.user,
+                                          id=self.kwargs['id'])
 
 
 class TransactionListMonth(ListAPIView):
@@ -133,7 +136,8 @@ class TransactionListMonth(ListAPIView):
 
     def get_queryset(self):
         query_set = Transaction.objects.filter(user=self.request.user)
-        return [object for object in query_set if object.get_month == self.kwargs['month']]
+        return [object for object in query_set
+                if object.get_month == self.kwargs['month']]
 
 
 class TransactionListYear(ListAPIView):
@@ -143,7 +147,8 @@ class TransactionListYear(ListAPIView):
 
     def get_queryset(self):
         query_set = Transaction.objects.filter(user=self.request.user)
-        return [object for object in query_set if object.get_year == self.kwargs['year']]
+        return [object for object in query_set
+                if object.get_year == self.kwargs['year']]
 
 
 class TransactionListYearMonth(ListAPIView):
@@ -154,7 +159,9 @@ class TransactionListYearMonth(ListAPIView):
     def get_queryset(self):
         query_set = Transaction.objects.filter(user=self.request.user)
         return [object for object in query_set if
-                object.get_year == self.kwargs['year'] and object.get_month == self.kwargs['month']]
+                object.get_year == self.kwargs['year']
+                and object.get_month == self.kwargs['month']
+                ]
 
 
 class TransactionListDate(ListAPIView):
@@ -164,9 +171,11 @@ class TransactionListDate(ListAPIView):
 
     def get_queryset(self):
         query_set = Transaction.objects.filter(user=self.request.user)
-        return [object for object in query_set if object.get_year == self.kwargs['year']
+        return [object for object in query_set
+                if object.get_year == self.kwargs['year']
                 and object.get_month == self.kwargs['month']
-                and object.get_date == self.kwargs['date']]
+                and object.get_date == self.kwargs['date']
+                ]
 
 
 class CreateTransaction(CreateAPIView):
@@ -216,7 +225,10 @@ class DeleteTransaction(DestroyAPIView):
                 details.miscellaneous -= instance.amount
 
             details.totalExpenditure = (
-                    details.housing + details.food + details.healthcare + details.transportation + details.recreation + details.miscellaneous)
+                    details.housing + details.food + details.healthcare
+                    + details.transportation + details.recreation
+                    + details.miscellaneous
+            )
             details.savings = details.income - details.totalExpenditure
             details.save()
             self.perform_destroy(instance)
@@ -263,7 +275,8 @@ class DetailsViewMonth(ListAPIView):
 
     def get_queryset(self):
         query_set = Detail.objects.filter(user=self.request.user)
-        return [object for object in query_set if object.get_month == self.kwargs['month']]
+        return [object for object in query_set
+                if object.get_month == self.kwargs['month']]
 
 
 class DetailsViewYear(ListAPIView):
@@ -273,7 +286,8 @@ class DetailsViewYear(ListAPIView):
 
     def get_queryset(self):
         query_set = Detail.objects.filter(user=self.request.user)
-        return [object for object in query_set if object.get_year == self.kwargs['year']]
+        return [object for object in query_set
+                if object.get_year == self.kwargs['year']]
 
 
 class DetailsViewYearMonth(ListAPIView):
@@ -284,4 +298,6 @@ class DetailsViewYearMonth(ListAPIView):
     def get_queryset(self):
         query_set = Detail.objects.filter(user=self.request.user)
         return [object for object in query_set if
-                object.get_year == self.kwargs['year'] and object.get_month == self.kwargs['month']]
+                object.get_year == self.kwargs['year']
+                and object.get_month == self.kwargs['month']
+                ]
