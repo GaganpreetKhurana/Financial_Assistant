@@ -12,13 +12,13 @@ code {
     monospace;
 }
 /* Multilingual select option */
-goog-te-banner-frame.skiptranslate {
+
+.goog-te-banner-frame.skiptranslate {
     display: none !important;
     } 
 body {
-    top: 40px !important; 
+    top: 0px !important; 
     }
-
 #google_translate_element{
     padding-top:12px;
 }
