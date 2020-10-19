@@ -3,7 +3,6 @@ import {connect} from "react-redux";
 import {clearAuth, fetchTransactions, updateTransaction} from '../actions/pages';
 import TransactionEntry from './TransactionEntry';
 
-
 class PastTransactions extends Component {
     constructor(props) {
         super(props);
@@ -142,7 +141,6 @@ class PastTransactions extends Component {
                     ))
                     }
                 </div>
-
             </div>
         );
     }
