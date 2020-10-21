@@ -19,7 +19,10 @@ const {
     DISPLAY_CHAT_MESSAGE,
     SHOW_WISHLIST,
     SHOW_STOCKLIST,
-    FETCH_DETAILS
+    FETCH_DETAILS,
+    SHOW_PIECHART,
+    SHOW_BARGRAPH,
+    HIDE_GRAPH
 } = require("../actions/actionTypes");
 
 
@@ -40,7 +43,9 @@ const initialTransactionState = {
     messages: [],
     wishlist: [],
     stocklist:[],
-    detailsList:[]
+    detailsList:[],
+    piechart:null,
+    bargraph:null,
 };
 
 export default function transaction(state = initialTransactionState, action) {
@@ -177,6 +182,24 @@ export default function transaction(state = initialTransactionState, action) {
             return {
                 ...state,
                 stocklist:action.stocklist
+            }
+        case SHOW_BARGRAPH:
+            return {
+                ...state,
+                bargraph:true,
+                piechart:null,
+            }
+        case SHOW_PIECHART:
+            return {
+                ...state,
+                bargraph:null,
+                piechart:true,
+            }
+        case HIDE_GRAPH:
+            return {
+                ...state,
+                bargraph:null,
+                piechart:null
             }
         default:
             return state;
