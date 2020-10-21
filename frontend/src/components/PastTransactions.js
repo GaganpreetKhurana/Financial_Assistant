@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {clearAuth,
      fetchTransactions,
+     fetchDetails,
       updateTransaction,
       updateTransactionFailure,
       filterTransaction1,
@@ -161,8 +162,10 @@ class PastTransactions extends Component {
 
 
     //fetch list of past transactions
+    //fetch list of details
     componentDidMount() {
         this.props.dispatch(fetchTransactions());
+        this.props.dispatch(fetchDetails());
     }
 
     componentWillUnmount() {

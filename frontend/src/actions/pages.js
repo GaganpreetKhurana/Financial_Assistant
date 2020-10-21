@@ -19,7 +19,7 @@ import {
     DISPLAY_CHAT_MESSAGE,
     SHOW_WISHLIST,
     SHOW_STOCKLIST,
-    FILTER_TRANSACTION
+    FETCH_DETAILS
 } from './actionTypes';
 
 
@@ -761,6 +761,50 @@ export function filterTransaction7(year){
                 }
                 else{
                     dispatch(updateTransactionFailure("Please select appropriate Filters"));
+                    return;
+                }
+                
+            });
+    };
+
+
+}
+
+
+// fetch details
+export function fetchedDetails(details){
+    return {
+        type : FETCH_DETAILS,
+        details
+    }
+
+}
+export function fetchDetails(){
+
+    return (dispatch) => {
+        var success =  false;
+        const url = '/details/year/2020/';
+        
+        fetch(url, {
+            headers : {
+                Authorization : `Bearer ${localStorage.getItem('DONNA')}`
+            }
+        })
+            .then((response) => 
+            {
+                if(response.status === 200){
+                success=true;
+                return response.json();     
+            }else{
+                return response.json();
+            }})
+            .then((data) => {
+                console.log("(((((((((((((((((((",data);
+                if (success) {
+                    dispatch(fetchedDetails(data));
+                    return;
+                }
+                else{
                     return;
                 }
                 
