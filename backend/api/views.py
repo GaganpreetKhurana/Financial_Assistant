@@ -107,7 +107,8 @@ class DetailsView(ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Detail.objects.filter(user=self.request.user)
+        return get_sum_detail(
+            Detail.objects.filter(user=self.request.user), self.request)
 
 
 class TransactionList(ListAPIView):
@@ -303,8 +304,8 @@ class DetailsViewMonth(ListAPIView):
     model = Detail
 
     def get_queryset(self):
-        return Detail.objects.filter(user=self.request.user,
-                                     date_created__month=self.kwargs['month'])
+        return get_sum_detail(Detail.objects.filter(user=self.request.user,
+                                                    date_created__month=self.kwargs['month']), self.request)
 
 
 class DetailsViewYear(ListAPIView):
@@ -313,8 +314,8 @@ class DetailsViewYear(ListAPIView):
     model = Detail
 
     def get_queryset(self):
-        return Detail.objects.filter(user=self.request.user,
-                                     date_created__year=self.kwargs['year'])
+        return get_sum_detail(Detail.objects.filter(user=self.request.user,
+                                                    date_created__year=self.kwargs['year']), self.request)
 
 
 class DetailsViewYearMonth(ListAPIView):
@@ -323,6 +324,25 @@ class DetailsViewYearMonth(ListAPIView):
     model = Detail
 
     def get_queryset(self):
-        return Detail.objects.filter(user=self.request.user,
-                                     date_created__month=self.kwargs['month'],
-                                     date_created__year=self.kwargs['year'])
+        return get_sum_detail(Detail.objects.filter(user=self.request.user,
+                                                    date_created__month=self.kwargs['month'],
+                                                    date_created__year=self.kwargs['year']), self.request)
+
+
+def get_sum_detail(details, request):
+    details = list(details)
+    sum_object = Detail(user=request.user)
+    for record in details:
+        sum_object.income += record.income
+        sum_object.totalExpenditure += record.totalExpenditure
+        sum_object.savings += record.savings
+        sum_object.miscellaneous += record.miscellaneous
+        sum_object.recreation += record.recreation
+        sum_object.transportation += record.transportation
+        sum_object.healthcare += record.healthcare
+        sum_object.housing += record.housing
+        sum_object.food += record.housing
+        sum_object.totalTransactions += record.totalTransactions
+
+    details.append(sum_object)
+    return details
