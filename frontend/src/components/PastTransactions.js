@@ -1,18 +1,28 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {clearAuth,
-     fetchTransactions,
-     fetchDetails,
-      updateTransaction,
-      updateTransactionFailure,
-      filterTransaction1,
-      filterTransaction2,
-      filterTransaction3,
-      filterTransaction4,
-      filterTransaction5,
-      filterTransaction6,
-      filterTransaction7} from '../actions/pages';
+import {
+    clearAuth,
+    fetchTransactions,
+    fetchDetails,
+    updateTransaction,
+    updateTransactionFailure,
+    filterTransaction1,
+    filterTransaction2,
+    filterTransaction3,
+    filterTransaction4,
+    filterTransaction5,
+    filterTransaction6,
+    filterTransaction7,
+    showBarGraph,
+    showPieChart,
+    showLineChart,
+    hideGraph
+} from '../actions/pages';
 import TransactionEntry from './TransactionEntry';
+import GraphPiechart from './GraphPiechart';
+import GraphLinechart from './GraphLinechart';
+import GraphBargraph from './GraphBargraph';
+
 
 
 class PastTransactions extends Component {
@@ -76,8 +86,8 @@ class PastTransactions extends Component {
         //call dispatch
         e.preventDefault();
         const {date,month,year} = this.state;
-        console.log("filter applied");
-        console.log("dispatch filter caled",date,month,year);
+        // console.log("filter applied");
+        // console.log("dispatch filter caled",date,month,year);
         if(date !=='' && month!=='' && year!=='')
         {
             this.props.dispatch(filterTransaction1(date,month,year));
@@ -126,11 +136,18 @@ class PastTransactions extends Component {
         const {chart} = this.state;
         if(chart === 'pieChart')
         {
+            this.props.dispatch(showPieChart());
             this.setState({pieChart:true,barGraph:null});
         }
         else if(chart === 'barGraph')
         {
+            this.props.dispatch(showBarGraph());
             this.setState({barGraph:true,pieChart:null});
+        }
+        else if(chart === 'lineChart')
+        {
+            this.props.dispatch(showLineChart());
+            this.setState({barGraph:null,pieChart:null});
         }
         else{
             this.props.dispatch(updateTransactionFailure("Please select the Filter to be applied first !!!!"));
@@ -149,6 +166,7 @@ class PastTransactions extends Component {
     handleSubmit4 = (e) => {
         //call dispatch
         e.preventDefault();
+        this.props.dispatch(hideGraph());
             this.setState({
             barGraph:null,
             pieChart:null,
@@ -156,7 +174,7 @@ class PastTransactions extends Component {
         setTimeout(() => {
             //this.forceUpdate();
             this.props.dispatch(clearAuth());
-        }, 50000);
+        }, 10000);
 
     }
 
@@ -176,14 +194,17 @@ class PastTransactions extends Component {
     render() {
         const {success, error} = this.props.details;
 
-        const {transactions, loading, update, inProgress} = this.props.details;
+        const {transactions, loading, update, inProgress, piechart,linechart, bargraph,detailsList} = this.props.details;
+        var dummy={};
+        if(detailsList.length !== 0 )
+        {
+            dummy=detailsList[0];
+        }
         if (loading) {
             return <h2>Loading.....</h2>;
         }
 
-        if (transactions.length === 0) {
-            return <h2>No Past Transactions to Display</h2>
-        }
+        
         return (
             <div className="form-box2">
                 {error && (
@@ -256,21 +277,68 @@ class PastTransactions extends Component {
                     <div className="Rightfilter">  
                         <select onChange={this.handleChart} value={this.state.chart}>
                             <option value="" disabled>Select Type</option>
-                            <option value="barGraph">Bar Graph</option>
-                            <option value="pieChart">Pie Chart</option>
+                            {(piechart || bargraph || linechart) && 
+                            <option value="barGraph" disabled>Bar Graph</option>}
+                            {(piechart || bargraph || linechart) &&
+                            <option value="pieChart" disabled>Pie Chart</option>}
+                            {(piechart || bargraph || linechart) &&
+                            <option value="lineChart" disabled>Line Graph</option>}
+
+
+                            {(!piechart && !bargraph && !linechart) && 
+                            <option value="barGraph">Bar Graph</option>}
+                            {(!piechart && !bargraph && !linechart) && 
+                            <option value="pieChart">Pie Chart</option>}
+                            {(!piechart && !bargraph && !linechart) && 
+                            <option value="lineChart">Line Graph</option>}
                         </select> 
-                            {this.state.chart ==='' && <button className="show" onClick={this.handleSubmit3}> Show Visualizations </button> }
-                            {this.state.chart !=='' && <button className="hide" onClick={this.handleSubmit4}> Hide Visualizations </button> }
+                            {(!piechart && !bargraph && !linechart) && <button className="show" onClick={this.handleSubmit3}> Show Visualizations </button> }
+                            {(piechart || bargraph || linechart) && <button className="hide" onClick={this.handleSubmit4}> Hide Visualizations </button> }
 
                     </div>
-
+                   
                 </div>
-
-
+                <br></br>
+                <br></br>
+                {(detailsList.length !== 0 && linechart) && <GraphLinechart
+                food={dummy.food}
+                healthcare={dummy.healthcare}
+                housing={dummy.housing}
+                income={dummy.income}
+                miscellaneous={dummy.miscellaneous}
+                recreation={dummy.recreation}
+                savings = {dummy.savings}
+                transportation = {dummy.transportation}
+                expenditure = {dummy.totalExpenditure}
+                />}
+                {(detailsList.length !== 0 && piechart) && <GraphPiechart
+                food={dummy.food}
+                healthcare={dummy.healthcare}
+                housing={dummy.housing}
+                income={dummy.income}
+                miscellaneous={dummy.miscellaneous}
+                recreation={dummy.recreation}
+                savings = {dummy.savings}
+                transportation = {dummy.transportation}
+                expenditure = {dummy.totalExpenditure}
+                />}
+                {(detailsList.length !== 0 && bargraph) && <GraphBargraph
+                food={dummy.food}
+                healthcare={dummy.healthcare}
+                housing={dummy.housing}
+                income={dummy.income}
+                miscellaneous={dummy.miscellaneous}
+                recreation={dummy.recreation}
+                savings = {dummy.savings}
+                transportation = {dummy.transportation}
+                expenditure = {dummy.totalExpenditure}
+                />}
+                {transactions.length === 0 &&  <h2>No Transactions to Display ..</h2>}
 
                 {
                     update &&
                     <div>
+                        <br></br><br></br>
                         <h2>UPDATE TRANSACTION</h2><br/>
                         <div className="update-box">
                             <div>
@@ -318,8 +386,10 @@ class PastTransactions extends Component {
                     </div>
                 }
                <br></br>
-                <h2>PAST TRANSACTIONS</h2><br/>
-                
+               {transactions.length !== 0 && 
+               <div>
+                <h2>PAST TRANSACTIONS</h2>
+                <br></br>
                 <div className="transaction-entry">
                     <div className="number headers"> S.No.</div>
                     <div className="category headers">Category</div>
@@ -327,13 +397,14 @@ class PastTransactions extends Component {
                     <div className="type headers">Type</div>
                     <div className="Options headers">Options</div>
                 </div>
+                
                 <div className="transactions-box">
                     {transactions.map((transaction, index) => (
                         <TransactionEntry transaction={transaction} index={index}
                                           key={`transaction.category-${index}`}/>
                     ))
                     }
-                </div>
+                </div></div>}
             </div>
         );
     }

@@ -69,3 +69,9 @@ export const FILTER_TRANSACTION="FILTER_TRANSACTION";
 
 //fetch details
 export const FETCH_DETAILS = "FETCH_DETAILS";
+
+//show graphs
+export const SHOW_PIECHART="SHOW_PIECHART";
+export const SHOW_LINECHART="SHOW_LINECHART";
+export const SHOW_BARGRAPH="SHOW_BARGRAPH";
+export const HIDE_GRAPH ="HIDE_GRAPH";

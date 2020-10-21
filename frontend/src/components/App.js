@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
-import Home from './Home'
+// import Home from './Home'
 import SignUp from './SignUp';
 import Navbar from './Navbar';
 import Login from './Login';

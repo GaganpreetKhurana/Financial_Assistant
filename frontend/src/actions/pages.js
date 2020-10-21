@@ -19,7 +19,11 @@ import {
     DISPLAY_CHAT_MESSAGE,
     SHOW_WISHLIST,
     SHOW_STOCKLIST,
-    FETCH_DETAILS
+    FETCH_DETAILS,
+    SHOW_BARGRAPH,
+    SHOW_PIECHART,
+    HIDE_GRAPH,
+    SHOW_LINECHART
 } from './actionTypes';
 
 
@@ -532,7 +536,6 @@ export function filterTransaction1(date,month,year){
             }})
             .then((data) => {
                 if (success) {
-                    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5",data);
                     dispatch(updateTransactionSuccess("Filters applied successfully"));
                     dispatch(fetchedTransactions(data));
                     return;
@@ -569,7 +572,6 @@ export function filterTransaction2(date,month){
             }})
             .then((data) => {
                 if (success) {
-                    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5",data);
                     dispatch(updateTransactionSuccess("Filters applied successfully"));
                     dispatch(fetchedTransactions(data));
                     return;
@@ -606,7 +608,6 @@ export function filterTransaction3(date,year){
             }})
             .then((data) => {
                 if (success) {
-                    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5",data);
                     dispatch(updateTransactionSuccess("Filters applied successfully"));
                     dispatch(fetchedTransactions(data));
                     return;
@@ -643,7 +644,6 @@ export function filterTransaction4(month,year){
             }})
             .then((data) => {
                 if (success) {
-                    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5",data);
                     dispatch(updateTransactionSuccess("Filters applied successfully"));
                     dispatch(fetchedTransactions(data));
                     return;
@@ -680,7 +680,6 @@ export function filterTransaction5(date){
             }})
             .then((data) => {
                 if (success) {
-                    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5",data);
                     dispatch(updateTransactionSuccess("Filters applied successfully"));
                     dispatch(fetchedTransactions(data));
                     return;
@@ -717,7 +716,6 @@ export function filterTransaction6(month){
             }})
             .then((data) => {
                 if (success) {
-                    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5",data);
                     dispatch(updateTransactionSuccess("Filters applied successfully"));
                     dispatch(fetchedTransactions(data));
                     return;
@@ -754,7 +752,6 @@ export function filterTransaction7(year){
             }})
             .then((data) => {
                 if (success) {
-                    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5",data);
                     dispatch(updateTransactionSuccess("Filters applied successfully"));
                     dispatch(fetchedTransactions(data));
                     return;
@@ -812,4 +809,31 @@ export function fetchDetails(){
     };
 
 
+}
+
+
+
+// show graphs
+export function showBarGraph(){
+    return {
+        type : SHOW_BARGRAPH
+    }
+
+}
+export function showPieChart(){
+    return {
+        type : SHOW_PIECHART
+    }
+
+}
+export function showLineChart(){
+    return {
+        type : SHOW_LINECHART
+    }
+
+}
+export function hideGraph(){
+    return {
+        type:HIDE_GRAPH
+    }
 }

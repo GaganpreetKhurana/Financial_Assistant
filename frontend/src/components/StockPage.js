@@ -13,7 +13,7 @@ class StockPage extends Component {
     }
     render() {
     const {stocklist}=this.props.details;
-    console.log(stocklist);
+    // console.log(stocklist);
 
         return (
             <div>
