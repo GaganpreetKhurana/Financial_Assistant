@@ -129,6 +129,16 @@ class TransactionListID(ListAPIView):
                                           id=self.kwargs['id'])
 
 
+class TransactionListDay(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = TransactionSerializer
+    model = Transaction
+
+    def get_queryset(self):
+        return Transaction.objects.filter(user=self.request.user,
+                                          time__day=self.kwargs['date'])
+
+
 class TransactionListMonth(ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = TransactionSerializer
@@ -160,7 +170,7 @@ class TransactionListYearMonth(ListAPIView):
                                           time__year=self.kwargs['year'])
 
 
-class TransactionListDate(ListAPIView):
+class TransactionListDayMonthYear(ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = TransactionSerializer
     model = Transaction
@@ -169,7 +179,7 @@ class TransactionListDate(ListAPIView):
         return Transaction.objects.filter(user=self.request.user,
                                           time__month=self.kwargs['month'],
                                           time__year=self.kwargs['year'],
-                                          time__date=self.kwargs['date'])
+                                          time__day=self.kwargs['date'])
 
 
 class CreateTransaction(CreateAPIView):
