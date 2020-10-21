@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {addChatMessage, newMessage, pastMessages} from "../actions/pages";
 import ChatMessage from './ChatMessage';
 
-import Say from 'react-say';
+import {SayButton} from 'react-say';
 
 class ChatBotPage extends Component {
     constructor(props) {
@@ -29,12 +29,11 @@ class ChatBotPage extends Component {
         e.preventDefault();
         const {typedMessage} = this.state;
         if (typedMessage) {
+
             var new_message = {content: typedMessage, self: true};
             this.props.dispatch(addChatMessage(new_message));
             var self = true;
             this.props.dispatch(newMessage(typedMessage, self));
-
-
         }
         this.setState({
             typedMessage: "",
@@ -43,26 +42,17 @@ class ChatBotPage extends Component {
 
     render() {
         const {messages} = this.props.details;
-        var dummy= messages[messages.length -1];
-        var tex="";
-        if(dummy)
-        {
-            tex=dummy.content;
-            console.log(tex);
+        let text_to_be_spoken = "";
+        if (messages[messages.length - 1]) {
+            text_to_be_spoken = messages[messages.length - 1].content;
         }
-        
+
 
         return (
             <div className="chat-container">
                 <div className="chat-messages">
                     {messages.map((message, index) => (
                         <ChatMessage message={message} key={`message.content-${index}`}/>))}
-                        <Say
-                            pitch={ 1.1 }
-                            rate={ 1.5 }
-                            text={tex}
-                            volume={ 0.8 }
-                        />
                 </div>
                 <div className="chat-footer">
                     <input
@@ -72,7 +62,10 @@ class ChatBotPage extends Component {
                         value={this.state.typedMessage}
 
                     />
-                    <button onClick={this.handleSubmit}>Submit</button>
+                    <button onClick={this.handleSubmit}>
+                        <SayButton onClick={console.log("Spoke: " + text_to_be_spoken)}
+                                   text={text_to_be_spoken}>Submit</SayButton>
+                    </button>
                 </div>
             </div>
         );
