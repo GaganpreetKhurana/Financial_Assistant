@@ -24,8 +24,14 @@ class PastTransactions extends Component {
             description: '',
             date:'',
             month:'',
-            year:''
+            year:'',
+            chart:'',
+            barGraph:null,
+            pieChart:null
         };
+    }
+    handleChart = (event) => {
+        this.setState({chart: event.target.value});
     }
     handleDate = (event) => {
         this.setState({date: event.target.value});
@@ -64,7 +70,7 @@ class PastTransactions extends Component {
 
     }
 
-
+// handle filters apply button
     handleSubmit2 = (e) => {
         //call dispatch
         e.preventDefault();
@@ -107,10 +113,51 @@ class PastTransactions extends Component {
         setTimeout(() => {
             //this.forceUpdate();
             this.props.dispatch(clearAuth());
+        }, 10000);
+
+    }
+
+    // handle visualizations button
+    // show visualizations
+    handleSubmit3 = (e) => {
+        //call dispatch
+        e.preventDefault();
+        const {chart} = this.state;
+        if(chart === 'pieChart')
+        {
+            this.setState({pieChart:true,barGraph:null});
+        }
+        else if(chart === 'barGraph')
+        {
+            this.setState({barGraph:true,pieChart:null});
+        }
+        else{
+            this.props.dispatch(updateTransactionFailure("Please select the Filter to be applied first !!!!"));
+            this.setState({
+            barGraph:null,
+            pieChart:null,
+            chart:''})
+        }
+        setTimeout(() => {
+            //this.forceUpdate();
+            this.props.dispatch(clearAuth());
+        }, 10000);
+
+    }
+//    hide visualizations
+    handleSubmit4 = (e) => {
+        //call dispatch
+        e.preventDefault();
+            this.setState({
+            barGraph:null,
+            pieChart:null,
+            chart:''})
+        setTimeout(() => {
+            //this.forceUpdate();
+            this.props.dispatch(clearAuth());
         }, 50000);
 
     }
-   
 
 
     //fetch list of past transactions
@@ -201,11 +248,17 @@ class PastTransactions extends Component {
                                 <option value="" disabled>Year</option>
                                     <option value="2020">2020</option>
                                 </select>
-                                <button className="apply" onClick={this.handleSubmit2}>Apply</button>
-                        
-                        
+                                <button className="apply" onClick={this.handleSubmit2}>Apply</button>  
                     </div>
-                    <div className="Rightfilter">   
+                    <div className="Rightfilter">  
+                        <select onChange={this.handleChart} value={this.state.chart}>
+                            <option value="" disabled>Select Type</option>
+                            <option value="barGraph">Bar Graph</option>
+                            <option value="pieChart">Pie Chart</option>
+                        </select> 
+                            {this.state.chart ==='' && <button className="show" onClick={this.handleSubmit3}> Show Visualizations </button> }
+                            {this.state.chart !=='' && <button className="hide" onClick={this.handleSubmit4}> Hide Visualizations </button> }
+
                     </div>
 
                 </div>
