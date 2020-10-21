@@ -18,8 +18,8 @@ import {
     hideGraph
 } from '../actions/pages';
 import TransactionEntry from './TransactionEntry';
-import Piechart from './Piechart';
-import Bargraph from './Bargraph';
+import GraphPiechart from './GraphPiechart';
+import GraphBargraph from './GraphBargraph';
 
 
 class PastTransactions extends Component {
@@ -186,7 +186,12 @@ class PastTransactions extends Component {
     render() {
         const {success, error} = this.props.details;
 
-        const {transactions, loading, update, inProgress, piechart, bargraph} = this.props.details;
+        const {transactions, loading, update, inProgress, piechart, bargraph,detailsList} = this.props.details;
+        var dummy={};
+        if(detailsList.length !== 0 )
+        {
+            dummy=detailsList[0];
+        }
         if (loading) {
             return <h2>Loading.....</h2>;
         }
@@ -264,17 +269,35 @@ class PastTransactions extends Component {
                     <div className="Rightfilter">  
                         <select onChange={this.handleChart} value={this.state.chart}>
                             <option value="" disabled>Select Type</option>
-                            <option value="barGraph">Bar Graph</option>
-                            <option value="pieChart">Pie Chart</option>
+                            {(piechart || bargraph) && 
+                            <option value="barGraph" disabled>Bar Graph</option>}
+                            {(piechart || bargraph) &&
+                            <option value="pieChart" disabled>Pie Chart</option>}
+                            {(!piechart && !bargraph) && 
+                            <option value="barGraph">Bar Graph</option>}
+                            {(!piechart && !bargraph) && 
+                            <option value="pieChart">Pie Chart</option>}
                         </select> 
-                            {this.state.chart ==='' && <button className="show" onClick={this.handleSubmit3}> Show Visualizations </button> }
-                            {this.state.chart !=='' && <button className="hide" onClick={this.handleSubmit4}> Hide Visualizations </button> }
+                            {(!piechart && !bargraph) && <button className="show" onClick={this.handleSubmit3}> Show Visualizations </button> }
+                            {(piechart || bargraph) && <button className="hide" onClick={this.handleSubmit4}> Hide Visualizations </button> }
 
                     </div>
-
+                   
                 </div>
-                {piechart && <Piechart/>}
-                {bargraph && <Bargraph/>}
+                <br></br>
+                <br></br>
+                {(detailsList.length !== 0 && piechart) && <GraphPiechart/>}
+                {(detailsList.length !== 0 && bargraph) && <GraphBargraph
+                food={dummy.food}
+                healthcare={dummy.healthcare}
+                housing={dummy.housing}
+                income={dummy.income}
+                miscellaneous={dummy.miscellaneous}
+                recreation={dummy.recreation}
+                savings = {dummy.savings}
+                transportation = {dummy.transportation}
+                expenditure = {dummy.totalExpenditure}
+                />}
                 {transactions.length === 0 &&  <h2>No Transactions to Display ..</h2>}
 
                 {
@@ -331,7 +354,7 @@ class PastTransactions extends Component {
                {transactions.length !== 0 && 
                <div>
                 <h2>PAST TRANSACTIONS</h2>
-                
+                <br></br>
                 <div className="transaction-entry">
                     <div className="number headers"> S.No.</div>
                     <div className="category headers">Category</div>

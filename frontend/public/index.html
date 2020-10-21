@@ -23,14 +23,9 @@
         new google.translate.TranslateElement({pageLanguage: 'en', 
         layout:     google.translate.TranslateElement.InlineLayout.SIMPLE,
         autoDisplay: false, 
-        includedLanguages: ''}, 'google_translate_element');}
+        includedLanguages: ''}, 'google_translate_element');
+        }
 </script>
 <script type="text/javascript" src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-<script>jQuery(selector).bind(
-    "mouseenter mouseleave",
-    function (event) {
-        if (event.type === 'mouseenter')    { google_trans_tt.css('z-index', -1000); }
-        else                                { google_trans_tt.css('z-index',  1000); }
-    }
-);</script>
+
 </html>
