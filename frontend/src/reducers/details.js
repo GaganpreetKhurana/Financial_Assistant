@@ -18,7 +18,8 @@ const {
     ADD_CHAT_MESSAGE,
     DISPLAY_CHAT_MESSAGE,
     SHOW_WISHLIST,
-    SHOW_STOCKLIST
+    SHOW_STOCKLIST,
+    FETCH_DETAILS
 } = require("../actions/actionTypes");
 
 
@@ -38,7 +39,8 @@ const initialTransactionState = {
     amazon:false,
     messages: [],
     wishlist: [],
-    stocklist:[]
+    stocklist:[],
+    detailsList:[]
 };
 
 export default function transaction(state = initialTransactionState, action) {
@@ -113,6 +115,11 @@ export default function transaction(state = initialTransactionState, action) {
                 inProgress: false,
                 error: null,
             };
+        case FETCH_DETAILS:
+            return {
+                ...state,
+                detailsList:action.details,
+            }
         case CLEAR_AUTH_STATE:
             return {
                 ...state,

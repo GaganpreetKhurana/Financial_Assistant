@@ -66,3 +66,6 @@ export const SHOW_STOCKLIST = "SHOW_STOCKLIST";
 
 //filter transactions
 export const FILTER_TRANSACTION="FILTER_TRANSACTION";
+
+//fetch details
+export const FETCH_DETAILS = "FETCH_DETAILS";

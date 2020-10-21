@@ -104,7 +104,7 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
                                       description=description,
                                       credit=self.validated_data['credit'])
         factor = 1
-        if self.validated_data['credit'] is False:
+        if self.validated_data['credit'] is True:
             factor = -1
         details.totalTransactions += 1
         if self.validated_data['category'] == 0:
@@ -151,7 +151,7 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
                                         date_created__year=year)
         details = details[0]
         factor = 1
-        if validated_data['credit'] is False:
+        if validated_data['credit'] is True:
             factor = -1
         if validated_data['category'] == 0:
             details.income += factor * validated_data['amount']
@@ -169,7 +169,7 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
             details.miscellaneous += factor * validated_data['amount']
 
         factor = 1
-        if not instance.credit:
+        if instance.credit:
             factor = -1
         if instance.type == 0:
             details.income -= factor * instance.amount
