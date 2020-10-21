@@ -94,7 +94,7 @@ except:
 
     training = numpy.array(training)
     output = numpy.array(output)
-    with open("data.pickle", "wb") as f:
+    with open(abs_path_pickle, "wb") as f:
         pickle.dump((words, labels, training, output), f)
 
 # Defining the tensorflow network
@@ -114,7 +114,9 @@ model.summary()
 model.compile(optimizer='sgd',
               loss='categorical_crossentropy',
               metrics=['accuracy'])
+              
 try:
+    print("Loading Model")
     model.load(abs_path_model)
 except:
     model.fit(training, output, epochs=700, batch_size=8)
@@ -282,7 +284,7 @@ def chat_web(question, user_id, request):
 
         if list_parse[1] == "history":
             stck = list_parse[2]
-            chat_response += stock_script.StockHistory(stck)
+            chat_response += stock_script.StockHistory(stck,3)
 
         if list_parse[1] == "buy":
             stck = list_parse[2]
@@ -318,9 +320,15 @@ def chat_web(question, user_id, request):
     ## Questions
     speak_flag = False
 
+    #Checking for speak command
     if len(question)>5 and question[-5:]== "Speak":
         speak_flag = True
         question = question[:-5]
+
+    elif len(question)>5 and question[:5]== "Speak":
+            speak_flag = True
+            question = question[5:]
+
 
     print("Please delete models and cache after editing intents.json!")
     print("Start talking with the bot (type quit to stop)!")

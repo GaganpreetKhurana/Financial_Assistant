@@ -32,7 +32,7 @@
         },
         {
             "tag": "amazon_buy",
-            "patterns": ["Should i buy something on amazon", "Is there a price drop on amazon","Prediction for this item on amazon"],
+            "patterns": ["Should i buy something on amazon", "Will there be a price drop on amazon","Prediction for this item on amazon"],
             "responses": ["Fetching amazon wishlist report","Predicting best time to buy this item"]
         },
         {
@@ -47,12 +47,12 @@
         },
         {
             "tag": "stock_buy",
-            "patterns": ["Buy this stock", "I will buy this stock"],
+            "patterns": ["Buy this stock", "I will buy this stock","I want to buy this stock"],
             "responses": ["Ready to buy this stock","How much do you want to buy"]
         },
         {
             "tag": "stock_sell",
-            "patterns": ["Sell this stock", "I will sell this stock"],
+            "patterns": ["I want to sell my stock","Offload this stock","Trade this stock","Offload","Trade"],
             "responses": ["Ready to sell this stock","How much do you want to sell"]
         },
         {
@@ -62,12 +62,12 @@
         },
         {
             "tag": "stock_portfolio_info",
-            "patterns": ["Fetch my portfolio situation", "Fetch my portfolio situation"],
+            "patterns": ["Fetch my portfolio situation", "Fetch my portfolio situation","What is my portfolio situation"],
             "responses": ["Calculating your stock's portfolio prediction","Fetching stock portfolio prediction"]
         },
         {
             "tag": "stock_portfolio_prediction",
-            "patterns": ["Fetch my portfolio prediction", "How will my portfolio be in future"],
+            "patterns": ["Fetch my portfolio prediction", "How will my portfolio be in future","What is my portfolio prediction"],
             "responses": ["Calculating your portfolio prediction","Fetching portfolio prediction"]
         }
     ]

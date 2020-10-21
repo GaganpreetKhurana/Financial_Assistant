@@ -22,8 +22,8 @@ class StockPage extends Component {
                 <div className="wishlist-entry">
                         <div className="numbs headers"> S.No. </div>
                         <div className="stocks headers">Stocks</div> 
-                        <div className="owned headers">Owned Price &nbsp;(Rs.)</div>   
-                        <div className="prices headers">Current Price &nbsp;(Rs.)</div>   
+                        <div className="owned headers">Owned Amount &nbsp;(Rs.)</div>   
+                        <div className="prices headers">Stock Price &nbsp;(Rs.)</div>   
                 
                 </div>
                {stocklist.length === 0 && <div><br></br><h2>No Stocklist to display</h2></div>}
