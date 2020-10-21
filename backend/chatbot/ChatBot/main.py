@@ -261,7 +261,7 @@ def chat_web(question, user_id, request):
             url = list_parse[2]
             chat_response += amazon_script.amazon_buy_fun(url, user_id)
 
-        if(list_parse[-1] == "Speak"):
+        if list_parse[-1] == "Speak":
             engine = pyttsx3.init()
             engine.say(chat_response)
             engine.runAndWait()
@@ -306,7 +306,7 @@ def chat_web(question, user_id, request):
             if list_parse[2] == "predict":
                 chat_response += stock_script.PortfolioPrediction(user_id)
 
-        if(list_parse[-1] == "Speak"):
+        if list_parse[-1] == "Speak":
             engine = pyttsx3.init()
             engine.say(chat_response)
             engine.runAndWait()
@@ -318,7 +318,7 @@ def chat_web(question, user_id, request):
     ## Questions
     speak_flag = False
 
-    if(len(question)>5 and question[-5:]=="Speak"):
+    if len(question)>5 and question[-5:]== "Speak":
         speak_flag = True
         question = question[:-5]
 
@@ -403,7 +403,7 @@ def chat_web(question, user_id, request):
 
     chat_store(answer, 'donna', 'False')
 
-    if(speak_flag):
+    if speak_flag:
         engine = pyttsx3.init()
         engine.say(answer)
         engine.runAndWait()

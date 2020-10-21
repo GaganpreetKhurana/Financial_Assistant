@@ -129,6 +129,16 @@ class TransactionListID(ListAPIView):
                                           id=self.kwargs['id'])
 
 
+class TransactionListDay(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = TransactionSerializer
+    model = Transaction
+
+    def get_queryset(self):
+        return Transaction.objects.filter(user=self.request.user,
+                                          time__day=self.kwargs['date'])
+
+
 class TransactionListMonth(ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = TransactionSerializer
@@ -160,7 +170,29 @@ class TransactionListYearMonth(ListAPIView):
                                           time__year=self.kwargs['year'])
 
 
-class TransactionListDate(ListAPIView):
+class TransactionListYearDay(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = TransactionSerializer
+    model = Transaction
+
+    def get_queryset(self):
+        return Transaction.objects.filter(user=self.request.user,
+                                          time__day=self.kwargs['date'],
+                                          time__year=self.kwargs['year'])
+
+
+class TransactionListMonthDay(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = TransactionSerializer
+    model = Transaction
+
+    def get_queryset(self):
+        return Transaction.objects.filter(user=self.request.user,
+                                          time__month=self.kwargs['month'],
+                                          time__day=self.kwargs['date'])
+
+
+class TransactionListDayMonthYear(ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = TransactionSerializer
     model = Transaction
@@ -169,7 +201,7 @@ class TransactionListDate(ListAPIView):
         return Transaction.objects.filter(user=self.request.user,
                                           time__month=self.kwargs['month'],
                                           time__year=self.kwargs['year'],
-                                          time__date=self.kwargs['date'])
+                                          time__day=self.kwargs['date'])
 
 
 class CreateTransaction(CreateAPIView):
@@ -200,7 +232,7 @@ class DeleteTransaction(DestroyAPIView):
                     "message": "Object Not Found"
                 }
                 return Response(data=response, status=status.HTTP_204_NO_CONTENT)
-            print(instance, instance.time, type(instance.time))
+            # print(instance, instance.time, type(instance.time))
             details = Detail.objects.filter(user=request.user,
                                             date_created__year=instance.time.strftime("%Y"),
                                             date_created__month=instance.time.strftime("%m"))

@@ -54,7 +54,7 @@ def StockHistoryPredict(stck):
     print("slope (m): ",m)
     print("y-intercept (c): ",c)
 
-    return ("Predicted y: " + str(predicted_y))
+    return "Predicted y: " + str(predicted_y)
 
 
 def GetCurrentPrice(stck):
@@ -75,7 +75,7 @@ def StockBuy(amount,stck):
     db_object.commit()
     db_object.close()
     ## Return signal and amount spent
-    return ("Stock Bought Successfully",current_price*amount)
+    return "Stock Bought Successfully", current_price * amount
 
 
 def SellStock(amount,stck):
@@ -87,8 +87,8 @@ def SellStock(amount,stck):
     results = db.fetchall()
     print(results)
     ## Possible or not
-    if(amount>results[0]):
-        return ("Not Enough Stock Owned",0)
+    if amount>results[0]:
+        return "Not Enough Stock Owned", 0
     
     transaction_amount = amount*(current_price - results[2])
 
@@ -97,7 +97,7 @@ def SellStock(amount,stck):
     sql = f"UPDATE owned_stock SET owned_shares = \"{str(amount_left)}\"  WHERE stck = \"{str(stck)}\""
     db.execute(sql)
 
-    return ("Stock Sold Successfully",transaction_amount)
+    return "Stock Sold Successfully", transaction_amount
 
 
 def PortfolioSituation():

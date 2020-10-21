@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {connect} from "react-redux";
-
 
 class ChatMessage extends Component {
 
 
     render() {
-    const {message}=this.props;
+        const {message} = this.props;
         return (
-            
+
             <div
-            className={
-              message.self
-                ? 'chat-bubble self-chat'
-                : 'chat-bubble other-chat'
-            }
-          >
-            {message.content}
-          </div>
-                    
+                className={
+                    message.self
+                        ? 'chat-bubble self-chat'
+                        : 'chat-bubble other-chat'
+                }
+            >
+                {message.content}
+
+            </div>
+
         );
     }
 }
@@ -31,4 +31,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(ChatMessage );
+export default connect(mapStateToProps)(ChatMessage);

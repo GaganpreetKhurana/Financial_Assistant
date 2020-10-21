@@ -1,15 +1,11 @@
+import amazon_script
 import nltk
 nltk.download('punkt')
 from nltk.stem.lancaster import LancasterStemmer
-import  amazon_script
-import  stock_script
-
-
 
 stemmer = LancasterStemmer()
 
 import numpy
-import tensorflow
 from tensorflow import keras
 import random
 import json
@@ -22,8 +18,7 @@ labels = []
 docs_x = []  # pattern
 docs_y = []  # associated tag of the pattern
 
-script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
-
+script_dir = os.path.dirname(__file__)  # <-- absolute dir the script is in
 
 # importing the chat intents into data
 rel_path_intent = 'intents.json'
@@ -48,7 +43,7 @@ except:
         if intent['tag'] not in labels:
             labels.append(intent['tag'])
 
-    ## Stemming the words eg thats -> that
+    # Stemming the words eg thats -> that
     words = [stemmer.stem(w.lower()) for w in words if w != "?"]
     # Sorting and unique
 
@@ -57,7 +52,7 @@ except:
     labels = sorted(labels)
 
     # One Hot Encoding 
-    training = []  ##bag of words one hot encoded
+    training = []  # bag of words one hot encoded
     output = []  # the length of the amount of labels/tags we have in our dataset
 
     out_empty = [0 for _ in range(len(labels))]
@@ -69,7 +64,7 @@ except:
 
         for w in words:
             if w in wrds:
-                bag.append(1)  ##updating the one hot encoding
+                bag.append(1)  # updating the one hot encoding
             else:
                 bag.append(0)
 
@@ -158,41 +153,38 @@ def chat():
             print("No function to call")
 
 
-
-def fun(str):
+def fun(string):
     print("\n\nFunction called in chat bot")
-    return "Hello" + str
+    return "Hello" + string
 
 
 def chat_web(question):
-## Checking if the question is actually a Transaction reply
-    if(question.startswith("Transaction")):
+    # Checking if the question is actually a Transaction reply
+    if question.startswith("Transaction"):
         list_parse = question.split()
 
-        if(list_parse[3]== "Debit"):
+        if list_parse[3] == "Debit":
             print("Calling function to add debit to database")
 
-        if(list_parse[3]== "Credit"):
+        if list_parse[3] == "Credit":
             print("Calling function to add credit to database")
 
         return "Transaction Operation Successful!"
 
-## Checking if the question is actually a Amazon reply
-    if(question.startswith("Amazon")):
+    # Checking if the question is actually a Amazon reply
+    if question.startswith("Amazon"):
         list_parse = question.split()
         chat_response = "Amazon Operation Successful! "
 
-        if(list_parse[1] == "Add"):
+        if list_parse[1] == "Add":
             url = list_parse[2]
             chat_response += amazon_script.amazon_add_fun(url)
 
-        if(list_parse[1] == "Buy"):
+        if list_parse[1] == "Buy":
             url = list_parse[2]
             chat_response += amazon_script.amazon_buy_fun(url)
 
         return chat_response
-
-
 
     print("Please delete models and cache after editing intents.json!")
     print("Start talking with the bot (type quit to stop)!")
@@ -211,23 +203,23 @@ def chat_web(question):
 
     answer = random.choice(responses)
 
-    ##print(answer)
+    # print(answer)
     print(tag)
 
-    ## REplying user the instructions with matching tags
-    if (tag == "payments_debit"):
+    # REplying user the instructions with matching tags
+    if tag == "payments_debit":
         answer += "\nPlease Reply the Category,Amount in the format 'Transaction *Category* *Amount* Dredit'"
         print("Calling function to add debit to database")
 
-    elif (tag == "payments_credit"):
+    elif tag == "payments_credit":
         answer += "\nPlease Reply the Category,Amount in the format 'Transaction *Category* *Amount* Credit'"
         print("Calling function to add credit to database")
 
-    elif (tag == "amazon_add"):
+    elif tag == "amazon_add":
         answer += "\nPlease Reply the url of wishlist in the format 'Amazon Add *url*'"
         print("Calling function to add item to amazon wishlist")
 
-    elif (tag == "amazon_buy"):
+    elif tag == "amazon_buy":
         answer += "\nPlease Reply the url of wishlist in the format 'Amazon Buy *url*'"
         print("Calling function to add check status of amazon wishlist")
 
@@ -235,6 +227,3 @@ def chat_web(question):
         print("No function to call")
 
     return answer
-
-
-
