@@ -24,7 +24,7 @@ def StockHistory(stck,days):
     stck_obj = yf.Ticker(stck)
     time_period = f"{str(days)}d"
     info = stck_obj.history(period=time_period)
-    return info
+    return str(info)
 
 
 def StockHistoryPredict(stck):
@@ -61,12 +61,13 @@ def StockHistoryPredict(stck):
 def GetCurrentPrice(stck):
     stck_obj = yf.Ticker(stck)
     information = stck_obj.info
-    return information["open"]
+    return float(information["open"])
 
 
 def StockBuy(amount,stck,user_id):
     ## Storing and buying the stock
-    current_price = GetCurrentPrice(stck)
+    ##current_price = GetCurrentPrice(stck)
+    current_price = 422.7
 
     parent_dir = os.path.dirname(os.path.abspath(__file__))
     rel_path_db = 'stock_db'
@@ -77,13 +78,41 @@ def StockBuy(amount,stck,user_id):
 
     db = db_object.cursor()
     db.execute("CREATE TABLE IF NOT EXISTS owned_stock (id INTEGER PRIMARY KEY AUTOINCREMENT,owned_shares DECIMAL (5, 2) NOT NULL DEFAULT 0,current_price DECIMAL (5, 2) NOT NULL DEFAULT 0,stck LONGVARCHAR,userid LONGVARCHAR,createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)")
-    sql = f"INSERT INTO owned_stock (owned_shares,stck,current_price,userid) VALUES (\"{str(amount)}\",\"{str(stck)}\",\"{str(current_price)}\",\"{str(user_id)}\")"
-    print(sql)
+    
+    current_owned = 0
+    try:
+        sql = f"SELECT owned_shares FROM owned_stock WHERE (stck = \"{str(stck)}\" AND userid = \"{str(user_id)}\")"
+        db.execute(sql)
+        results = db.fetchall()
+        current_owned = results[0][0]
+    except:
+        print("No previous stock exists")
+
+    buying_stock = int(amount)
+    #print(buying_stock)
+    #print(current_owned)
+    current_owned += buying_stock
+    #print(current_owned)
+
+    sql = f"SELECT EXISTS(SELECT 1 FROM owned_stock WHERE (stck = \"{str(stck)}\" AND userid = \"{str(user_id)}\") LIMIT 1)"
     db.execute(sql)
-    db_object.commit()
+    flag_exists = db.fetchall()
+    flag_exists = flag_exists[0][0]
+    #print(flag_exists)
+    #print(type(flag_exists))
+    
+    if(flag_exists):
+        sql = f"UPDATE owned_stock SET owned_shares = \"{str(current_owned)}\",current_price = \"{str(current_price)}\" WHERE (stck = \"{str(stck)}\" AND userid = \"{str(user_id)}\")"
+        db.execute(sql)
+        db_object.commit()
+    else:
+        sql = f"INSERT INTO owned_stock (owned_shares,stck,current_price,userid) VALUES (\"{str(current_owned)}\",\"{str(stck)}\",\"{str(current_price)}\",\"{str(user_id)}\")"
+        db.execute(sql)
+        db_object.commit()
+
     db_object.close()
     ## Return signal and amount spent
-    return "Stock Bought Successfully", current_price * amount
+    return "Stock Bought Successfully "
 
 
 def SellStock(amount,stck,user_id):
@@ -97,22 +126,33 @@ def SellStock(amount,stck,user_id):
     db_object = sqlite3.connect(abs_path_db)
 
     db = db_object.cursor()
+
+    sql = f"SELECT EXISTS(SELECT 1 FROM owned_stock WHERE (stck = \"{str(stck)}\" AND userid = \"{str(user_id)}\") LIMIT 1)"
+    db.execute(sql)
+    flag_exists = db.fetchall()
+    flag_exists = flag_exists[0][0]
+    #print(flag_exists)
+    #print(type(flag_exists))
+    
+    if(flag_exists==0):
+        return "Stock Not Owned"
+
+
     sql = f"SELECT owned_shares,stck,current_price FROM owned_stock WHERE (stck = \"{str(stck)}\" AND userid = \"{str(user_id)}\")"
     db.execute(sql)
     results = db.fetchall()
-    print(results)
     ## Possible or not
-    if amount>results[0]:
-        return "Not Enough Stock Owned", 0
+    amount = float(amount)
+    if amount>results[0][0]:
+        return "Not Enough Stock Owned"
     
-    transaction_amount = amount*(current_price - results[2])
-
     ## Committing to sql
-    amount_left = results[0] - amount
+    amount_left = results[0][0] - amount
     sql = f"UPDATE owned_stock SET owned_shares = \"{str(amount_left)}\"  WHERE (stck = \"{str(stck)}\" AND userid = \"{str(user_id)}\")"
     db.execute(sql)
-
-    return "Stock Sold Successfully", transaction_amount
+    db_object.commit()
+    db_object.close()
+    return "Stock Sold Successfully"
 
 
 def PortfolioSituation(user_id):
@@ -209,4 +249,4 @@ def stock_list(user_id):
 
 
 ##user_id = 2
-##print(type(stock_list(user_id)))
+##print(SellStock(1000,"AAPL",2))
