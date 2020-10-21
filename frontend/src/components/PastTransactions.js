@@ -1,7 +1,18 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {clearAuth, fetchTransactions, updateTransaction} from '../actions/pages';
+import {clearAuth,
+     fetchTransactions,
+      updateTransaction,
+      updateTransactionFailure,
+      filterTransaction1,
+      filterTransaction2,
+      filterTransaction3,
+      filterTransaction4,
+      filterTransaction5,
+      filterTransaction6,
+      filterTransaction7} from '../actions/pages';
 import TransactionEntry from './TransactionEntry';
+
 
 class PastTransactions extends Component {
     constructor(props) {
@@ -11,9 +22,20 @@ class PastTransactions extends Component {
             amount: '',
             type: 'true',
             description: '',
+            date:'',
+            month:'',
+            year:''
         };
     }
-
+    handleDate = (event) => {
+        this.setState({date: event.target.value});
+    }
+    handleMonth = (event) => {
+        this.setState({month: event.target.value});
+    }
+    handleYear = (event) => {
+        this.setState({year: event.target.value});
+    }
     handleChange = (event) => {
         this.setState({category: event.target.value});
     }
@@ -43,6 +65,54 @@ class PastTransactions extends Component {
     }
 
 
+    handleSubmit2 = (e) => {
+        //call dispatch
+        e.preventDefault();
+        const {date,month,year} = this.state;
+        console.log("filter applied");
+        console.log("dispatch filter caled",date,month,year);
+        if(date !=='' && month!=='' && year!=='')
+        {
+            this.props.dispatch(filterTransaction1(date,month,year));
+        }
+        else if(date !=='' && month!=='')
+        {
+            this.props.dispatch(filterTransaction2(date,month));
+        }
+        else if(date !=='' && year!=='')
+        {
+            this.props.dispatch(filterTransaction3(date,year));
+        }
+        else if(month !=='' && year!=='')
+        {
+            this.props.dispatch(filterTransaction4(month,year));
+        }
+        else if(date !=='')
+        {
+            this.props.dispatch(filterTransaction5(date));
+        }
+        else if(month !=='')
+        {
+            this.props.dispatch(filterTransaction6(month));
+        }
+        else if(year !=='')
+        {
+            this.props.dispatch(filterTransaction7(year));
+        }
+        else{
+            this.props.dispatch(updateTransactionFailure("Please select the Filter to be applied first !!!!"))
+        }
+        this.setState({month:'',date:'',year:''});
+
+        setTimeout(() => {
+            //this.forceUpdate();
+            this.props.dispatch(clearAuth());
+        }, 50000);
+
+    }
+   
+
+
     //fetch list of past transactions
     componentDidMount() {
         this.props.dispatch(fetchTransactions());
@@ -51,7 +121,7 @@ class PastTransactions extends Component {
     componentWillUnmount() {
         this.props.dispatch(clearAuth());
     }
-
+    onChange = date => this.setState({ date })
 
     render() {
         const {success, error} = this.props.details;
@@ -66,6 +136,82 @@ class PastTransactions extends Component {
         }
         return (
             <div className="form-box2">
+                {error && (
+                    <div className="alert-warn">
+                        <button>{error}</button>
+                    </div>
+                )}
+                {success && (
+                    <div className="alert-done">
+                        <button>{success}</button>
+                    </div>
+                )}
+                <div className="filters">
+                    <div className="Leftfilter">
+                    <select onChange={this.handleDate} value={this.state.date}>
+                                    <option value="" disabled>Date</option>
+                                    <option value="1">1</option>
+                                    <option value="02">2</option>
+                                    <option value="03">3</option>
+                                    <option value="04">4</option>
+                                    <option value="05">5</option>
+                                    <option value="06">6</option>
+                                    <option value="07">7</option>
+                                    <option value="08">8</option>
+                                    <option value="09">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                    <option value="23">23</option>
+                                    <option value="24">24</option>
+                                    <option value="25">25</option>
+                                    <option value="26">26</option>
+                                    <option value="27">27</option>
+                                    <option value="28">28</option>
+                                    <option value="29">29</option>
+                                    <option value="30">30</option>
+                                    <option value="31">31</option>
+                                </select>
+                                <select onChange={this.handleMonth} value={this.state.month}>
+                                <option value="" disabled>Month</option>
+                                    <option value="01">January</option>
+                                    <option value="02">February</option>
+                                    <option value="03">March</option>
+                                    <option value="04">April</option>
+                                    <option value="05">May</option>
+                                    <option value="06"> June</option>
+                                    <option value="07">July</option>
+                                    <option value="08">August</option>
+                                    <option value="09"> September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                                <select onChange={this.handleYear} value={this.state.year}>
+                                <option value="" disabled>Year</option>
+                                    <option value="2020">2020</option>
+                                </select>
+                                <button className="apply" onClick={this.handleSubmit2}>Apply</button>
+                        
+                        
+                    </div>
+                    <div className="Rightfilter">   
+                    </div>
+
+                </div>
+
+
+
                 {
                     update &&
                     <div>
@@ -88,21 +234,21 @@ class PastTransactions extends Component {
                             <br/>
                             <div>
                                 <label>Description</label>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <input type="text" onChange={this.handleChange4} value={this.state.description}
                                        placeholder="Description" required/>
                             </div>
                             <br/>
                             <div>
                                 <label>Enter Amount</label>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <input type="text" onChange={this.handleChange2} value={this.state.amount}
                                        placeholder="00.00" required/>
                             </div>
                             <br/>
                             <div>
                                 <label>Type</label>
-                                &nbsp;  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <select onChange={this.handleChange3} value={this.state.type} placeholder="Type">
                                     <option value="true">Credit</option>
                                     <option value="false">Debit</option>
@@ -115,18 +261,9 @@ class PastTransactions extends Component {
                         </div>
                     </div>
                 }
-                {update && <br/>}
+               <br></br>
                 <h2>PAST TRANSACTIONS</h2><br/>
-                {error && (
-                    <div className="alert-warn">
-                        <button>{error}</button>
-                    </div>
-                )}
-                {success && (
-                    <div className="alert-done">
-                        <button>{success}</button>
-                    </div>
-                )}
+                
                 <div className="transaction-entry">
                     <div className="number headers"> S.No.</div>
                     <div className="category headers">Category</div>

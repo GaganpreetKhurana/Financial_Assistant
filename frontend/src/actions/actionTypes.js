@@ -63,3 +63,6 @@ export const SHOW_WISHLIST = "SHOW_WISHLIST";
 
 //stocklist
 export const SHOW_STOCKLIST = "SHOW_STOCKLIST";
+
+//filter transactions
+export const FILTER_TRANSACTION="FILTER_TRANSACTION";
