@@ -22,7 +22,8 @@ import {
     FETCH_DETAILS,
     SHOW_BARGRAPH,
     SHOW_PIECHART,
-    HIDE_GRAPH
+    HIDE_GRAPH,
+    SHOW_LINECHART
 } from './actionTypes';
 
 
@@ -825,7 +826,12 @@ export function showPieChart(){
     }
 
 }
+export function showLineChart(){
+    return {
+        type : SHOW_LINECHART
+    }
 
+}
 export function hideGraph(){
     return {
         type:HIDE_GRAPH

@@ -22,7 +22,8 @@ const {
     FETCH_DETAILS,
     SHOW_PIECHART,
     SHOW_BARGRAPH,
-    HIDE_GRAPH
+    HIDE_GRAPH,
+    SHOW_LINECHART
 } = require("../actions/actionTypes");
 
 
@@ -46,6 +47,7 @@ const initialTransactionState = {
     detailsList:[],
     piechart:null,
     bargraph:null,
+    linechart:null,
 };
 
 export default function transaction(state = initialTransactionState, action) {
@@ -188,21 +190,30 @@ export default function transaction(state = initialTransactionState, action) {
                 ...state,
                 bargraph:true,
                 piechart:null,
+                linechart:null
             }
         case SHOW_PIECHART:
             return {
                 ...state,
                 bargraph:null,
                 piechart:true,
+                linechart:null
+            }
+        case SHOW_LINECHART:
+            return {
+                ...state,
+                bargraph:null,
+                piechart:null,
+                linechart:true
             }
         case HIDE_GRAPH:
             return {
                 ...state,
                 bargraph:null,
-                piechart:null
+                piechart:null,
+                linechart:null
             }
         default:
             return state;
-
-        }
+    }
 }

@@ -15,11 +15,14 @@ import {
     filterTransaction7,
     showBarGraph,
     showPieChart,
+    showLineChart,
     hideGraph
 } from '../actions/pages';
 import TransactionEntry from './TransactionEntry';
 import GraphPiechart from './GraphPiechart';
+import GraphLinechart from './GraphLinechart';
 import GraphBargraph from './GraphBargraph';
+
 
 
 class PastTransactions extends Component {
@@ -141,6 +144,11 @@ class PastTransactions extends Component {
             this.props.dispatch(showBarGraph());
             this.setState({barGraph:true,pieChart:null});
         }
+        else if(chart === 'lineChart')
+        {
+            this.props.dispatch(showLineChart());
+            this.setState({barGraph:null,pieChart:null});
+        }
         else{
             this.props.dispatch(updateTransactionFailure("Please select the Filter to be applied first !!!!"));
             this.setState({
@@ -186,7 +194,7 @@ class PastTransactions extends Component {
     render() {
         const {success, error} = this.props.details;
 
-        const {transactions, loading, update, inProgress, piechart, bargraph,detailsList} = this.props.details;
+        const {transactions, loading, update, inProgress, piechart,linechart, bargraph,detailsList} = this.props.details;
         var dummy={};
         if(detailsList.length !== 0 )
         {
@@ -269,23 +277,40 @@ class PastTransactions extends Component {
                     <div className="Rightfilter">  
                         <select onChange={this.handleChart} value={this.state.chart}>
                             <option value="" disabled>Select Type</option>
-                            {(piechart || bargraph) && 
+                            {(piechart || bargraph || linechart) && 
                             <option value="barGraph" disabled>Bar Graph</option>}
-                            {(piechart || bargraph) &&
+                            {(piechart || bargraph || linechart) &&
                             <option value="pieChart" disabled>Pie Chart</option>}
-                            {(!piechart && !bargraph) && 
+                            {(piechart || bargraph || linechart) &&
+                            <option value="lineChart" disabled>Line Graph</option>}
+
+
+                            {(!piechart && !bargraph && !linechart) && 
                             <option value="barGraph">Bar Graph</option>}
-                            {(!piechart && !bargraph) && 
+                            {(!piechart && !bargraph && !linechart) && 
                             <option value="pieChart">Pie Chart</option>}
+                            {(!piechart && !bargraph && !linechart) && 
+                            <option value="lineChart">Line Graph</option>}
                         </select> 
-                            {(!piechart && !bargraph) && <button className="show" onClick={this.handleSubmit3}> Show Visualizations </button> }
-                            {(piechart || bargraph) && <button className="hide" onClick={this.handleSubmit4}> Hide Visualizations </button> }
+                            {(!piechart && !bargraph && !linechart) && <button className="show" onClick={this.handleSubmit3}> Show Visualizations </button> }
+                            {(piechart || bargraph || linechart) && <button className="hide" onClick={this.handleSubmit4}> Hide Visualizations </button> }
 
                     </div>
                    
                 </div>
                 <br></br>
                 <br></br>
+                {(detailsList.length !== 0 && linechart) && <GraphLinechart
+                food={dummy.food}
+                healthcare={dummy.healthcare}
+                housing={dummy.housing}
+                income={dummy.income}
+                miscellaneous={dummy.miscellaneous}
+                recreation={dummy.recreation}
+                savings = {dummy.savings}
+                transportation = {dummy.transportation}
+                expenditure = {dummy.totalExpenditure}
+                />}
                 {(detailsList.length !== 0 && piechart) && <GraphPiechart
                 food={dummy.food}
                 healthcare={dummy.healthcare}
