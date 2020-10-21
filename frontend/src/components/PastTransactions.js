@@ -286,7 +286,17 @@ class PastTransactions extends Component {
                 </div>
                 <br></br>
                 <br></br>
-                {(detailsList.length !== 0 && piechart) && <GraphPiechart/>}
+                {(detailsList.length !== 0 && piechart) && <GraphPiechart
+                food={dummy.food}
+                healthcare={dummy.healthcare}
+                housing={dummy.housing}
+                income={dummy.income}
+                miscellaneous={dummy.miscellaneous}
+                recreation={dummy.recreation}
+                savings = {dummy.savings}
+                transportation = {dummy.transportation}
+                expenditure = {dummy.totalExpenditure}
+                />}
                 {(detailsList.length !== 0 && bargraph) && <GraphBargraph
                 food={dummy.food}
                 healthcare={dummy.healthcare}
