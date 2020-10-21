@@ -1,6 +1,16 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {clearAuth, fetchTransactions, updateTransaction} from '../actions/pages';
+import {clearAuth,
+     fetchTransactions,
+      updateTransaction,
+      updateTransactionFailure,
+      filterTransaction1,
+      filterTransaction2,
+      filterTransaction3,
+      filterTransaction4,
+      filterTransaction5,
+      filterTransaction6,
+      filterTransaction7} from '../actions/pages';
 import TransactionEntry from './TransactionEntry';
 
 
@@ -53,6 +63,53 @@ class PastTransactions extends Component {
         }, 50000);
 
     }
+
+
+    handleSubmit2 = (e) => {
+        //call dispatch
+        e.preventDefault();
+        const {date,month,year} = this.state;
+        console.log("filter applied");
+        console.log("dispatch filter caled",date,month,year);
+        if(date !=='' && month!=='' && year!=='')
+        {
+            this.props.dispatch(filterTransaction1(date,month,year));
+        }
+        else if(date !=='' && month!=='')
+        {
+            this.props.dispatch(filterTransaction2(date,month));
+        }
+        else if(date !=='' && year!=='')
+        {
+            this.props.dispatch(filterTransaction3(date,year));
+        }
+        else if(month !=='' && year!=='')
+        {
+            this.props.dispatch(filterTransaction4(month,year));
+        }
+        else if(date !=='')
+        {
+            this.props.dispatch(filterTransaction5(date));
+        }
+        else if(month !=='')
+        {
+            this.props.dispatch(filterTransaction6(month));
+        }
+        else if(year !=='')
+        {
+            this.props.dispatch(filterTransaction7(year));
+        }
+        else{
+            this.props.dispatch(updateTransactionFailure("Please select the Filter to be applied first !!!!"))
+        }
+        this.setState({month:'',date:'',year:''});
+
+        setTimeout(() => {
+            //this.forceUpdate();
+            this.props.dispatch(clearAuth());
+        }, 50000);
+
+    }
    
 
 
@@ -92,8 +149,8 @@ class PastTransactions extends Component {
                 <div className="filters">
                     <div className="Leftfilter">
                     <select onChange={this.handleDate} value={this.state.date}>
-                                    <option value="" selected disabled>Date</option>
-                                    <option value="01">1</option>
+                                    <option value="" disabled>Date</option>
+                                    <option value="1">1</option>
                                     <option value="02">2</option>
                                     <option value="03">3</option>
                                     <option value="04">4</option>
@@ -126,7 +183,7 @@ class PastTransactions extends Component {
                                     <option value="31">31</option>
                                 </select>
                                 <select onChange={this.handleMonth} value={this.state.month}>
-                                <option value="" selected disabled>Month</option>
+                                <option value="" disabled>Month</option>
                                     <option value="01">January</option>
                                     <option value="02">February</option>
                                     <option value="03">March</option>
@@ -141,10 +198,10 @@ class PastTransactions extends Component {
                                     <option value="12">December</option>
                                 </select>
                                 <select onChange={this.handleYear} value={this.state.year}>
-                                <option value="" selected disabled>Year</option>
+                                <option value="" disabled>Year</option>
                                     <option value="2020">2020</option>
                                 </select>
-                                <button className="apply" onClick={this.handleSubmit}>Apply</button>
+                                <button className="apply" onClick={this.handleSubmit2}>Apply</button>
                         
                         
                     </div>

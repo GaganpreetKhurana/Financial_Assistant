@@ -18,7 +18,8 @@ import {
     ADD_CHAT_MESSAGE,
     DISPLAY_CHAT_MESSAGE,
     SHOW_WISHLIST,
-    SHOW_STOCKLIST
+    SHOW_STOCKLIST,
+    FILTER_TRANSACTION
 } from './actionTypes';
 
 
@@ -494,12 +495,272 @@ export function fetchStocklist(){
                 return response.json();
             }})
             .then((data) => {
-                console.log("@@@@@@@@@@@",data);
                 if (success) {
                     dispatch(showStocklist(data));
                     return;
                 }
                 else{
+                    return;
+                }
+                
+            });
+    };
+
+
+}
+
+// filter transactions
+export function filterTransaction1(date,month,year){
+    return (dispatch) => {
+        var success =  false;
+        const url =`/transactions/${year}/${month}/${date}/`;
+        fetch(url, {
+            method: 'GET',
+            headers : {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization : `Bearer ${localStorage.getItem('DONNA')}`
+            },
+            
+        })
+            .then((response) => 
+            {
+                if(response.status === 200){
+                success=true;
+                return response.json();     
+            }else{
+                return response.json();
+            }})
+            .then((data) => {
+                if (success) {
+                    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5",data);
+                    dispatch(updateTransactionSuccess("Filters applied successfully"));
+                    dispatch(fetchedTransactions(data));
+                    return;
+                }
+                else{
+                    dispatch(updateTransactionFailure("Please select appropriate Filters"));
+                    return;
+                }
+                
+            });
+    };
+
+
+}
+export function filterTransaction2(date,month){
+    return (dispatch) => {
+        var success =  false;
+        const url =`/transactions/month/date/${month}/${date}/`;
+        fetch(url, {
+            method: 'GET',
+            headers : {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization : `Bearer ${localStorage.getItem('DONNA')}`
+            },
+            
+        })
+            .then((response) => 
+            {
+                if(response.status === 200){
+                success=true;
+                return response.json();     
+            }else{
+                return response.json();
+            }})
+            .then((data) => {
+                if (success) {
+                    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5",data);
+                    dispatch(updateTransactionSuccess("Filters applied successfully"));
+                    dispatch(fetchedTransactions(data));
+                    return;
+                }
+                else{
+                    dispatch(updateTransactionFailure("Please select appropriate Filters"));
+                    return;
+                }
+                
+            });
+    };
+
+
+}
+export function filterTransaction3(date,year){
+    return (dispatch) => {
+        var success =  false;
+        const url =`/transactions/year/date/${year}/${date}/`;
+        fetch(url, {
+            method: 'GET',
+            headers : {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization : `Bearer ${localStorage.getItem('DONNA')}`
+            },
+            
+        })
+            .then((response) => 
+            {
+                if(response.status === 200){
+                success=true;
+                return response.json();     
+            }else{
+                return response.json();
+            }})
+            .then((data) => {
+                if (success) {
+                    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5",data);
+                    dispatch(updateTransactionSuccess("Filters applied successfully"));
+                    dispatch(fetchedTransactions(data));
+                    return;
+                }
+                else{
+                    dispatch(updateTransactionFailure("Please select appropriate Filters"));
+                    return;
+                }
+                
+            });
+    };
+
+
+}
+export function filterTransaction4(month,year){
+    return (dispatch) => {
+        var success =  false;
+        const url =`/transactions/year/month/${year}/${month}/`;
+        fetch(url, {
+            method: 'GET',
+            headers : {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization : `Bearer ${localStorage.getItem('DONNA')}`
+            },
+            
+        })
+            .then((response) => 
+            {
+                if(response.status === 200){
+                success=true;
+                return response.json();     
+            }else{
+                return response.json();
+            }})
+            .then((data) => {
+                if (success) {
+                    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5",data);
+                    dispatch(updateTransactionSuccess("Filters applied successfully"));
+                    dispatch(fetchedTransactions(data));
+                    return;
+                }
+                else{
+                    dispatch(updateTransactionFailure("Please select appropriate Filters"));
+                    return;
+                }
+                
+            });
+    };
+
+
+}
+export function filterTransaction5(date){
+    return (dispatch) => {
+        var success =  false;
+        const url =`/transactions/date/${date}/`;
+        fetch(url, {
+            method: 'GET',
+            headers : {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization : `Bearer ${localStorage.getItem('DONNA')}`
+            },
+            
+        })
+            .then((response) => 
+            {
+                if(response.status === 200){
+                success=true;
+                return response.json();     
+            }else{
+                return response.json();
+            }})
+            .then((data) => {
+                if (success) {
+                    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5",data);
+                    dispatch(updateTransactionSuccess("Filters applied successfully"));
+                    dispatch(fetchedTransactions(data));
+                    return;
+                }
+                else{
+                    dispatch(updateTransactionFailure("Please select appropriate Filters"));
+                    return;
+                }
+                
+            });
+    };
+
+
+}
+export function filterTransaction6(month){
+    return (dispatch) => {
+        var success =  false;
+        const url =`/transactions/month/${month}/`;
+        fetch(url, {
+            method: 'GET',
+            headers : {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization : `Bearer ${localStorage.getItem('DONNA')}`
+            },
+            
+        })
+            .then((response) => 
+            {
+                if(response.status === 200){
+                success=true;
+                return response.json();     
+            }else{
+                return response.json();
+            }})
+            .then((data) => {
+                if (success) {
+                    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5",data);
+                    dispatch(updateTransactionSuccess("Filters applied successfully"));
+                    dispatch(fetchedTransactions(data));
+                    return;
+                }
+                else{
+                    dispatch(updateTransactionFailure("Please select appropriate Filters"));
+                    return;
+                }
+                
+            });
+    };
+
+
+}
+export function filterTransaction7(year){
+    return (dispatch) => {
+        var success =  false;
+        const url =`/transactions/year/${year}/`;
+        fetch(url, {
+            method: 'GET',
+            headers : {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization : `Bearer ${localStorage.getItem('DONNA')}`
+            },
+            
+        })
+            .then((response) => 
+            {
+                if(response.status === 200){
+                success=true;
+                return response.json();     
+            }else{
+                return response.json();
+            }})
+            .then((data) => {
+                if (success) {
+                    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5",data);
+                    dispatch(updateTransactionSuccess("Filters applied successfully"));
+                    dispatch(fetchedTransactions(data));
+                    return;
+                }
+                else{
+                    dispatch(updateTransactionFailure("Please select appropriate Filters"));
                     return;
                 }
                 
