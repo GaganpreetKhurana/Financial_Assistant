@@ -16,7 +16,12 @@ urlpatterns = [
     path("transactions/date/<str:date>/", TransactionListDay.as_view(), name="transactions_date"),
     path("transactions/month/<str:month>/", TransactionListMonth.as_view(), name="transactions_month"),
     path("transactions/year/<str:year>/", TransactionListYear.as_view(), name="transactions_year"),
-    path("transactions/<str:year>/<str:month>/", TransactionListYearMonth.as_view(), name="transactions_month_year"),
+    path("transactions/year/month/<str:year>/<str:month>/", TransactionListYearMonth.as_view(),
+         name="transactions_month_year"),
+    path("transactions/year/date/<str:year>/<str:date>/", TransactionListYearDay.as_view(),
+         name="transactions_date_year"),
+    path("transactions/month/date/<str:month>/<str:date>/", TransactionListMonthDay.as_view(),
+         name="transactions_month_date"),
     path("transactions/<str:year>/<str:month>/<str:date>/", TransactionListDayMonthYear.as_view(),
          name="transactions_date_month_year"),
 

@@ -124,7 +124,7 @@ export function addTransaction(category,credit,description,amount) {
                 
                 if (success) {
                     dispatch(transactionSuccess("Transaction Added Successfully"));
-                    return;
+
                 }
                 else{
                     dispatch(transactionFailed("Transaction Could not be Added"));
@@ -177,10 +177,10 @@ export function fetchTransactions(){
             .then((data) => {
                 if (success) {
                     dispatch(fetchedTransactions(data));
-                    return;
+
                 }
                 else{
-                    return;
+
                 }
                 
             });
@@ -242,11 +242,11 @@ export function updateTransaction(category,credit,description,amount,id){
                 if (success) {
                     dispatch(updateTransactionSuccess("Transaction updated successfully"));
                     dispatch(fetchTransactions());
-                    return;
+
                 }
                 else{
                     dispatch(updateTransactionFailure("Transaction was not able to update"));
-                    return;
+
                 }
                 
             });
@@ -298,22 +298,22 @@ export function deleteTransaction(id){
                 if (success) {
                     dispatch(deleteSuccess("Transaction deleted successfully"));
                     dispatch(fetchTransactions());
-                    return;
+
                 }
                 else{
                     dispatch(deleteFailure("Transaction was not able to delete"));
-                    return;
+
                 }
                 
         }).catch(()=>{
             if (success) {
                 dispatch(deleteSuccess("Transaction deleted successfully"));
                 dispatch(fetchTransactions());
-                return;
+
             }
             else{
                 dispatch(deleteFailure("Transaction was not able to delete"));
-                return;
+
             }});
     };
 
@@ -366,10 +366,10 @@ export function newMessage(typedMessage,self)
                 
                 if (success) {
                     dispatch(addChatMessage(data));
-                    return;
+
                 }
                 else{
-                    return;
+
                 }
                 
             });
@@ -405,10 +405,10 @@ export function pastMessages()
             .then((data) => {
                 if (success) {
                     dispatch(displayChatMessage(data));
-                    return;
+
                 }
                 else{
-                    return;
+
                 }
                 
             });
@@ -449,10 +449,10 @@ export function fetchWishlist(){
             .then((data) => {
                 if (success) {
                     dispatch(showWishlist(data));
-                    return;
+
                 }
                 else{
-                    return;
+
                 }
                 
             });
@@ -497,10 +497,10 @@ export function fetchStocklist(){
                 console.log("@@@@@@@@@@@",data);
                 if (success) {
                     dispatch(showStocklist(data));
-                    return;
+
                 }
                 else{
-                    return;
+
                 }
                 
             });
