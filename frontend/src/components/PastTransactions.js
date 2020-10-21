@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {clearAuth, fetchTransactions, updateTransaction} from '../actions/pages';
 import TransactionEntry from './TransactionEntry';
+import Calendar from 'react-calendar';
+
 
 class PastTransactions extends Component {
     constructor(props) {
@@ -11,9 +13,21 @@ class PastTransactions extends Component {
             amount: '',
             type: 'true',
             description: '',
+            date:'',
+            month:'',
+            year:''
         };
     }
-
+    handleDate = (event) => {
+        console.log("@@@@@@@@@@@@@@@@",event);
+        this.setState({date: event});
+    }
+    handleMonth = (event) => {
+        this.setState({Month: event.target.value});
+    }
+    handleYear = (event) => {
+        this.setState({Year: event.target.value});
+    }
     handleChange = (event) => {
         this.setState({category: event.target.value});
     }
@@ -41,6 +55,7 @@ class PastTransactions extends Component {
         }, 50000);
 
     }
+   
 
 
     //fetch list of past transactions
@@ -51,7 +66,7 @@ class PastTransactions extends Component {
     componentWillUnmount() {
         this.props.dispatch(clearAuth());
     }
-
+    onChange = date => this.setState({ date })
 
     render() {
         const {success, error} = this.props.details;
@@ -66,6 +81,22 @@ class PastTransactions extends Component {
         }
         return (
             <div className="form-box2">
+                <div className="filters">
+                    <div className="Leftfilter">
+                    <Calendar
+          onChange={this.onChange}
+          value={this.state.date}
+        />
+                        
+                        
+                    </div>
+                    <div className="Rightfilter">   
+                    </div>
+
+                </div>
+
+
+
                 {
                     update &&
                     <div>
@@ -88,21 +119,21 @@ class PastTransactions extends Component {
                             <br/>
                             <div>
                                 <label>Description</label>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <input type="text" onChange={this.handleChange4} value={this.state.description}
                                        placeholder="Description" required/>
                             </div>
                             <br/>
                             <div>
                                 <label>Enter Amount</label>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <input type="text" onChange={this.handleChange2} value={this.state.amount}
                                        placeholder="00.00" required/>
                             </div>
                             <br/>
                             <div>
                                 <label>Type</label>
-                                &nbsp;  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <select onChange={this.handleChange3} value={this.state.type} placeholder="Type">
                                     <option value="true">Credit</option>
                                     <option value="false">Debit</option>

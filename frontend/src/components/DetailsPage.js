@@ -93,7 +93,7 @@ class DetailsPage extends Component {
                 <br/>
                 <div>
                     <label>Description</label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <input type="text" onChange={this.handleChange4} value={this.state.description}
                            placeholder="Description" required/>
                 </div>
