@@ -75,14 +75,8 @@
 - Can manage their stock portfolio and get a prediction for a stock price/portfolio
 - User can interact with the system using a traditional web form or use the chatbot
 - Added multilingual interaction
-
----
-
-**Planned and in Progress** 
-
 - Visualization of user data
-- Improvement/Completion of UI, e.g., Home page
-- Assessing the feature for voice-based interaction through Text to speech
+- Voice-based interaction through Text to speech
 
 ---
 
@@ -138,3 +132,10 @@
 - Issued several bugs fixes in the modules and integration
 
 ---
+15 October 2020 - Present
+
+**Feature Expansion**
+
+- Added several features like Visualizations, Translations and text to speach
+- Issued several bugs fixes
+
