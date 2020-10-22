@@ -367,10 +367,13 @@ export function newMessage(typedMessage,self)
                 return response.json();
             }})
             .then((data) => {
-                //console.log(data);
+                // console.log(data);
                 
                 if (success) {
                     dispatch(addChatMessage(data));
+                    let speak_button=document.getElementsByTagName("button")[7];
+                    speak_button.setAttribute("text",data.content);
+                    speak_button.click();
                     return;
                 }
                 else{

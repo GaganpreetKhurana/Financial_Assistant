@@ -62,9 +62,9 @@ class ChatBotPage extends Component {
                         value={this.state.typedMessage}
 
                     />
+                    <SayButton text={text_to_be_spoken}/>
                     <button onClick={this.handleSubmit}>
-                        <SayButton onClick={console.log("Spoke: " + text_to_be_spoken)}
-                                   text={text_to_be_spoken}>Submit</SayButton>
+                        Submit
                     </button>
                 </div>
             </div>
