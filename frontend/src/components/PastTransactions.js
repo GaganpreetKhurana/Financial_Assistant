@@ -198,7 +198,7 @@ class PastTransactions extends Component {
         var dummy={};
         if(detailsList.length !== 0 )
         {
-            dummy=detailsList[0];
+            dummy=detailsList[detailsList.length -1];
         }
         if (loading) {
             return <h2>Loading.....</h2>;
