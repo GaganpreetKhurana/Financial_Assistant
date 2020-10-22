@@ -1,2 +1,7 @@
 /backend/venv/
 /.idea/
+### Django ###
+*.log
+*.pot
+*.pyc
+__pycache__/
