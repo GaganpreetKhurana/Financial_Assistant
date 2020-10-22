@@ -341,7 +341,7 @@ def get_sum_detail(details, request):
         sum_object.transportation += record.transportation
         sum_object.healthcare += record.healthcare
         sum_object.housing += record.housing
-        sum_object.food += record.housing
+        sum_object.food += record.food
         sum_object.totalTransactions += record.totalTransactions
 
     details.append(sum_object)
