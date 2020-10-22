@@ -799,7 +799,7 @@ export function fetchDetails(){
                 return response.json();
             }})
             .then((data) => {
-                console.log("(((((((((((((((((((",data);
+                //console.log("(((((((((((((((((((",data);
                 if (success) {
                     dispatch(fetchedDetails(data));
                     return;
