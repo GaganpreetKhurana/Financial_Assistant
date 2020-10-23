@@ -295,7 +295,7 @@ def chat_web(question, user_id, request):
 
             data_bot = {
                 "amount": amount,
-                "category": categories[8],
+                "category": 8,
                 "description": ' '.join(str(stck) + " Bought"),
                 "credit": False
             }
@@ -305,8 +305,6 @@ def chat_web(question, user_id, request):
             print("Calling function to add transaction to database")
             response = requests.post(url="http://127.0.0.1:8000/create_transaction", data=data_bot,
                                      headers=header)
-
-            chat_response = ""
 
             if response.status_code == 201:
                 chat_response += "and Transaction Operation Successful!"
@@ -322,7 +320,7 @@ def chat_web(question, user_id, request):
 
             data_bot = {
                 "amount": amount,
-                "category": categories[8],
+                "category": 8,
                 "description": ' '.join(str(stck) + " Sold"),
                 "credit": True
             }
@@ -332,8 +330,6 @@ def chat_web(question, user_id, request):
             print("Calling function to add transaction to database")
             response = requests.post(url="http://127.0.0.1:8000/create_transaction", data=data_bot,
                                      headers=header)
-
-            chat_response = ""
 
             if response.status_code == 201:
                 chat_response += "and Transaction Operation Successful!"
