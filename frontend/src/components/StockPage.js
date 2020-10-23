@@ -1,39 +1,91 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import {fetchStocklist} from "../actions/pages";
+import {addTransaction,updateTransactionFailure, clearAuth} from "../actions/pages";
 
 
 
 
 class StockPage extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            amount: "",
+        };
+    }
+    handleAmount = (e) => {
+        this.setState({
+            amount: e.target.value,
+        });
+    };
+    handleSubmitForm = (stock) => {
+        //console.log(stock);
+        const {amount} = this.state;
+        if (amount!=='') {
+            var category="8";
+            var type="true";
+            var description = stock+" sold";
+            this.props.dispatch(addTransaction(category, type, description, amount));
+
+        setTimeout(() => {
+            //this.forceUpdate();
+            this.props.dispatch(clearAuth());
+            
+        }, 10000);
+        }
+        else{
+            this.props.dispatch(updateTransactionFailure("Please give the right amount !!"))
+        }
+        
+    };
+
      //fetch stocklist
      componentDidMount(){ 
         this.props.dispatch(fetchStocklist());
     }
+
     render() {
     const {stocklist}=this.props.details;
     // console.log(stocklist);
+    const {error,success} = this.props.details;
+
 
         return (
             <div>
                <h2><br></br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Stocklist</h2>
                <div className="form-box2">
+                        {error && (
+                            <div className="alert-warn">
+                                <button>Please give the right amount !!</button>
+                            </div>
+                        )}
+                        {success && (
+                            <div className="alert-done">
+                                <button>Stocks sold successfully</button>
+                            </div>
+                        )}
+
                 <div className="wishlist-entry">
                         <div className="numbs headers"> S.No. </div>
                         <div className="stocks headers">Stocks</div> 
-                        <div className="owned headers">Owned Price &nbsp;(Rs.)</div>   
-                        <div className="prices headers">Current Price &nbsp;(Rs.)</div>   
+                        <div className="owned headers">Owned Stocks(Rs.)</div>   
+                        <div className="prices headers">Current Price (Rs.)</div>   
+                        <div className="sellprices headers">Sell Stocks (Rs.)</div> 
+                        <div className="numbs headers">Sell</div>
                 
                 </div>
                {stocklist.length === 0 && <div><br></br><h2>No Stocklist to display</h2></div>}
                <div className="transactions-box">
                {stocklist.map((entry,index)=>(
                 <div className="transaction-entry" key={`entry.createdAt-${index}`}>
-                   <div className="numbs"> {index+1} </div>
-                   <div className="stocks ">{entry.stock}</div>  
-                   <div className="owned">&nbsp;&nbsp;&nbsp;&nbsp;{entry.owned}</div> 
-                   <div className="prices">&nbsp;&nbsp;&nbsp;&nbsp;{entry.current_price}</div>  
+                   <div className="numbs"> &nbsp;&nbsp;{index+1} </div>
+                   <div className="stocks ">&nbsp;&nbsp;&nbsp;&nbsp;{entry.stock}</div>  
+                   <div className="owned">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{entry.owned}</div> 
+                   <div className="prices">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{entry.current_price}</div> 
+                   <div className="sellprices"><input type="text"  onChange={this.handleAmount} placeholder="Enter Amount(Rs)"/></div>  
+                   <div className="numbs"><button onClick={()=>this.handleSubmitForm(entry.stock)}>SELL</button></div>
+
                 </div>
                     ))
                 }
