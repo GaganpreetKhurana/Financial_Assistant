@@ -41,8 +41,8 @@ class Login extends Component {
         }
         return (
             <div className="home-screen">
-                <div className="forgot-form">
-                    <h5>Please Enter your Registered Email ID</h5>
+                <div className="forgot-form"><br></br><br></br>
+                    <h5>Please Enter your Registered Email ID</h5><br></br><br></br>
 
                     <div className="form-fields">
                         {error && <div className="alert-warn">
@@ -53,8 +53,8 @@ class Login extends Component {
                         </div>}
                         <br></br>
                         <input type="email" placeholder="Email" required onChange={this.handleEmail}/>
-                        <button onClick={this.handleSubmitForm} disabled={inProgress}>Submit</button>
-                        <p className="Forgot"> OR</p>
+                        <button onClick={this.handleSubmitForm} disabled={inProgress}>Submit</button><br></br><br></br>
+                        <p className="Forgot"> OR</p><br></br>
                         <p className="Forgot"><Link to="/login">Login</Link> | <Link to="/sign-up">New User</Link></p>
                     </div>
 
