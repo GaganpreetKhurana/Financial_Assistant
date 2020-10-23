@@ -58,7 +58,7 @@ class FinancialDetailsSerializer(serializers.ModelSerializer):
             'username', 'income', 'savings', 'totalExpenditure', 'housing', 'food', 'healthcare',
             'transportation',
             'recreation',
-            'miscellaneous', 'totalTransactions', 'date_created')
+            'miscellaneous', 'stockbuy', 'stocksell', 'totalTransactions', 'date_created')
         read_only_fields = ['username', 'savings', 'totalExpenditure', 'totalTransactions', 'date_created']
 
 
@@ -121,12 +121,19 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
             details.recreation += factor * self.validated_data['amount']
         elif self.validated_data['category'] == 6:
             details.miscellaneous += factor * self.validated_data['amount']
+        elif self.validated_data['category'] == 7:
+            details.stockbuy += factor * self.validated_data['amount']
+        elif self.validated_data['category'] == 8:
+            details.stocksell += factor * self.validated_data['amount']
+
         details.totalExpenditure = (
                 details.housing + details.food + details.healthcare
                 + details.transportation + details.recreation
-                + details.miscellaneous
+                + details.miscellaneous + details.stockbuy
         )
-        details.savings = details.income - details.totalExpenditure
+
+        totalIncome = details.income + details.stocksell
+        details.savings = totalIncome - details.totalExpenditure
         details.save()
         transaction_new.save()
         return transaction_new
@@ -167,6 +174,10 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
             details.recreation += factor * validated_data['amount']
         elif validated_data['category'] == 6:
             details.miscellaneous += factor * validated_data['amount']
+        elif validated_data['category'] == 7:
+            details.stockbuy += factor * validated_data['amount']
+        elif validated_data['category'] == 8:
+            details.stocksell += factor * validated_data['amount']
 
         factor = 1
         if instance.credit:
@@ -185,6 +196,10 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
             details.recreation -= factor * instance.amount
         elif instance.type == 6:
             details.miscellaneous -= factor * instance.amount
+        elif validated_data['category'] == 7:
+            details.stockbuy -= factor * validated_data['amount']
+        elif validated_data['category'] == 8:
+            details.stocksell -= factor * validated_data['amount']
 
         instance.type = validated_data['category']
         instance.amount = validated_data['amount']
@@ -198,9 +213,11 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
         details.totalExpenditure = (
                 details.housing + details.food + details.healthcare
                 + details.transportation + details.recreation
-                + details.miscellaneous
+                + details.miscellaneous + details.stockbuy
         )
-        details.savings = details.income - details.totalExpenditure
+
+        totalIncome = details.income + details.stocksell
+        details.savings = totalIncome - details.totalExpenditure
         details.save()
         instance.save()
         return validated_data

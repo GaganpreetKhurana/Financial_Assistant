@@ -253,13 +253,21 @@ class DeleteTransaction(DestroyAPIView):
                 details.recreation -= instance.amount
             elif instance.type == 6:
                 details.miscellaneous -= instance.amount
+            elif instance.type == 7:
+                details.stockbuy-= instance.amount
+            elif instance.type == 8:
+                details.stocksell -= instance.amount
+
 
             details.totalExpenditure = (
                     details.housing + details.food + details.healthcare
                     + details.transportation + details.recreation
-                    + details.miscellaneous
+                    + details.miscellaneous + details.stockbuy
             )
-            details.savings = details.income - details.totalExpenditure
+
+            totalIncome = details.income + details.stocksell
+            
+            details.savings = totalIncome - details.totalExpenditure
             details.save()
             self.perform_destroy(instance)
             response = {
@@ -343,6 +351,8 @@ def get_sum_detail(details, request):
         sum_object.housing += record.housing
         sum_object.food += record.food
         sum_object.totalTransactions += record.totalTransactions
+        sum_object.stockbuy += record.stockbuy
+        sum_object.stocksell += record.stocksell
 
     details.append(sum_object)
     return details
