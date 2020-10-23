@@ -46,8 +46,8 @@ class Login extends Component {
         return (
             <div className="home-screen">
                 <div className="login-form">
-                    <div className="header">
-                        <p>Log In</p>
+                    <div className="headerss">
+                        <p>Log In</p><br></br><br></br>
                     </div>
 
                     <div className="form-fields">
@@ -77,7 +77,8 @@ class Login extends Component {
                         <button onClick={this.handleSubmitForm} disabled={inProgress}>
                             Submit
                         </button>
-                        <p className="Forgot"> OR</p>
+                        <br></br><br></br>
+                        <p className="Forgot"> OR</p><br></br>
                         <p className="Forgot"><Link to="/forgot">Forgot Password?</Link> | <Link to="/sign-up">New
                             User</Link></p>
                     </div>

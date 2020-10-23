@@ -32,6 +32,6 @@ urlpatterns = [
     path("details/month/<str:month>/", DetailsViewMonth.as_view(), name="details"),
     path("details/year/<str:year>/", DetailsViewYear.as_view(), name="details"),
     path("details/<str:year>/<str:month>/", DetailsViewYearMonth.as_view(), name="details"),
-    path("", DetailsView.as_view(), name="details"),
+    path("detailslist", DetailsView.as_view(), name="details"),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)

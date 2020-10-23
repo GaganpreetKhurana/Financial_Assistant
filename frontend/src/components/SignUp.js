@@ -71,8 +71,8 @@ class SignUp extends Component {
         return (
             <div className="home-screen">
                 <div className="register-form">
-                    <div className="header">
-                        <p>Sign Up</p>
+                    <div className="headerss">
+                        <p>Sign Up</p><br></br><br></br>
                     </div>
 
                     <div className="form-fields">
