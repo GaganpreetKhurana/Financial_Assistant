@@ -11,6 +11,7 @@ import {
     FORGOT_START,
     FORGOT_FAILURE,
     FORGOT_SUCCESS,
+    SET_USER_DETAILS,
 
 } from './actionTypes';
 // @ts-ignore
@@ -240,6 +241,49 @@ export function forgot(email) {
 
                 }
 
+            });
+    };
+}
+
+
+//fetch user
+export function userDetails(email,lname,fname)
+{
+    return {
+        type:SET_USER_DETAILS,
+        email,
+        lname,
+        fname
+    }
+}
+export function fetchUser()
+{
+    return (dispatch) => {
+        var success =  false;
+        const url = `/user`;
+        
+        fetch(url, {
+            headers : {
+                Authorization : `Bearer ${localStorage.getItem('DONNA')}`
+            }
+        })
+            .then((response) => 
+            {
+                if(response.status === 200){
+                success=true;
+                return response.json();     
+            }else{
+                return response.json();
+            }})
+            .then((data) => {
+                if (success) {
+                    dispatch(userDetails(data.email,data.lname,data.fname));
+                    return;
+                }
+                else{
+                    return;
+                }
+                
             });
     };
 }
