@@ -3,10 +3,11 @@ from django.db import transaction
 from django.utils.datetime_safe import datetime
 from rest_framework import serializers
 
+from . import views
 from .models import Detail, Transaction, categories
-
-
 # Register Serializer
+
+
 class RegisterSerializer(serializers.ModelSerializer):
     password_confirm = serializers.CharField(style={'input_type': 'password'}, write_only=True)
 
@@ -58,7 +59,7 @@ class FinancialDetailsSerializer(serializers.ModelSerializer):
             'username', 'income', 'savings', 'totalExpenditure', 'housing', 'food', 'healthcare',
             'transportation',
             'recreation',
-            'miscellaneous', 'totalTransactions', 'date_created')
+            'miscellaneous', 'others', 'stock', 'totalTransactions', 'date_created')
         read_only_fields = ['username', 'savings', 'totalExpenditure', 'totalTransactions', 'date_created']
 
 
@@ -104,7 +105,7 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
                                       description=description,
                                       credit=self.validated_data['credit'])
         factor = 1
-        if self.validated_data['credit'] is True:
+        if self.validated_data['credit']:
             factor = -1
         details.totalTransactions += 1
         if self.validated_data['category'] == 0:
@@ -121,11 +122,17 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
             details.recreation += factor * self.validated_data['amount']
         elif self.validated_data['category'] == 6:
             details.miscellaneous += factor * self.validated_data['amount']
+        elif self.validated_data['category'] == 7:
+            details.others += factor * self.validated_data['amount']
+        elif self.validated_data['category'] == 8:
+            details.stock += factor * self.validated_data['amount']
+
         details.totalExpenditure = (
                 details.housing + details.food + details.healthcare
                 + details.transportation + details.recreation
-                + details.miscellaneous
+                + details.miscellaneous + details.stock + details.others
         )
+
         details.savings = details.income - details.totalExpenditure
         details.save()
         transaction_new.save()
@@ -167,24 +174,12 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
             details.recreation += factor * validated_data['amount']
         elif validated_data['category'] == 6:
             details.miscellaneous += factor * validated_data['amount']
+        elif validated_data['category'] == 7:
+            details.others += factor * validated_data['amount']
+        elif validated_data['category'] == 8:
+            details.stock += factor * validated_data['amount']
 
-        factor = 1
-        if instance.credit:
-            factor = -1
-        if instance.type == 0:
-            details.income -= factor * instance.amount
-        elif instance.type == 1:
-            details.housing -= factor * instance.amount
-        elif instance.type == 2:
-            details.food -= factor * instance.amount
-        elif instance.type == 3:
-            details.healthcare -= factor * instance.amount
-        elif instance.type == 4:
-            details.transportation -= factor * instance.amount
-        elif instance.type == 5:
-            details.recreation -= factor * instance.amount
-        elif instance.type == 6:
-            details.miscellaneous -= factor * instance.amount
+        instance, details = views.add_transaction_to_detail(instance, details)
 
         instance.type = validated_data['category']
         instance.amount = validated_data['amount']
@@ -195,12 +190,6 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
         instance.description = description
 
         instance.credit = validated_data['credit']
-        details.totalExpenditure = (
-                details.housing + details.food + details.healthcare
-                + details.transportation + details.recreation
-                + details.miscellaneous
-        )
-        details.savings = details.income - details.totalExpenditure
         details.save()
         instance.save()
         return validated_data

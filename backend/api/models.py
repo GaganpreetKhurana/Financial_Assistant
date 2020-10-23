@@ -32,6 +32,8 @@ class Detail(models.Model):
     transportation = models.FloatField(verbose_name="TRANSPORTATION", default=0)
     recreation = models.FloatField(verbose_name="RECREATION", default=0)
     miscellaneous = models.FloatField(verbose_name="MISCELLANEOUS", default=0)
+    others = models.FloatField(verbose_name="OTHERS", default=0)
+    stock = models.FloatField(verbose_name="STOCK", default=0)
     totalTransactions = models.IntegerField(verbose_name="TOTAL TRANSACTIONS", default=0)
     date_created = models.DateField(auto_now_add=True, null=True, verbose_name="DATE CREATED")
 
@@ -62,7 +64,8 @@ categories = [
     (4, "Transportation"),
     (5, "Recreation"),
     (6, "Miscellaneous"),
-    (7, "Other")
+    (7, "Other"),
+    (8, 'Stock'),
 ]
 
 

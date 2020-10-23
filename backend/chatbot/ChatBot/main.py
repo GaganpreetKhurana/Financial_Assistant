@@ -6,12 +6,10 @@ import sqlite3
 
 import nltk
 import numpy
+import pyttsx3
 import requests
 from nltk.stem.lancaster import LancasterStemmer
 from tensorflow import keras
-
-import pyttsx3
-
 
 from .AmazonPriceTracker import amazon_script
 from .StockTracker import stock_script
@@ -24,7 +22,8 @@ categories = {
     "transportation": 4,
     "recreation": 5,
     "miscellaneous": 6,
-    "other": 7
+    "other": 7,
+    "stock": 8,
 }
 stemmer = LancasterStemmer()
 words = []
@@ -114,7 +113,7 @@ model.summary()
 model.compile(optimizer='sgd',
               loss='categorical_crossentropy',
               metrics=['accuracy'])
-              
+
 try:
     print("Loading Model")
     model.load(abs_path_model)
@@ -227,9 +226,12 @@ def chat_web(question, user_id, request):
         credit = True
         if list_parse[1] == "Debit":
             credit = False
+        category = 7
+        if list_parse[2] in categories:
+            category = categories[list_parse[2]]
         data_bot = {
             "amount": list_parse[3],
-            "category": categories[list_parse[2]],
+            "category": category,
             "description": ' '.join(list_parse[4:]),
             "credit": credit
         }
@@ -284,17 +286,61 @@ def chat_web(question, user_id, request):
 
         if list_parse[1] == "history":
             stck = list_parse[2]
-            chat_response += stock_script.StockHistory(stck,3)
+            chat_response += stock_script.StockHistory(stck, 3)
 
         if list_parse[1] == "buy":
             stck = list_parse[2]
             amount = list_parse[3]
             chat_response += stock_script.StockBuy(amount, stck, user_id)
 
+            data_bot = {
+                "amount": amount,
+                "category": categories[8],
+                "description": ' '.join(str(stck) + " Bought"),
+                "credit": False
+            }
+            header = {
+                "Authorization": "Bearer " + request.auth,
+            }
+            print("Calling function to add transaction to database")
+            response = requests.post(url="http://127.0.0.1:8000/create_transaction", data=data_bot,
+                                     headers=header)
+
+            chat_response = ""
+
+            if response.status_code == 201:
+                chat_response += "and Transaction Operation Successful!"
+            else:
+                chat_response += "and Transaction Operation Unsuccessful!"
+
+            chat_store(chat_response, 'donna', 'False')
+
         if list_parse[1] == "sell":
             stck = list_parse[2]
             amount = list_parse[3]
             chat_response += stock_script.SellStock(amount, stck, user_id)
+
+            data_bot = {
+                "amount": amount,
+                "category": categories[8],
+                "description": ' '.join(str(stck) + " Sold"),
+                "credit": True
+            }
+            header = {
+                "Authorization": "Bearer " + request.auth,
+            }
+            print("Calling function to add transaction to database")
+            response = requests.post(url="http://127.0.0.1:8000/create_transaction", data=data_bot,
+                                     headers=header)
+
+            chat_response = ""
+
+            if response.status_code == 201:
+                chat_response += "and Transaction Operation Successful!"
+            else:
+                chat_response += "and Transaction Operation Unsuccessful!"
+
+            chat_store(chat_response, 'donna', 'False')
 
         if list_parse[1] == "predict":
             stck = list_parse[2]
@@ -320,15 +366,14 @@ def chat_web(question, user_id, request):
     ## Questions
     speak_flag = False
 
-    #Checking for speak command
-    if len(question)>5 and question[-5:]== "Speak":
+    # Checking for speak command
+    if len(question) > 5 and question[-5:] == "Speak":
         speak_flag = True
         question = question[:-5]
 
-    elif len(question)>5 and question[:5]== "Speak":
-            speak_flag = True
-            question = question[5:]
-
+    elif len(question) > 5 and question[:5] == "Speak":
+        speak_flag = True
+        question = question[5:]
 
     print("Please delete models and cache after editing intents.json!")
     print("Start talking with the bot (type quit to stop)!")

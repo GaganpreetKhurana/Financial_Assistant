@@ -237,29 +237,7 @@ class DeleteTransaction(DestroyAPIView):
             details = Detail.objects.filter(user=request.user,
                                             date_created__year=instance.time.strftime("%Y"),
                                             date_created__month=instance.time.strftime("%m"))
-            details = details[0]
-
-            if instance.type == 0:
-                details.income -= instance.amount
-            elif instance.type == 1:
-                details.housing -= instance.amount
-            elif instance.type == 2:
-                details.food -= instance.amount
-            elif instance.type == 3:
-                details.healthcare -= instance.amount
-            elif instance.type == 4:
-                details.transportation -= instance.amount
-            elif instance.type == 5:
-                details.recreation -= instance.amount
-            elif instance.type == 6:
-                details.miscellaneous -= instance.amount
-
-            details.totalExpenditure = (
-                    details.housing + details.food + details.healthcare
-                    + details.transportation + details.recreation
-                    + details.miscellaneous
-            )
-            details.savings = details.income - details.totalExpenditure
+            instance, details = add_transaction_to_detail(instance, details[0])
             details.save()
             self.perform_destroy(instance)
             response = {
@@ -343,6 +321,42 @@ def get_sum_detail(details, request):
         sum_object.housing += record.housing
         sum_object.food += record.food
         sum_object.totalTransactions += record.totalTransactions
+        sum_object.others += record.others
+        sum_object.stock += record.stock
 
     details.append(sum_object)
     return details
+
+
+def add_transaction_to_detail(instance, details):
+    factor = 1
+    if instance.credit:
+        factor = -1
+
+    if instance.type == 0:
+        details.income -= factor * instance.amount
+    elif instance.type == 1:
+        details.housing -= factor * instance.amount
+    elif instance.type == 2:
+        details.food -= factor * instance.amount
+    elif instance.type == 3:
+        details.healthcare -= factor * instance.amount
+    elif instance.type == 4:
+        details.transportation -= factor * instance.amount
+    elif instance.type == 5:
+        details.recreation -= factor * instance.amount
+    elif instance.type == 6:
+        details.miscellaneous -= factor * instance.amount
+    elif instance.type == 7:
+        details.others -= factor * instance.amount
+    elif instance.type == 8:
+        details.stock -= factor * instance.amount
+
+    details.totalExpenditure = (
+            details.housing + details.food + details.healthcare
+            + details.transportation + details.recreation
+            + details.miscellaneous + details.stock + details.others
+    )
+
+    details.savings = details.income - details.totalExpenditure
+    return instance, details
