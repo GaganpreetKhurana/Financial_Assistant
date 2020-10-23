@@ -516,11 +516,116 @@ export function fetchStocklist(){
 
 
 }
+// details filter for visualization
+export function fetchDetailsYear(year){
+
+    return (dispatch) => {
+        var success =  false;
+        const url = `/details/year/${year}/`;
+        
+        fetch(url, {
+            headers : {
+                Authorization : `Bearer ${localStorage.getItem('DONNA')}`
+            }
+        })
+            .then((response) => 
+            {
+                if(response.status === 200){
+                success=true;
+                return response.json();     
+            }else{
+                return response.json();
+            }})
+            .then((data) => {
+                //console.log("(((((((((((((((((((",data);
+                if (success) {
+                    dispatch(fetchedDetails(data));
+                    return;
+                }
+                else{
+                    return;
+                }
+                
+            });
+    };
+
+
+}
+
+export function fetchDetailsMonth(month){
+
+    return (dispatch) => {
+        var success =  false;
+        const url = `/details/month/${month}/`;
+        
+        fetch(url, {
+            headers : {
+                Authorization : `Bearer ${localStorage.getItem('DONNA')}`
+            }
+        })
+            .then((response) => 
+            {
+                if(response.status === 200){
+                success=true;
+                return response.json();     
+            }else{
+                return response.json();
+            }})
+            .then((data) => {
+                //console.log("(((((((((((((((((((",data);
+                if (success) {
+                    dispatch(fetchedDetails(data));
+                    return;
+                }
+                else{
+                    return;
+                }
+                
+            });
+    };
+
+
+}
+export function fetchDetailsYearMonth(year,month){
+
+    return (dispatch) => {
+        var success =  false;
+        const url = `/details/${year}/${month}/`;
+        
+        fetch(url, {
+            headers : {
+                Authorization : `Bearer ${localStorage.getItem('DONNA')}`
+            }
+        })
+            .then((response) => 
+            {
+                if(response.status === 200){
+                success=true;
+                return response.json();     
+            }else{
+                return response.json();
+            }})
+            .then((data) => {
+                //console.log("(((((((((((((((((((",data);
+                if (success) {
+                    dispatch(fetchedDetails(data));
+                    return;
+                }
+                else{
+                    return;
+                }
+                
+            });
+    };
+
+
+}
 
 // filter transactions
 export function filterTransaction1(date,month,year){
     return (dispatch) => {
         var success =  false;
+        dispatch(fetchDetailsYearMonth(year,month));
         const url =`/transactions/${year}/${month}/${date}/`;
         fetch(url, {
             method: 'GET',
@@ -557,6 +662,7 @@ export function filterTransaction1(date,month,year){
 export function filterTransaction2(date,month){
     return (dispatch) => {
         var success =  false;
+        dispatch(fetchDetailsMonth(month));
         const url =`/transactions/month/date/${month}/${date}/`;
         fetch(url, {
             method: 'GET',
@@ -593,6 +699,7 @@ export function filterTransaction2(date,month){
 export function filterTransaction3(date,year){
     return (dispatch) => {
         var success =  false;
+        dispatch(fetchDetailsYear(year));
         const url =`/transactions/year/date/${year}/${date}/`;
         fetch(url, {
             method: 'GET',
@@ -629,6 +736,7 @@ export function filterTransaction3(date,year){
 export function filterTransaction4(month,year){
     return (dispatch) => {
         var success =  false;
+        dispatch(fetchDetailsYearMonth(year,month));
         const url =`/transactions/year/month/${year}/${month}/`;
         fetch(url, {
             method: 'GET',
@@ -701,6 +809,7 @@ export function filterTransaction5(date){
 export function filterTransaction6(month){
     return (dispatch) => {
         var success =  false;
+        dispatch(fetchDetailsMonth(month));
         const url =`/transactions/month/${month}/`;
         fetch(url, {
             method: 'GET',
@@ -737,6 +846,7 @@ export function filterTransaction6(month){
 export function filterTransaction7(year){
     return (dispatch) => {
         var success =  false;
+        dispatch(fetchDetailsYear(year));
         const url =`/transactions/year/${year}/`;
         fetch(url, {
             method: 'GET',
@@ -814,7 +924,6 @@ export function fetchDetails(){
 
 
 }
-
 
 
 // show graphs
