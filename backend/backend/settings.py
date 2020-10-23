@@ -11,9 +11,10 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from datetime import timedelta
+
+from .secret_key import *
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -21,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'r+k$)jbma$$c+o#fzt(^aoc+q8j6ztmh!n5l$$g0j&62hco*+)'
+SECRET_KEY = DJANGO_SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -143,8 +144,13 @@ JWT_AUTH = {
         'api.helper.jwt_create_response_payload'
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # python -m smtpd -n -c DebuggingServer localhost:1025
-# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 # EMAIL_HOST = 'localhost'
-# EMAIL_PORT = 1025
+EMAIL_PORT = DJANGO_MAIL_HOST_PORT
+EMAIL_HOST = DJANGO_MAIL_HOST
+EMAIL_HOST_USER = SENDER_EMAIL
+EMAIL_HOST_PASSWORD = SENDER_EMAIL_PASSWORD
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'DONNA-ADMIN <noreply@donna_financial_assistant_minor.com>'

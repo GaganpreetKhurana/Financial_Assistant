@@ -8,6 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from django_rest_passwordreset.signals import reset_password_token_created
 
 # Create your models here.
+from .secret_key_api import TEST_EMAIL
 
 User._meta.get_field('email')._unique = True
 User._meta.get_field('email').blank = False
@@ -107,18 +108,28 @@ class Transaction(models.Model):
 
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
-    email_plaintext_message = "{}?token={}".format(reverse('password_reset:reset-password-request'),
-                                                   reset_password_token.key)
-
-    send_mail(
+    email_default_start = reset_password_token.user.first_name + " " + \
+                          reset_password_token.user.last_name + ",\n" \
+                                                                "This mail has been sent beacuse of your request to " \
+                                                                "reset " \
+                                                                "your password.Click on the link below or paste the " \
+                                                                "link in the browser to" \
+                                                                "reset your password.\n\n\n"
+    email_plaintext_message = "http://127.0.0.1:8000" + "{}?token={}".format(
+        reverse('password_reset:reset-password-request'),
+        reset_password_token.key)
+    email_default_end = "\n\nThank You,\n" \
+                        "DONNA-ADMIN\n\n\n\n\n" \
+                        "DO NOT REPLY TO THIS MAIL"
+    response = send_mail(
         # title:
         subject="Password Reset for {title}".format(title="DONNA"),
         # message:
-        message=email_plaintext_message,
+        message=email_default_start + email_plaintext_message + email_default_end,
         # from:
         from_email="noreply@donna.local",
         # to:
-        recipient_list=[reset_password_token.user.email],
+        recipient_list=[TEST_EMAIL],  # [reset_password_token.user.email],
         fail_silently=False
 
     )
