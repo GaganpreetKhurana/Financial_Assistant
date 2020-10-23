@@ -25,26 +25,48 @@
 ## Run Instructions
 <ol>
     <li>Clone the repository.</li>
+    <li>Add the following files.<code>secret_key.py</code> at backend/backend/
+        <pre>
+            DJANGO_SECRET_KEY = 'r+k$)jbma$$c+o#fzt(^aoc+q8j6ztmh!n5l$$g0j&62hco*+)'
+            SENDER_EMAIL = "Your GMAIL E-Mail ID"
+            SENDER_EMAIL_PASSWORD = "YOUR GMAIL APP Password generated after enabling 2 factor auth in account settings"
+            DJANGO_MAIL_HOST = 'smtp.gmail.com'
+            DJANGO_MAIL_HOST_PORT = 587
+        </pre>
+    </li>
     <li>Run the backend, and the frontend server to start the project.
     <ul>
     <li><h3>Batch Scripts</h3>
     <ul>
-        <h2>Linux</h2>
-            <li><b>SETUP</b></li>
-            <li> - Install python3-venv on Debian based distros run <code>sudo apt install python3-venv</code> </li>
-            <li> - Create python3-venv in the backend using <code>sudo python3 -m venv backend/venv</code></li>
-            <li> - Install espeak on Debian based distros run <code>sudo apt-get install espeak</code></li>
-            <li> - Run <code>make install</code> in bash shell to set up the environment and install necessary packages.</li>
         <li>
-            <li><b>RUN</b></li>
-            <li>- Run <code>make</code> to start the servers. Wait for the browser to open.</li>
+        <h2>Linux</h2>
+            <ul>
+            <li><b>SETUP</b>
+                <ul>
+                    <li> - Install python3-venv on Debian based distros run <code>sudo apt install python3-venv</code> </li>
+                    <li> - Create python3-venv in the backend using <code>sudo python3 -m venv backend/venv</code></li>
+                    <li> - Install espeak on Debian based distros run <code>sudo apt-get install espeak</code></li>
+                    <li> - Run <code>make install</code> in bash shell to set up the environment and install necessary packages.</li>
+                </ul>
+            </li>
+            <li><b>RUN</b>
+                <ul>
+                    <li>- Run <code>make</code> to start the servers. Wait for the browser to open.</li>
+                </ul>
+            </li>
+            </ul>
+        </li>
+        <li>
         <h2>Windows</h2>
+            <ul>
         <li>
             <b>SETUP</b>
             - Run <code>install_requirements.bat</code> to setup the environment and install necessary packages.</li>
         <li>
             <b>RUN</b> 
             - Run <code>donna.bat</code> to start the servers. Wait for the browser to open.</li>
+            </ul>
+        </li>
     </ul></li>
         <li><h3>Command Line </h3>
         Open 2 terminal windows/tabs.
