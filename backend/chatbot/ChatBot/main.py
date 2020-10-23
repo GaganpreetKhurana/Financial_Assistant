@@ -291,10 +291,56 @@ def chat_web(question, user_id, request):
             amount = list_parse[3]
             chat_response += stock_script.StockBuy(amount, stck, user_id)
 
+            credit = False
+            data_bot = {
+                "amount": amount,
+                "category": categories[7],
+                "description": ' '.join(str(stck)+" Bought"),
+                "credit": credit
+            }
+            header = {
+                "Authorization": "Bearer " + request.auth,
+            }
+            print("Calling function to add transaction to database")
+            response = requests.post(url="http://127.0.0.1:8000/create_transaction", data=data_bot,
+                                    headers=header)
+
+            chat_response = ""
+
+            if response.status_code == 201:
+                chat_response += "and Transaction Operation Successful!"
+            else:
+                chat_response += "and Transaction Operation Unsuccessful!"
+
+            chat_store(chat_response, 'donna', 'False')
+
         if list_parse[1] == "sell":
             stck = list_parse[2]
             amount = list_parse[3]
             chat_response += stock_script.SellStock(amount, stck, user_id)
+
+            credit = True
+            data_bot = {
+                "amount": amount,
+                "category": categories[8],
+                "description": ' '.join(str(stck)+" Sold"),
+                "credit": credit
+            }
+            header = {
+                "Authorization": "Bearer " + request.auth,
+            }
+            print("Calling function to add transaction to database")
+            response = requests.post(url="http://127.0.0.1:8000/create_transaction", data=data_bot,
+                                    headers=header)
+
+            chat_response = ""
+
+            if response.status_code == 201:
+                chat_response += "and Transaction Operation Successful!"
+            else:
+                chat_response += "and Transaction Operation Unsuccessful!"
+
+            chat_store(chat_response, 'donna', 'False')
 
         if list_parse[1] == "predict":
             stck = list_parse[2]
