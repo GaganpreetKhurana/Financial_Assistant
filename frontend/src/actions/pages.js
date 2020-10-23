@@ -784,7 +784,7 @@ export function fetchDetails(){
 
     return (dispatch) => {
         var success =  false;
-        const url = '/details/year/2020/';
+        const url = '/detailslist';
         
         fetch(url, {
             headers : {
