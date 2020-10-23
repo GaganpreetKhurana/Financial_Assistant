@@ -129,6 +129,7 @@ export function addTransaction(category,credit,description,amount) {
                 
                 if (success) {
                     dispatch(transactionSuccess("Transaction Added Successfully"));
+                    dispatch(fetchStocklist());
                     return;
                 }
                 else{
