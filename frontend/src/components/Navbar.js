@@ -20,7 +20,7 @@ class Navbar extends Component {
                 <div id="google_translate_element"></div>
                 <div className="nav-right">
                     {!auth.isLoggedIn && (<button className="bttn-home"><Link to="/login">Login</Link></button>)}
-                    {auth.isLoggedIn && (<button className="bttn-home"> {auth.user.username} </button>)}
+                    {auth.isLoggedIn && (<button className="bttn-home"> <Link to="/profile">{auth.user.username} </Link></button>)}
                     {!auth.isLoggedIn && (<button className="bttn-home"><Link to="/sign-up">Sign Up</Link></button>)}
                     {auth.isLoggedIn && (<button className="bttn-home" onClick={this.logout}>Log Out</button>)}
                 </div>

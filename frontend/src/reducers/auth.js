@@ -11,6 +11,7 @@ const {
     FORGOT_START,
     FORGOT_SUCCESS,
     FORGOT_FAILURE,
+    SET_USER_DETAILS
 } = require("../actions/actionTypes");
 
 const initialAuthState = {
@@ -20,6 +21,9 @@ const initialAuthState = {
     isLoggedIn: false,
     inProgress: false,
     success:null,
+    email:'',
+    lname:'',
+    fname:''
 };
 
 export default function auth(state = initialAuthState, action) {
@@ -81,6 +85,13 @@ export default function auth(state = initialAuthState, action) {
                 user: {},
                 isLoggedIn: false,
             };
+        case SET_USER_DETAILS:
+            return {
+                ...state,
+                email:action.email,
+                fname:action.fname,
+                lname:action.lname
+            }
         default:
             return state;
     }
