@@ -4,6 +4,9 @@ import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 import {login, clearAuth} from "../actions/auth";
 
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+
 class Login extends Component {
     constructor(props) {
         super(props);
@@ -35,7 +38,6 @@ class Login extends Component {
             password: e.target.value,
         });
     };
-
     render() {
         const {inProgress, error, isLoggedIn,success} = this.props.auth;
 
@@ -61,22 +63,9 @@ class Login extends Component {
                                 <button>{success}</button>
                             </div>
                         )}
-
-                        <input
-                            type="text"
-                            placeholder="Username"
-                            required
-                            onChange={this.handleEmail}
-                        />
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            required
-                            onChange={this.handlePassword}
-                        />
-                        <button onClick={this.handleSubmitForm} disabled={inProgress}>
-                            Submit
-                        </button>
+                        <TextField id="standard-basic" placeholder="Username" fullWidth={true} required onChange={this.handleEmail}/>
+                        <TextField id="filled-basic" type="password" placeholder="Password" fullWidth={true} required onChange={this.handlePassword}/>
+                        <Button variant="contained" onClick={this.handleSubmitForm} disabled={inProgress}>Submit</Button>
                         <br></br><br></br>
                         <p className="Forgot"> OR</p><br></br>
                         <p className="Forgot"><Link to="/forgot">Forgot Password?</Link> | <Link to="/sign-up">New
