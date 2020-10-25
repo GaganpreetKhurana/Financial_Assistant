@@ -1,10 +1,15 @@
 from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 from django.db import transaction
 from django.utils.datetime_safe import datetime
 from rest_framework import serializers
 
 from . import views
 from .models import Detail, Transaction, categories
+
+
 # Register Serializer
 
 
@@ -17,10 +22,21 @@ class RegisterSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True, 'style': {"input_type": "password"}}}
 
     def save(self):
+        try:
+            validate_email(self.validated_data['email'])
+        except ValidationError:
+            raise serializers.ValidationError({'email': 'Invalid Email!'})
+
         user = User(username=self.validated_data['username'], email=self.validated_data['email'],
                     first_name=self.validated_data['first_name'], last_name=self.validated_data['last_name'])
+
         password = self.validated_data['password']
         password_confirm = self.validated_data['password_confirm']
+        try:
+            validate_password(password)
+        except ValidationError:
+            raise serializers.ValidationError({'password': 'Invalid Password!'})
+
         if password != password_confirm:
             raise serializers.ValidationError({'password': 'Passwords must Match'})
         user.set_password(password)
