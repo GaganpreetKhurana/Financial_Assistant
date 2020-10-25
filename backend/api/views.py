@@ -113,21 +113,30 @@ class EditUserDetailsView(UpdateAPIView):
                     request.user.email = request.data.get("email")
 
                 request.user.save()
+
+                refresh_token = requests.post(url="http://127.0.0.1:8000/api/token/refresh/",
+                                              data={"token": request.auth})
+                if refresh_token.status_code != 200:
+                    response = {
+                        'status': 'failed',
+                        'code': status.HTTP_400_BAD_REQUEST,
+                        'message': 'Unable to get new token.Try logging in again!',
+                    }
+                    return Response(response, status=status.HTTP_400_BAD_REQUEST)
+
             except():
                 response = {
                     'status': 'failed',
                     'code': status.HTTP_400_BAD_REQUEST,
                     'message': 'Unable to change',
-                    'data': []
                 }
                 return Response(response, status=status.HTTP_400_BAD_REQUEST)
             response = {
                 'status': 'success',
                 'code': status.HTTP_200_OK,
                 'message': 'Details Updated',
-                'data': []
             }
-
+            response.update(refresh_token.json())
             return Response(response, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
