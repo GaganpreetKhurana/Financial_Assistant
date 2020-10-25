@@ -33,7 +33,7 @@ class Navbar extends Component {
                 <Grid><div className="nav-right">
                     {!auth.isLoggedIn && (<Button variant="contained" color="secondary" ><Link to="/login">Login</Link></Button>)}
                     {auth.isLoggedIn && (<button className="bttn-home"> <Link to="/profile">{auth.user.username} </Link></button>)}
-                    {!auth.isLoggedIn && (<Button variant="contained" color="primary" ><Link to="/sign-up">Sign Up</Link></Button>)}
+                    {!auth.isLoggedIn && (<Button variant="contained" color="secondary" ><Link to="/sign-up">Sign Up</Link></Button>)}
                     {auth.isLoggedIn && (<Button variant="contained" color="secondary" onClick={this.logout}>Log Out</Button>)}
                 </div></Grid>
                 </Grid>

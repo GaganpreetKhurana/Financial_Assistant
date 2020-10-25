@@ -129,7 +129,7 @@ const Header = () =>{
     return(
         <div className='header'>
             <span className='header-title'>
-                Donna
+                DONNA
             </span>
             <br/>
             <span className="header-text">
