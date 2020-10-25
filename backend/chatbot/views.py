@@ -1,3 +1,4 @@
+from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -5,6 +6,7 @@ from rest_framework.response import Response
 from .ChatBot import main
 from .ChatBot.AmazonPriceTracker import amazon_api
 from .ChatBot.StockTracker import stock_api
+from .ChatBot.StockTracker.stock_script import SellStock, StockBuy
 
 
 @api_view(['POST'])
@@ -68,3 +70,32 @@ def amazon_wishlist_view(request):
         })
     # print(data)
     return Response(data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def stock_interact_view(request):
+    try:
+        if request.data.get("credit"):
+            response = SellStock(request.data.get("amount"),
+                                 request.data.get('description').split()[0],
+                                 request.user.id)
+        else:
+            response = StockBuy(request.data.get("amount"),
+                                request.data.get('description').split()[0],
+                                request.user.id)
+
+        if response == "Stock Not Owned":
+            return Response(data={"detail": response},
+                            status=status.HTTP_404_NOT_FOUND)
+        elif response == "Not Enough Stock Owned":
+            return Response(data={"detail": response},
+                            status=status.HTTP_403_FORBIDDEN)
+        elif response == "Stock Sold Successfully":
+            return Response(data={"detail": response},
+                            status=status.HTTP_202_ACCEPTED)
+        return Response(data={"detail": "Invalid Request"},
+                        status=status.HTTP_400_BAD_REQUEST)
+    except ():
+        return Response(data={"detail": "Invalid Request"},
+                        status=status.HTTP_400_BAD_REQUEST)

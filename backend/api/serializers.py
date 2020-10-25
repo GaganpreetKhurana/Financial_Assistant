@@ -1,5 +1,4 @@
-import sys
-
+import requests
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -10,7 +9,6 @@ from rest_framework import serializers
 
 from . import views
 from .models import Detail, Transaction, categories
-from backend.chatbot.ChatBot.StockTracker import stock_script
 
 
 # Register Serializer
@@ -122,9 +120,12 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
                                       description=description,
                                       credit=self.validated_data['credit'])
 
-        self.validated_data, details = add_transaction_dict_to_detail(self.validated_data,
-                                                                      details,
-                                                                      self.context.get('request').user.id)
+        validated_data, details, response = add_transaction_dict_to_detail(self.validated_data,
+                                                                           details,
+                                                                           self.context.get('request'))
+        if response is not None and response.status_code != 202:
+            raise serializers.ValidationError(detail=response.json(), code=response.status_code)
+
         details.save()
         transaction_new.save()
         return transaction_new
@@ -148,13 +149,19 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
                                         date_created__year=year)
         details = details[0]
 
-        validated_data, details = add_transaction_dict_to_detail(validated_data,
-                                                                 details,
-                                                                 self.context.get('request').user.id)
+        validated_data, details, response = add_transaction_dict_to_detail(validated_data,
+                                                                           details,
+                                                                           self.context.get('request'))
 
-        instance, details = views.add_transaction_to_detail(instance,
-                                                            details,
-                                                            self.context.get('request').user.id)
+        if response is not None and response.status_code != 202:
+            raise serializers.ValidationError(detail=response.json(), code=response.status_code)
+
+        instance, details, response = views.add_transaction_to_detail(instance,
+                                                                      details,
+                                                                      self.context.get('request'))
+
+        if response is not None and response.status_code != 202:
+            raise serializers.ValidationError(detail=response.json(), code=response.status_code)
 
         instance.type = validated_data['category']
         instance.amount = validated_data['amount']
@@ -178,8 +185,9 @@ class DestroyTransactionSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-def add_transaction_dict_to_detail(validated_data, details, user_id):
+def add_transaction_dict_to_detail(validated_data, details, request):
     factor = 1
+    response = None
     if validated_data['credit']:
         factor = -1
     if validated_data['category'] == 0:
@@ -199,13 +207,18 @@ def add_transaction_dict_to_detail(validated_data, details, user_id):
     elif validated_data['category'] == 7:
         details.others += factor * validated_data['amount']
     elif validated_data['category'] == 8:
+        header = {
+            "Authorization": "Bearer " + request.auth,
+        }
+        response = requests.post(url="http://127.0.0.1:8000/stock_interact/", data=request.data,
+                                 headers=header)
         details.stock += factor * validated_data['amount']
-        if validated_data['credit']:
-            stock_script.SellStock(validated_data['amount'],
-                                   validated_data['description'].split()[0],
-                                   user_id)
-        else:
-            stock_script.StockBuy(validated_data['amount'],
-                                  validated_data['description'].split()[0],
-                                  user_id)
-    return validated_data, details
+
+    details.totalExpenditure = (
+            details.housing + details.food + details.healthcare
+            + details.transportation + details.recreation
+            + details.miscellaneous + details.stock + details.others
+    )
+
+    details.savings = - details.income - details.totalExpenditure
+    return validated_data, details, response

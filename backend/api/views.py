@@ -1,3 +1,4 @@
+import requests
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -7,7 +8,6 @@ from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView, D
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from backend.chatbot.ChatBot.StockTracker import stock_script
 from .models import Detail, Transaction
 from .serializers import UserDetailsSerializer, TransactionSerializer, RegisterSerializer, FinancialDetailsSerializer, \
     ChangePasswordSerializer, CreateTransactionSerializer, UpdateTransactionSerializer, DestroyTransactionSerializer
@@ -268,7 +268,10 @@ class DeleteTransaction(DestroyAPIView):
             details = Detail.objects.filter(user=request.user,
                                             date_created__year=instance.time.strftime("%Y"),
                                             date_created__month=instance.time.strftime("%m"))
-            instance, details = add_transaction_to_detail(instance, details[0], request.user.id)
+
+            instance, details, response = add_transaction_to_detail(instance, details[0], request.user)
+            # delete stock
+
             details.save()
             self.perform_destroy(instance)
             response = {
@@ -362,8 +365,9 @@ def get_sum_detail(details, request):
     return details
 
 
-def add_transaction_to_detail(instance, details, user_id):
+def add_transaction_to_detail(instance, details, request):
     factor = 1
+    response = None
     if instance.credit:
         factor = -1
 
@@ -384,15 +388,12 @@ def add_transaction_to_detail(instance, details, user_id):
     elif instance.type == 7:
         details.others -= factor * instance.amount
     elif instance.type == 8:
+        header = {
+            "Authorization": "Bearer " + request.auth,
+        }
+        response = requests.post(url="http://127.0.0.1:8000/stock_interact/", data=request.data,
+                                 headers=header)
         details.stock -= factor * instance.amount
-        if instance.credit:
-            stock_script.SellStock(instance.amount,
-                                   instance.discription.split()[0],
-                                   user_id)
-        else:
-            stock_script.StockBuy(instance.amount,
-                                  instance.discription.split()[0],
-                                  user_id)
 
     details.totalExpenditure = (
             details.housing + details.food + details.healthcare
@@ -401,4 +402,4 @@ def add_transaction_to_detail(instance, details, user_id):
     )
 
     details.savings = - details.income - details.totalExpenditure
-    return instance, details
+    return instance, details, response
