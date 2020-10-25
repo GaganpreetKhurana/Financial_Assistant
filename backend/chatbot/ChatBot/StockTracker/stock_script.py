@@ -66,8 +66,7 @@ def GetCurrentPrice(stck):
 
 def StockBuy(amount,stck,user_id):
     ## Storing and buying the stock
-    ##current_price = GetCurrentPrice(stck)
-    current_price = 422.7
+    current_price = GetCurrentPrice(stck)
 
     parent_dir = os.path.dirname(os.path.abspath(__file__))
     rel_path_db = 'stock_db'
