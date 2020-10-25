@@ -391,5 +391,5 @@ def add_transaction_to_detail(instance, details):
             + details.miscellaneous + details.stock + details.others
     )
 
-    details.savings = details.income - details.totalExpenditure
+    details.savings = - details.income - details.totalExpenditure
     return instance, details

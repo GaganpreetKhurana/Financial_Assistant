@@ -156,7 +156,7 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
                 + details.miscellaneous + details.stock + details.others
         )
 
-        details.savings = details.income - details.totalExpenditure
+        details.savings = -details.income - details.totalExpenditure
         details.save()
         transaction_new.save()
         return transaction_new
@@ -213,12 +213,6 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
         instance.description = description
 
         instance.credit = validated_data['credit']
-        details.totalExpenditure = (
-                details.housing + details.food + details.healthcare
-                + details.transportation + details.recreation
-                + details.miscellaneous + details.stock + details.others
-        )
-        details.savings = details.income - details.totalExpenditure
         details.save()
         instance.save()
         return validated_data
