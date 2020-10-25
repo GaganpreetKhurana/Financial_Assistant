@@ -7,6 +7,7 @@ from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView, D
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from backend.chatbot.ChatBot.StockTracker import stock_script
 from .models import Detail, Transaction
 from .serializers import UserDetailsSerializer, TransactionSerializer, RegisterSerializer, FinancialDetailsSerializer, \
     ChangePasswordSerializer, CreateTransactionSerializer, UpdateTransactionSerializer, DestroyTransactionSerializer
@@ -267,7 +268,7 @@ class DeleteTransaction(DestroyAPIView):
             details = Detail.objects.filter(user=request.user,
                                             date_created__year=instance.time.strftime("%Y"),
                                             date_created__month=instance.time.strftime("%m"))
-            instance, details = add_transaction_to_detail(instance, details[0])
+            instance, details = add_transaction_to_detail(instance, details[0], request.user.id)
             details.save()
             self.perform_destroy(instance)
             response = {
@@ -361,7 +362,7 @@ def get_sum_detail(details, request):
     return details
 
 
-def add_transaction_to_detail(instance, details):
+def add_transaction_to_detail(instance, details, user_id):
     factor = 1
     if instance.credit:
         factor = -1
@@ -384,6 +385,14 @@ def add_transaction_to_detail(instance, details):
         details.others -= factor * instance.amount
     elif instance.type == 8:
         details.stock -= factor * instance.amount
+        if instance.credit:
+            stock_script.SellStock(instance.amount,
+                                   instance.discription.split()[0],
+                                   user_id)
+        else:
+            stock_script.StockBuy(instance.amount,
+                                  instance.discription.split()[0],
+                                  user_id)
 
     details.totalExpenditure = (
             details.housing + details.food + details.healthcare

@@ -1,3 +1,5 @@
+import sys
+
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -8,10 +10,10 @@ from rest_framework import serializers
 
 from . import views
 from .models import Detail, Transaction, categories
+from backend.chatbot.ChatBot.StockTracker import stock_script
+
+
 # Register Serializer
-from ..chatbot.ChatBot.StockTracker import stock_script
-
-
 class RegisterSerializer(serializers.ModelSerializer):
     password_confirm = serializers.CharField(style={'input_type': 'password'}, write_only=True)
 
@@ -119,44 +121,10 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
                                       details=details,
                                       description=description,
                                       credit=self.validated_data['credit'])
-        factor = 1
-        if self.validated_data['credit']:
-            factor = -1
-        details.totalTransactions += 1
-        if self.validated_data['category'] == 0:
-            details.income += factor * self.validated_data['amount']
-        elif self.validated_data['category'] == 1:
-            details.housing += factor * self.validated_data['amount']
-        elif self.validated_data['category'] == 2:
-            details.food += self.validated_data['amount']
-        elif self.validated_data['category'] == 3:
-            details.healthcare += factor * self.validated_data['amount']
-        elif self.validated_data['category'] == 4:
-            details.transportation += factor * self.validated_data['amount']
-        elif self.validated_data['category'] == 5:
-            details.recreation += factor * self.validated_data['amount']
-        elif self.validated_data['category'] == 6:
-            details.miscellaneous += factor * self.validated_data['amount']
-        elif self.validated_data['category'] == 7:
-            details.others += factor * self.validated_data['amount']
-        elif self.validated_data['category'] == 8:
-            details.stock += factor * self.validated_data['amount']
-            if self.validated_data['credit']:
-                stock_script.SellStock(self.validated_data['amount'],
-                                       self.validated_data['description'].split()[0],
-                                       self.context.get('request').user.id)
-            else:
-                stock_script.StockBuy(self.validated_data['amount'],
-                                      self.validated_data['description'].split()[0],
-                                      self.context.get('request').user.id)
 
-        details.totalExpenditure = (
-                details.housing + details.food + details.healthcare
-                + details.transportation + details.recreation
-                + details.miscellaneous + details.stock + details.others
-        )
-
-        details.savings = -details.income - details.totalExpenditure
+        self.validated_data, details = add_transaction_dict_to_detail(self.validated_data,
+                                                                      details,
+                                                                      self.context.get('request').user.id)
         details.save()
         transaction_new.save()
         return transaction_new
@@ -173,36 +141,20 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def update(self, instance, validated_data):
-
         month = instance.get_month
         year = instance.get_year
         details = Detail.objects.filter(user=self.context.get('request').user,
                                         date_created__month=month,
                                         date_created__year=year)
         details = details[0]
-        factor = 1
-        if validated_data['credit'] is True:
-            factor = -1
-        if validated_data['category'] == 0:
-            details.income += factor * validated_data['amount']
-        elif validated_data['category'] == 1:
-            details.housing += factor * validated_data['amount']
-        elif validated_data['category'] == 2:
-            details.food += factor * validated_data['amount']
-        elif validated_data['category'] == 3:
-            details.healthcare += factor * validated_data['amount']
-        elif validated_data['category'] == 4:
-            details.transportation += factor * validated_data['amount']
-        elif validated_data['category'] == 5:
-            details.recreation += factor * validated_data['amount']
-        elif validated_data['category'] == 6:
-            details.miscellaneous += factor * validated_data['amount']
-        elif validated_data['category'] == 7:
-            details.others += factor * validated_data['amount']
-        elif validated_data['category'] == 8:
-            details.stock += factor * validated_data['amount']
 
-        instance, details = views.add_transaction_to_detail(instance, details)
+        validated_data, details = add_transaction_dict_to_detail(validated_data,
+                                                                 details,
+                                                                 self.context.get('request').user.id)
+
+        instance, details = views.add_transaction_to_detail(instance,
+                                                            details,
+                                                            self.context.get('request').user.id)
 
         instance.type = validated_data['category']
         instance.amount = validated_data['amount']
@@ -224,3 +176,36 @@ class DestroyTransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
         fields = '__all__'
+
+
+def add_transaction_dict_to_detail(validated_data, details, user_id):
+    factor = 1
+    if validated_data['credit']:
+        factor = -1
+    if validated_data['category'] == 0:
+        details.income += factor * validated_data['amount']
+    elif validated_data['category'] == 1:
+        details.housing += factor * validated_data['amount']
+    elif validated_data['category'] == 2:
+        details.food += factor * validated_data['amount']
+    elif validated_data['category'] == 3:
+        details.healthcare += factor * validated_data['amount']
+    elif validated_data['category'] == 4:
+        details.transportation += factor * validated_data['amount']
+    elif validated_data['category'] == 5:
+        details.recreation += factor * validated_data['amount']
+    elif validated_data['category'] == 6:
+        details.miscellaneous += factor * validated_data['amount']
+    elif validated_data['category'] == 7:
+        details.others += factor * validated_data['amount']
+    elif validated_data['category'] == 8:
+        details.stock += factor * validated_data['amount']
+        if validated_data['credit']:
+            stock_script.SellStock(validated_data['amount'],
+                                   validated_data['description'].split()[0],
+                                   user_id)
+        else:
+            stock_script.StockBuy(validated_data['amount'],
+                                  validated_data['description'].split()[0],
+                                  user_id)
+    return validated_data, details
