@@ -1,13 +1,17 @@
+import requests
 from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 from django.db import transaction
 from django.utils.datetime_safe import datetime
 from rest_framework import serializers
 
 from . import views
 from .models import Detail, Transaction, categories
+
+
 # Register Serializer
-
-
 class RegisterSerializer(serializers.ModelSerializer):
     password_confirm = serializers.CharField(style={'input_type': 'password'}, write_only=True)
 
@@ -17,10 +21,21 @@ class RegisterSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True, 'style': {"input_type": "password"}}}
 
     def save(self):
+        try:
+            validate_email(self.validated_data['email'])
+        except ValidationError:
+            raise serializers.ValidationError({'email': 'Invalid Email!'})
+
         user = User(username=self.validated_data['username'], email=self.validated_data['email'],
                     first_name=self.validated_data['first_name'], last_name=self.validated_data['last_name'])
+
         password = self.validated_data['password']
         password_confirm = self.validated_data['password_confirm']
+        try:
+            validate_password(password)
+        except ValidationError:
+            raise serializers.ValidationError({'password': 'Invalid Password!'})
+
         if password != password_confirm:
             raise serializers.ValidationError({'password': 'Passwords must Match'})
         user.set_password(password)
@@ -104,36 +119,13 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
                                       details=details,
                                       description=description,
                                       credit=self.validated_data['credit'])
-        factor = 1
-        if self.validated_data['credit']:
-            factor = -1
-        details.totalTransactions += 1
-        if self.validated_data['category'] == 0:
-            details.income += factor * self.validated_data['amount']
-        elif self.validated_data['category'] == 1:
-            details.housing += factor * self.validated_data['amount']
-        elif self.validated_data['category'] == 2:
-            details.food += self.validated_data['amount']
-        elif self.validated_data['category'] == 3:
-            details.healthcare += factor * self.validated_data['amount']
-        elif self.validated_data['category'] == 4:
-            details.transportation += factor * self.validated_data['amount']
-        elif self.validated_data['category'] == 5:
-            details.recreation += factor * self.validated_data['amount']
-        elif self.validated_data['category'] == 6:
-            details.miscellaneous += factor * self.validated_data['amount']
-        elif self.validated_data['category'] == 7:
-            details.others += factor * self.validated_data['amount']
-        elif self.validated_data['category'] == 8:
-            details.stock += factor * self.validated_data['amount']
 
-        details.totalExpenditure = (
-                details.housing + details.food + details.healthcare
-                + details.transportation + details.recreation
-                + details.miscellaneous + details.stock + details.others
-        )
+        validated_data, details, response = add_transaction_dict_to_detail(self.validated_data,
+                                                                           details,
+                                                                           self.context.get('request'))
+        if response is not None and response.status_code != 202:
+            raise serializers.ValidationError(detail=response.json(), code=response.status_code)
 
-        details.savings = details.income - details.totalExpenditure
         details.save()
         transaction_new.save()
         return transaction_new
@@ -150,36 +142,26 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def update(self, instance, validated_data):
-
         month = instance.get_month
         year = instance.get_year
         details = Detail.objects.filter(user=self.context.get('request').user,
                                         date_created__month=month,
                                         date_created__year=year)
         details = details[0]
-        factor = 1
-        if validated_data['credit'] is True:
-            factor = -1
-        if validated_data['category'] == 0:
-            details.income += factor * validated_data['amount']
-        elif validated_data['category'] == 1:
-            details.housing += factor * validated_data['amount']
-        elif validated_data['category'] == 2:
-            details.food += factor * validated_data['amount']
-        elif validated_data['category'] == 3:
-            details.healthcare += factor * validated_data['amount']
-        elif validated_data['category'] == 4:
-            details.transportation += factor * validated_data['amount']
-        elif validated_data['category'] == 5:
-            details.recreation += factor * validated_data['amount']
-        elif validated_data['category'] == 6:
-            details.miscellaneous += factor * validated_data['amount']
-        elif validated_data['category'] == 7:
-            details.others += factor * validated_data['amount']
-        elif validated_data['category'] == 8:
-            details.stock += factor * validated_data['amount']
 
-        instance, details = views.add_transaction_to_detail(instance, details)
+        validated_data, details, response = add_transaction_dict_to_detail(validated_data,
+                                                                           details,
+                                                                           self.context.get('request'))
+
+        if response is not None and response.status_code != 202:
+            raise serializers.ValidationError(detail=response.json(), code=response.status_code)
+
+        instance, details, response = views.add_transaction_to_detail(instance,
+                                                                      details,
+                                                                      self.context.get('request'))
+
+        if response is not None and response.status_code != 202:
+            raise serializers.ValidationError(detail=response.json(), code=response.status_code)
 
         instance.type = validated_data['category']
         instance.amount = validated_data['amount']
@@ -201,3 +183,42 @@ class DestroyTransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
         fields = '__all__'
+
+
+def add_transaction_dict_to_detail(validated_data, details, request):
+    factor = 1
+    response = None
+    if validated_data['credit']:
+        factor = -1
+    if validated_data['category'] == 0:
+        details.income += factor * validated_data['amount']
+    elif validated_data['category'] == 1:
+        details.housing += factor * validated_data['amount']
+    elif validated_data['category'] == 2:
+        details.food += factor * validated_data['amount']
+    elif validated_data['category'] == 3:
+        details.healthcare += factor * validated_data['amount']
+    elif validated_data['category'] == 4:
+        details.transportation += factor * validated_data['amount']
+    elif validated_data['category'] == 5:
+        details.recreation += factor * validated_data['amount']
+    elif validated_data['category'] == 6:
+        details.miscellaneous += factor * validated_data['amount']
+    elif validated_data['category'] == 7:
+        details.others += factor * validated_data['amount']
+    elif validated_data['category'] == 8:
+        header = {
+            "Authorization": "Bearer " + request.auth,
+        }
+        response = requests.post(url="http://127.0.0.1:8000/stock_interact/", data=request.data,
+                                 headers=header)
+        details.stock += factor * validated_data['amount']
+
+    details.totalExpenditure = (
+            details.housing + details.food + details.healthcare
+            + details.transportation + details.recreation
+            + details.miscellaneous + details.stock + details.others
+    )
+
+    details.savings = - details.income - details.totalExpenditure
+    return validated_data, details, response

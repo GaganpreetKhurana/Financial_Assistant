@@ -10,4 +10,5 @@ urlpatterns = [
     path("old/", views.get_previous_chats, name="previous_chats"),
     path("stock_list/", views.stock_list_view, name="stock_list"),
     path("wishlist/", views.amazon_wishlist_view, name="wishlist"),
+    path("stock_interact/", views.stock_interact_view, name="stock_update"),
 ]

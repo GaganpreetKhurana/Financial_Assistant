@@ -1,4 +1,8 @@
+import requests
 from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -44,6 +48,16 @@ class ChangePasswordView(UpdateAPIView):
                 return Response({"old_password": ["Wrong password."]},
                                 status=status.HTTP_400_BAD_REQUEST)
 
+            try:
+                validate_password(request.data.get("new_password"))
+            except ValidationError:
+                response = {
+                    'status': 'failed',
+                    'code': status.HTTP_400_BAD_REQUEST,
+                    'message': 'Invalid Password',
+                    'data': []
+                }
+                return Response(response, status=status.HTTP_400_BAD_REQUEST)
             if request.data.get("new_password") \
                     != request.data.get("password_confirm"):
                 response = {
@@ -52,8 +66,10 @@ class ChangePasswordView(UpdateAPIView):
                     'message': 'Password do not Match',
                     'data': []
                 }
-                return Response(response)
+                return Response(response, status=status.HTTP_400_BAD_REQUEST)
+
             request.user.set_password(request.data.get("new_password"))
+            request.user.save()
             response = {
                 'status': 'success',
                 'code': status.HTTP_200_OK,
@@ -61,7 +77,7 @@ class ChangePasswordView(UpdateAPIView):
                 'data': []
             }
 
-            return Response(response)
+            return Response(response, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -77,10 +93,25 @@ class EditUserDetailsView(UpdateAPIView):
         if serializer.is_valid():
 
             try:
-                request.user.first_name = request.data.get("first_name")
-                request.user.last_name = request.data.get("last_name")
-                request.user.username = request.data.get("username")
-                request.user.email = request.data.get("email")
+                if request.data.get("first_name") is not None and request.data.get("first_name") != "":
+                    request.user.first_name = request.data.get("first_name")
+                if request.data.get("last_name") is not None and request.data.get("last_name") != "":
+                    request.user.last_name = request.data.get("last_name")
+                if request.data.get("username") is not None and request.data.get("username") != "":
+                    request.user.username = request.data.get("username")
+                if request.data.get("email") is not None and request.data.get("email") != "":
+                    try:
+                        validate_email(request.data.get("email"))
+                    except ValidationError:
+                        response = {
+                            'status': 'failed',
+                            'code': status.HTTP_400_BAD_REQUEST,
+                            'message': 'Invalid Email',
+                            'data': []
+                        }
+                        return Response(response, status=status.HTTP_400_BAD_REQUEST)
+                    request.user.email = request.data.get("email")
+
                 request.user.save()
             except():
                 response = {
@@ -89,7 +120,7 @@ class EditUserDetailsView(UpdateAPIView):
                     'message': 'Unable to change',
                     'data': []
                 }
-                return Response(response)
+                return Response(response, status=status.HTTP_400_BAD_REQUEST)
             response = {
                 'status': 'success',
                 'code': status.HTTP_200_OK,
@@ -97,7 +128,7 @@ class EditUserDetailsView(UpdateAPIView):
                 'data': []
             }
 
-            return Response(response)
+            return Response(response, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -232,24 +263,28 @@ class DeleteTransaction(DestroyAPIView):
                     "success": False,
                     "message": "Object Not Found"
                 }
-                return Response(data=response, status=status.HTTP_204_NO_CONTENT)
+                return Response(data=response, status=status.HTTP_404_NOT_FOUND)
             # print(instance, instance.time, type(instance.time))
             details = Detail.objects.filter(user=request.user,
                                             date_created__year=instance.time.strftime("%Y"),
                                             date_created__month=instance.time.strftime("%m"))
-            instance, details = add_transaction_to_detail(instance, details[0])
+
+            instance, details, response = add_transaction_to_detail(instance, details[0], request.user)
+            # delete stock
+
             details.save()
             self.perform_destroy(instance)
             response = {
                 "success": True,
                 "message": "Object Deleted"
             }
+            return Response(data=response, status=status.HTTP_204_NO_CONTENT)
         except():
             response = {
                 "success": False,
                 "message": "Object Not Deleted"
             }
-        return Response(data=response, status=status.HTTP_204_NO_CONTENT)
+        return Response(data=response, status=status.HTTP_400_BAD_REQUEST)
 
 
 class DeleteUser(DestroyAPIView):
@@ -268,12 +303,14 @@ class DeleteUser(DestroyAPIView):
                 "success": True,
                 "message": "User Deleted"
             }
+            return Response(data=response, status=status.HTTP_204_NO_CONTENT)
+
         except():
             response = {
                 "success": False,
                 "message": "User Not Deleted"
             }
-        return Response(data=response, status=status.HTTP_204_NO_CONTENT)
+        return Response(data=response, status=status.HTTP_400_BAD_REQUEST)
 
 
 class DetailsViewMonth(ListAPIView):
@@ -328,8 +365,9 @@ def get_sum_detail(details, request):
     return details
 
 
-def add_transaction_to_detail(instance, details):
+def add_transaction_to_detail(instance, details, request):
     factor = 1
+    response = None
     if instance.credit:
         factor = -1
 
@@ -350,6 +388,11 @@ def add_transaction_to_detail(instance, details):
     elif instance.type == 7:
         details.others -= factor * instance.amount
     elif instance.type == 8:
+        header = {
+            "Authorization": "Bearer " + request.auth,
+        }
+        response = requests.post(url="http://127.0.0.1:8000/stock_interact/", data=request.data,
+                                 headers=header)
         details.stock -= factor * instance.amount
 
     details.totalExpenditure = (
@@ -358,5 +401,5 @@ def add_transaction_to_detail(instance, details):
             + details.miscellaneous + details.stock + details.others
     )
 
-    details.savings = details.income - details.totalExpenditure
-    return instance, details
+    details.savings = - details.income - details.totalExpenditure
+    return instance, details, response
