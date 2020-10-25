@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -53,7 +54,9 @@ class ChangePasswordView(UpdateAPIView):
                     'data': []
                 }
                 return Response(response)
+            validate_password(request.data.get("new_password"))
             request.user.set_password(request.data.get("new_password"))
+            request.user.save()
             response = {
                 'status': 'success',
                 'code': status.HTTP_200_OK,
@@ -77,10 +80,14 @@ class EditUserDetailsView(UpdateAPIView):
         if serializer.is_valid():
 
             try:
-                request.user.first_name = request.data.get("first_name")
-                request.user.last_name = request.data.get("last_name")
-                request.user.username = request.data.get("username")
-                request.user.email = request.data.get("email")
+                if request.data.get("first_name") is not None and request.data.get("first_name") != "":
+                    request.user.first_name = request.data.get("first_name")
+                if request.data.get("last_name") is not None and request.data.get("last_name") != "":
+                    request.user.last_name = request.data.get("last_name")
+                if request.data.get("username") is not None and request.data.get("username") != "":
+                    request.user.username = request.data.get("username")
+                if request.data.get("email") is not None and request.data.get("email") != "":
+                    request.user.email = request.data.get("email")
                 request.user.save()
             except():
                 response = {
