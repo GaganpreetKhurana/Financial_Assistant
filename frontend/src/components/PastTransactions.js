@@ -73,6 +73,7 @@ class PastTransactions extends Component {
         e.preventDefault();
         const {category, type, description, amount} = this.state;
         this.props.dispatch(updateTransaction(category, type, description, amount, this.props.details.id));
+        
 
         setTimeout(() => {
             //this.forceUpdate();

@@ -248,6 +248,7 @@ export function updateTransaction(category,credit,description,amount,id){
                 if (success) {
                     dispatch(updateTransactionSuccess("Transaction updated successfully"));
                     dispatch(fetchTransactions());
+                    dispatch(fetchDetails());
                     return;
                 }
                 else{
@@ -304,6 +305,7 @@ export function deleteTransaction(id){
                 if (success) {
                     dispatch(deleteSuccess("Transaction deleted successfully"));
                     dispatch(fetchTransactions());
+                    dispatch(fetchDetails());
                     return;
                 }
                 else{
@@ -315,6 +317,7 @@ export function deleteTransaction(id){
             if (success) {
                 dispatch(deleteSuccess("Transaction deleted successfully"));
                 dispatch(fetchTransactions());
+                dispatch(fetchDetails());
                 return;
             }
             else{
