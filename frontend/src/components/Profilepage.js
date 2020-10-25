@@ -1,17 +1,16 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {fetchUser} from '../actions/auth';
-
-
+import {fetchUser,updateProfile,updatePassword} from '../actions/auth';
+import {Redirect} from "react-router-dom";
 
 class Profilepage extends Component {
     constructor(props){
         super(props);
         this.state = {
-            fname: props.auth.fname,
-            lname: props.auth.lname,
-            email:props.auth.email,
-            uname:props.auth.user.username,
+            fname: '',
+            lname: '',
+            email:'',
+            uname:'',
             password: '',
             confirmPassword: '',
             editMode: false,
@@ -25,9 +24,32 @@ class Profilepage extends Component {
       };
 
       handleSave = () => {
-        //const { password, confirmPassword, fname,lname,email } = this.state;
+        var { password, confirmPassword,oldpassword, fname,lname,email ,uname} = this.state;
         //const { user } = this.props.auth;
         //call the edit dispatchers
+        if(fname==='')
+        {
+          fname =this.props.auth.fname;
+        }
+        if(lname==='')
+        {
+          lname =this.props.auth.lname;
+        }
+        if(uname==='')
+        {
+          uname =this.props.auth.user.username;
+        }
+        if(email==='')
+        {
+          email = this.props.auth.email;
+        }
+        //console.log( password, confirmPassword,oldpassword, fname,lname,email,uname);
+
+        this.props.dispatch(updateProfile(email, fname,lname,uname));
+        if(oldpassword!=='' && password!=='' && confirmPassword!=='')
+        {
+        this.props.dispatch(updatePassword(oldpassword,password,confirmPassword));
+        }
       };
     componentDidMount() {
         this.props.dispatch(fetchUser());
@@ -35,10 +57,14 @@ class Profilepage extends Component {
     }
     render() {
         const {auth} = this.props;
-        const {lname,fname,email} = this.props.auth;
+        const {lname,fname,email,isLoggedIn} = this.props.auth;
         const {error} = auth;
         const {username} = this.props.auth.user; 
         const { editMode } = this.state;
+        //so that logged in user sees the profile page
+        if (!isLoggedIn) {
+          return <Redirect to="/details"/>;
+        }
         return (
             <div className="settings">
             <div className="img-container">
@@ -61,7 +87,6 @@ class Profilepage extends Component {
                   type="text"
                   placeholder={email}
                   onChange={(e) => this.handleChange('email', e.target.value)}
-                  value={this.state.email}
                 />
               ) : (
                 <div className="field-value">{email}</div>
@@ -74,7 +99,6 @@ class Profilepage extends Component {
                   type="text"
                   placeholder={username}
                   onChange={(e) => this.handleChange('uname', e.target.value)}
-                  value={this.state.uname}
                 />
               ) : (
                 <div className="field-value">{username}</div>
@@ -87,7 +111,6 @@ class Profilepage extends Component {
                   type="text"
                   placeholder={fname}
                   onChange={(e) => this.handleChange('fname', e.target.value)}
-                  value={this.state.fname}
                 />
               ) : (
                 <div className="field-value">{fname}</div>
@@ -100,7 +123,6 @@ class Profilepage extends Component {
                   type="text"
                   placeholder={lname}
                   onChange={(e) => this.handleChange('lname', e.target.value)}
-                  value={this.state.lname}
                 />
               ) : (
                 <div className="field-value">{lname}</div>
@@ -112,7 +134,7 @@ class Profilepage extends Component {
     
                 <input
                   type="password"
-                  placeholder="old password"
+                  placeholder="Old Password"
                   onChange={(e) =>
                     this.handleChange('oldpassword', e.target.value)
                   }
@@ -126,7 +148,7 @@ class Profilepage extends Component {
     
                 <input
                   type="password"
-                  placeholder="new password"
+                  placeholder="New Password"
 
                   onChange={(e) => this.handleChange('password', e.target.value)}
                   value={this.state.password}
@@ -140,7 +162,7 @@ class Profilepage extends Component {
     
                 <input
                   type="password"
-                  placeholder=" confirm password"
+                  placeholder="Confirm Password"
 
                   onChange={(e) =>
                     this.handleChange('confirmPassword', e.target.value)

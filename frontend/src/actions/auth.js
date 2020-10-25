@@ -275,7 +275,7 @@ export function fetchUser()
                 return response.json();
             }})
             .then((data) => {
-                console.log(data);
+                //console.log(data);
                 if (success) {
                     dispatch(userDetails(data[0].email,data[0].last_name,data[0].first_name));
                     return;
@@ -287,3 +287,105 @@ export function fetchUser()
             });
     };
 } 
+
+
+//update profile
+export function updateProfile(email,fname,lname,uname) {
+    return (dispatch) => {
+        dispatch(startForgot());
+        var success = false;
+        const url = '/edit_user';
+        fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization : `Bearer ${localStorage.getItem('DONNA')}`
+            },
+            body: getFormBody({
+                first_name:fname,
+                last_name:lname,
+                username:uname,
+                email:email
+            }),
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    success = true;
+                    return response.json();
+                } else {
+                    return response.json();
+                }
+            })
+            .then((data) => {
+                //console.log(data);
+
+                if (success) {
+                    //localStorage.setItem('DONNA', data.token);
+                    //const user = jwt_decode(data.token);
+                    //dispatch(authenticateUser({username: user.username,email :user.email,user_id:user.user_id}));
+                    dispatch(userDetails(email,lname,fname));
+                    dispatch(forgotSuccess("Profile updated successfully !!!!"));
+                    return;
+
+                } else {
+                    dispatch(forgotFailed("Sorry Profile updation Failed..Plz try again!!!"));
+                    return;
+                }
+
+            }).catch(()=>dispatch(forgotFailed("Sorry Profile updation Failed..Plz try again!!!")));
+        
+    };
+}
+
+export function updatePassword(old,new_password,confirm_password) {
+    return (dispatch) => {
+        dispatch(startForgot());
+        var success = false;
+        const url = '/change_password';
+        fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization : `Bearer ${localStorage.getItem('DONNA')}`
+            },
+            body: getFormBody({
+                old_password:old,
+                new_password:new_password,
+                password_confirm:confirm_password
+            }),
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    success = true;
+                    return response.json();
+                } else {
+                    return response.json();
+                }
+            })
+            .then((data) => {
+                //console.log(data);
+
+                if (success) {
+                    //localStorage.setItem('DONNA', data.token);
+                    //const user = jwt_decode(data.token);
+                    //dispatch(authenticateUser({username: user.username,email :user.email,user_id:user.user_id}));
+                    dispatch(forgotSuccess("Profile updated successfully !!!!"));
+                    return;
+
+                } else {
+                    if(data.old_password)
+                    {
+                        dispatch(forgotFailed("Old Password does not match..Plz try again!!!"));
+                        return;
+                    }
+                    else{
+                    dispatch(forgotFailed("Sorry Profile updation Failed..Plz try again!!!"));
+                    return;
+                    }
+
+                }
+
+            }).catch(()=>dispatch(forgotFailed("Sorry Profile updation Failed..Plz try again!!!")));
+    };
+}
+
