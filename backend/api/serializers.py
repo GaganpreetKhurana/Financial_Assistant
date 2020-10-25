@@ -8,9 +8,8 @@ from rest_framework import serializers
 
 from . import views
 from .models import Detail, Transaction, categories
-
-
 # Register Serializer
+from ..chatbot.ChatBot.StockTracker import stock_script
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -142,6 +141,14 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
             details.others += factor * self.validated_data['amount']
         elif self.validated_data['category'] == 8:
             details.stock += factor * self.validated_data['amount']
+            if self.validated_data['credit']:
+                stock_script.SellStock(self.validated_data['amount'],
+                                       self.validated_data['description'].split()[0],
+                                       self.context.get('request').user.id)
+            else:
+                stock_script.StockBuy(self.validated_data['amount'],
+                                      self.validated_data['description'].split()[0],
+                                      self.context.get('request').user.id)
 
         details.totalExpenditure = (
                 details.housing + details.food + details.healthcare
@@ -206,6 +213,12 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
         instance.description = description
 
         instance.credit = validated_data['credit']
+        details.totalExpenditure = (
+                details.housing + details.food + details.healthcare
+                + details.transportation + details.recreation
+                + details.miscellaneous + details.stock + details.others
+        )
+        details.savings = details.income - details.totalExpenditure
         details.save()
         instance.save()
         return validated_data
