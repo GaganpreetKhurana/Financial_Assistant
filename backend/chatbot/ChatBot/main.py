@@ -207,8 +207,8 @@ def chat_get(user_id, no_of_results):
     db = db_object.cursor()
 
     chat_bot = "donna"
-    sql = f"SELECT chat_message,sender FROM chat_store WHERE (userid = \"{str(user_id)}\" OR userid = \"{str(chat_bot)}\") ORDER BY createdAt LIMIT \"{str(no_of_results)}\""
-    # print(sql)
+    #sql = f"SELECT chat_message,sender FROM chat_store WHERE (userid = \"{str(user_id)}\" OR userid = \"{str(chat_bot)}\") ORDER BY createdAt DESC LIMIT \"{str(no_of_results)}\""
+    sql = f"SELECT chat_message,sender FROM (SELECT chat_message,sender,createdAt FROM chat_store WHERE (userid = \"{str(user_id)}\" OR userid = \"{str(chat_bot)}\") ORDER BY createdAt DESC LIMIT \"{str(no_of_results)}\") ORDER BY createdAt"
     db.execute(sql)
     results = db.fetchall()
     # print(results)
