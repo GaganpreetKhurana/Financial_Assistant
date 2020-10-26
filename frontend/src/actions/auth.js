@@ -320,16 +320,25 @@ export function updateProfile(email,fname,lname,uname) {
                 //console.log(data);
 
                 if (success) {
-                    //localStorage.setItem('DONNA', data.token);
-                    //const user = jwt_decode(data.token);
-                    //dispatch(authenticateUser({username: user.username,email :user.email,user_id:user.user_id}));
+                    //console.log(data);
+                    localStorage.setItem('DONNA', data.token);
+                    const user = jwt_decode(data.token);
+                    dispatch(authenticateUser({username: user.username,email :user.email,user_id:user.user_id}));
                     dispatch(userDetails(email,lname,fname));
-                    dispatch(forgotSuccess("Profile updated successfully !!!!"));
+                    dispatch(forgotSuccess(data.message));
                     return;
 
                 } else {
-                    dispatch(forgotFailed("Sorry Profile updation Failed..Plz try again!!!"));
+                    if(data.message)
+                    {
+                        dispatch(forgotFailed(data.message));
+                        return;
+                    }
+                    else
+                    {
+                    dispatch(forgotFailed("Sorry Profeturn;ile updation Failed..Plz try again!!!"));
                     return;
+                    }
                 }
 
             }).catch(()=>dispatch(forgotFailed("Sorry Profile updation Failed..Plz try again!!!")));
@@ -366,6 +375,7 @@ export function updatePassword(old,new_password,confirm_password) {
                 //console.log(data);
 
                 if (success) {
+                    console.log(data);
                     //localStorage.setItem('DONNA', data.token);
                     //const user = jwt_decode(data.token);
                     //dispatch(authenticateUser({username: user.username,email :user.email,user_id:user.user_id}));

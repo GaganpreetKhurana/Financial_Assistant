@@ -9,7 +9,7 @@ class  GraphPiechart extends Component {
         super(props);
         this.state={
             chartData:{
-                labels:['Food','HealthCare','Housing','Income','Miscellaneous','Recreation','Transportation','Expenditure','Savings'],
+                labels:['Food','HealthCare','Housing','Income','Miscellaneous','Recreation','Transportation','Stocks','Expenditure','Savings'],
                 datasets:[{
                     label:'Amount Spent(Rs)',
                     data:[
@@ -20,6 +20,7 @@ class  GraphPiechart extends Component {
                         props.miscellaneous,
                         props.recreation,
                         props.transportation,
+                        props.stock,
                         props.expenditure,
                         props.savings
                     ],
@@ -32,7 +33,8 @@ class  GraphPiechart extends Component {
                         'rgba(75,192,192,0.6)',
                         'rgba(153,102,255,0.6)',
                         'rgba(255,159,64,0.6)',
-                        'rgba(255,99,132,0.6)'
+                        'rgba(255,99,132,0.6)',
+                        'rgba(155,240,202,0.6)'
 
                     ],
                     borderColor: 'rgba(0,0,0,1)',
