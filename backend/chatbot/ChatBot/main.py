@@ -259,11 +259,17 @@ def chat_web(question, user_id, request):
 
         if list_parse[1] == "Add":
             url = list_parse[2]
-            chat_response += amazon_script.amazon_add_fun(url, user_id)
+            try:
+                chat_response += amazon_script.amazon_add_fun(url, user_id)
+            except:
+                return "Internet Connection Problem"
 
         if list_parse[1] == "Buy":
             url = list_parse[2]
-            chat_response += amazon_script.amazon_buy_fun(url, user_id)
+            try:
+                chat_response += amazon_script.amazon_buy_fun(url, user_id)
+            except:
+                return "Internet Connection Problem"
 
         if list_parse[-1] == "Speak":
             engine = pyttsx3.init()
@@ -282,16 +288,25 @@ def chat_web(question, user_id, request):
 
         if list_parse[1] == "info":
             stck = list_parse[2]
-            chat_response += stock_script.StockInfo(stck)
+            try:
+                chat_response += stock_script.StockInfo(stck)
+            except:
+                return "Internet Connection Problem"
 
         if list_parse[1] == "history":
             stck = list_parse[2]
-            chat_response += stock_script.StockHistory(stck, 3)
+            try:
+                chat_response += stock_script.StockHistory(stck, 3)
+            except:
+                return "Internet Connection Problem"
 
         if list_parse[1] == "buy":
             stck = list_parse[2]
             amount = list_parse[3]
-            chat_response += stock_script.StockBuy(amount, stck, user_id)
+            try:
+                chat_response += stock_script.StockBuy(amount, stck, user_id)
+            except:
+                return "Internet Connection Problem"
 
             data_bot = {
                 "amount": amount,
@@ -316,8 +331,10 @@ def chat_web(question, user_id, request):
         if list_parse[1] == "sell":
             stck = list_parse[2]
             amount = list_parse[3]
-            chat_response += stock_script.SellStock(amount, stck, user_id)
-
+            try:
+                chat_response += stock_script.SellStock(amount, stck, user_id)
+            except:
+                return "Internet Connection Problem"
             data_bot = {
                 "amount": amount,
                 "category": 8,

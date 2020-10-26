@@ -1,6 +1,11 @@
 import os
 import sqlite3
+import yfinance as yf
 
+def GetCurrentPrice(stck):
+    stck_obj = yf.Ticker(stck)
+    information = stck_obj.info
+    return float(information["open"])
 
 def stock_list(user_id):
     # Returns stock as a list
