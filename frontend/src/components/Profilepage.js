@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {fetchUser,updateProfile,updatePassword} from '../actions/auth';
+import {fetchUser,updateProfile,updatePassword,clearAuth} from '../actions/auth';
 import {Redirect} from "react-router-dom";
 
 class Profilepage extends Component {
@@ -50,15 +50,19 @@ class Profilepage extends Component {
         {
         this.props.dispatch(updatePassword(oldpassword,password,confirmPassword));
         }
+        setTimeout(()=>{this.props.dispatch(clearAuth())},10000);
       };
     componentDidMount() {
         this.props.dispatch(fetchUser());
 
     }
+    componentWillUnmount() {
+      this.props.dispatch(clearAuth());
+  }
     render() {
         const {auth} = this.props;
         const {lname,fname,email,isLoggedIn} = this.props.auth;
-        const {error} = auth;
+        const {error,success} = auth;
         const {username} = this.props.auth.user; 
         const { editMode } = this.state;
         //so that logged in user sees the profile page
@@ -75,7 +79,7 @@ class Profilepage extends Component {
             </div>
     
             {error && <div className="alert error-dailog">{error}</div>}
-            {error === false && (
+            {success && (
               <div className="alert success-dailog">
                 Successfully updated profile!
               </div>
