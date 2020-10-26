@@ -309,6 +309,7 @@ class PastTransactions extends Component {
                 miscellaneous={dummy.miscellaneous}
                 recreation={dummy.recreation}
                 savings = {dummy.savings}
+                stock = {dummy.stock}
                 transportation = {dummy.transportation}
                 expenditure = {dummy.totalExpenditure}
                 />}
@@ -319,6 +320,7 @@ class PastTransactions extends Component {
                 income={dummy.income}
                 miscellaneous={dummy.miscellaneous}
                 recreation={dummy.recreation}
+                stock = {dummy.stock}
                 savings = {dummy.savings}
                 transportation = {dummy.transportation}
                 expenditure = {dummy.totalExpenditure}
@@ -330,6 +332,7 @@ class PastTransactions extends Component {
                 income={dummy.income}
                 miscellaneous={dummy.miscellaneous}
                 recreation={dummy.recreation}
+                stock = {dummy.stock}
                 savings = {dummy.savings}
                 transportation = {dummy.transportation}
                 expenditure = {dummy.totalExpenditure}
