@@ -290,6 +290,7 @@ def chat_web(question, user_id, request):
             stck = list_parse[2]
             try:
                 chat_response += stock_script.StockInfo(stck)
+                return chat_response
             except():
                 return "Internet Connection Problem"
 
@@ -297,6 +298,7 @@ def chat_web(question, user_id, request):
             stck = list_parse[2]
             try:
                 chat_response += stock_script.StockHistory(stck, 3)
+                return chat_response
             except():
                 return "Internet Connection Problem"
 
@@ -317,14 +319,18 @@ def chat_web(question, user_id, request):
                                      headers=header)
             if "detail" in response.json():
                 chat_response = response.json()["detail"]
-            else:
+            elif "description" in response.json():
                 chat_response = response.json()["description"] + " Successfully"
+            else:
+                chat_response = "Error"
+
             if response.status_code == 201:
                 chat_response += " and Transaction Operation Successful!"
             else:
                 chat_response += " and Transaction Operation Unsuccessful!"
 
             chat_store(chat_response, 'donna', 'False')
+            return chat_response
 
         if list_parse[1] == "sell":
             stck = list_parse[2]
@@ -343,14 +349,18 @@ def chat_web(question, user_id, request):
                                      headers=header)
             if "detail" in response.json():
                 chat_response = response.json()["detail"]
-            else:
+            elif "description" in response.json():
                 chat_response = response.json()["description"] + " Successfully"
+            else:
+                chat_response = "Error"
+
             if response.status_code == 201:
                 chat_response += " and Transaction Operation Successful!"
             else:
                 chat_response += " and Transaction Operation Unsuccessful!"
 
             chat_store(chat_response, 'donna', 'False')
+            return chat_response
 
         if list_parse[1] == "predict":
             stck = list_parse[2]
@@ -360,7 +370,6 @@ def chat_web(question, user_id, request):
 
             if list_parse[2] == "info":
                 chat_response += stock_script.PortfolioSituation(user_id)
-
             if list_parse[2] == "predict":
                 chat_response += stock_script.PortfolioPrediction(user_id)
 
