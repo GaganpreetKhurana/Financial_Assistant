@@ -47,7 +47,7 @@ try:
     with open(abs_path_pickle, "rb") as f:
         print("\n\n\nNo Need to Retrain Model\n\n\n")
         words, labels, training, output = pickle.load(f)
-except:
+except():
     for intent in data['intents']:
         for pattern in intent['patterns']:
             wrds = nltk.word_tokenize(pattern)
@@ -181,9 +181,9 @@ def fun(string):
 
 
 def chat_store(chatmessage, user_id, sender):
-    parent_dir = os.path.dirname(os.path.abspath(__file__))
+    parent_directory = os.path.dirname(os.path.abspath(__file__))
     rel_path_db = 'chat_db'
-    abs_path_db = os.path.join(parent_dir, rel_path_db)
+    abs_path_db = os.path.join(parent_directory, rel_path_db)
 
     db_object = sqlite3.connect(abs_path_db)
     db = db_object.cursor()
@@ -261,14 +261,14 @@ def chat_web(question, user_id, request):
             url = list_parse[2]
             try:
                 chat_response += amazon_script.amazon_add_fun(url, user_id)
-            except:
+            except():
                 return "Internet Connection Problem"
 
         if list_parse[1] == "Buy":
             url = list_parse[2]
             try:
                 chat_response += amazon_script.amazon_buy_fun(url, user_id)
-            except:
+            except():
                 return "Internet Connection Problem"
 
         if list_parse[-1] == "Speak":
@@ -290,28 +290,23 @@ def chat_web(question, user_id, request):
             stck = list_parse[2]
             try:
                 chat_response += stock_script.StockInfo(stck)
-            except:
+            except():
                 return "Internet Connection Problem"
 
         if list_parse[1] == "history":
             stck = list_parse[2]
             try:
                 chat_response += stock_script.StockHistory(stck, 3)
-            except:
+            except():
                 return "Internet Connection Problem"
 
         if list_parse[1] == "buy":
             stck = list_parse[2]
             amount = list_parse[3]
-            try:
-                chat_response += stock_script.StockBuy(amount, stck, user_id)
-            except:
-                return "Internet Connection Problem"
-
             data_bot = {
                 "amount": amount,
                 "category": 8,
-                "description": ' '.join(str(stck) + " Bought"),
+                "description": ''.join(str(stck)) + " Bought",
                 "credit": False
             }
             header = {
@@ -320,25 +315,24 @@ def chat_web(question, user_id, request):
             print("Calling function to add transaction to database")
             response = requests.post(url="http://127.0.0.1:8000/create_transaction", data=data_bot,
                                      headers=header)
-
-            if response.status_code == 201:
-                chat_response += "and Transaction Operation Successful!"
+            if "detail" in response.json():
+                chat_response = response.json()["detail"]
             else:
-                chat_response += "and Transaction Operation Unsuccessful!"
+                chat_response = response.json()["description"] + " Successfully"
+            if response.status_code == 201:
+                chat_response += " and Transaction Operation Successful!"
+            else:
+                chat_response += " and Transaction Operation Unsuccessful!"
 
             chat_store(chat_response, 'donna', 'False')
 
         if list_parse[1] == "sell":
             stck = list_parse[2]
             amount = list_parse[3]
-            try:
-                chat_response += stock_script.SellStock(amount, stck, user_id)
-            except:
-                return "Internet Connection Problem"
             data_bot = {
                 "amount": amount,
                 "category": 8,
-                "description": ' '.join(str(stck) + " Sold"),
+                "description": ''.join(str(stck)) + " Sold",
                 "credit": True
             }
             header = {
@@ -347,11 +341,14 @@ def chat_web(question, user_id, request):
             print("Calling function to add transaction to database")
             response = requests.post(url="http://127.0.0.1:8000/create_transaction", data=data_bot,
                                      headers=header)
-
-            if response.status_code == 201:
-                chat_response += "and Transaction Operation Successful!"
+            if "detail" in response.json():
+                chat_response = response.json()["detail"]
             else:
-                chat_response += "and Transaction Operation Unsuccessful!"
+                chat_response = response.json()["description"] + " Successfully"
+            if response.status_code == 201:
+                chat_response += " and Transaction Operation Successful!"
+            else:
+                chat_response += " and Transaction Operation Unsuccessful!"
 
             chat_store(chat_response, 'donna', 'False')
 
@@ -376,7 +373,7 @@ def chat_web(question, user_id, request):
 
         return chat_response
 
-    ## Questions
+    # Questions
     speak_flag = False
 
     # Checking for speak command

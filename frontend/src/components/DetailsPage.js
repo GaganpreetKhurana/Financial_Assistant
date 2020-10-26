@@ -77,7 +77,7 @@ class DetailsPage extends Component {
                     </div>
                 )}
                 <div>
-                    <label>Chose Category</label>
+                    <label>Choose Category</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <select onChange={this.handleChange} value={this.state.category} placeholder="Category">
                         <option value="0">Income</option>
@@ -88,7 +88,7 @@ class DetailsPage extends Component {
                         <option value="5">Recreation</option>
                         <option value="6">Miscellaneous</option>
                         <option value="7">Other</option>
-                        <option value="8">Stocks</option>
+                        {/*<option value="8">Stocks</option>*/}
                     </select>
                 </div>
                 <br/>

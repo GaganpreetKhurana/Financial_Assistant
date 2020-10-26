@@ -124,7 +124,10 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
                                                                            details,
                                                                            self.context.get('request'))
         if response is not None and response.status_code != 202:
-            raise serializers.ValidationError(detail=response.json(), code=response.status_code)
+            try:
+                raise serializers.ValidationError(detail=response.json(), code=response.status_code)
+            except():
+                raise serializers.ValidationError(code=response.status_code)
 
         details.save()
         transaction_new.save()
@@ -154,14 +157,19 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
                                                                            self.context.get('request'))
 
         if response is not None and response.status_code != 202:
-            raise serializers.ValidationError(detail=response.json(), code=response.status_code)
+            try:
+                raise serializers.ValidationError(detail=response.json(), code=response.status_code)
+            except():
+                raise serializers.ValidationError(code=response.status_code)
 
         instance, details, response = views.add_transaction_to_detail(instance,
                                                                       details,
                                                                       self.context.get('request'))
-
         if response is not None and response.status_code != 202:
-            raise serializers.ValidationError(detail=response.json(), code=response.status_code)
+            try:
+                raise serializers.ValidationError(detail=response.json(), code=response.status_code)
+            except():
+                raise serializers.ValidationError(code=response.status_code)
 
         instance.type = validated_data['category']
         instance.amount = validated_data['amount']

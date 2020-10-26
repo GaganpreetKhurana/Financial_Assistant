@@ -85,7 +85,7 @@ def stock_interact_view(request):
                                 request.data.get('description').split()[0],
                                 request.user.id)
 
-        if response == "Stock Not Owned":
+        if response == "Stock Not Owned" or response == "No such Stock":
             return Response(data={"detail": response},
                             status=status.HTTP_404_NOT_FOUND)
         elif response == "Not Enough Stock Owned":
