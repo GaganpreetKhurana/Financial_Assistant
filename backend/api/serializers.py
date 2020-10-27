@@ -30,8 +30,11 @@ class RegisterSerializer(serializers.ModelSerializer):
         # Try to validate Email
         try:
             validate_email(self.validated_data['email'])
-        except ValidationError:
-            raise serializers.ValidationError({'email': 'Invalid Email!'})
+        except ValidationError as error:
+            message = "Invalid Email!"
+            for error_object in error.error_list:
+                message += error_object.message
+            raise serializers.ValidationError({'email': message})
 
         # Create new User Instance
         user = User(username=self.validated_data['username'], email=self.validated_data['email'],
@@ -43,8 +46,16 @@ class RegisterSerializer(serializers.ModelSerializer):
         # Validate password
         try:
             validate_password(password)
-        except ValidationError:
-            raise serializers.ValidationError({'password': 'Invalid Password!'})
+        except ValidationError as error:
+            message = "Invalid Password."
+            for error_object in error.error_list:
+                if error_object.code == "password_too_short":
+                    message += error_object.message % {'min_length': error_object.params['min_length']}
+                elif error.code == "password_too_similar":
+                    message += error_object.message % {'verbose_name': error_object.params['verbose_name']}
+                else:
+                    message += error_object.message
+            raise serializers.ValidationError({'password': message})
 
         # Match password and password_confirm
         if password != password_confirm:

@@ -71,12 +71,20 @@ class ChangePasswordView(UpdateAPIView):
 
             # Validate Password
             try:
-                validate_password(request.data.get("new_password"))
-            except ValidationError:
+                validate_password(request.data.get("new_password"), request.user)
+            except ValidationError as error:
+                message = "Invalid Password. "
+                for error_object in error.error_list:
+                    if error_object.code == "password_too_short":
+                        message += error_object.message % {'min_length': error_object.params['min_length']}
+                    elif error.code == "password_too_similar":
+                        message += error_object.message % {'verbose_name': error_object.params['verbose_name']}
+                    else:
+                        message += error_object.message
                 response = {
                     'status': 'failed',
                     'code': status.HTTP_400_BAD_REQUEST,
-                    'message': 'Invalid Password',
+                    'message': message,
                     'data': []
                 }
                 return Response(response, status=status.HTTP_400_BAD_REQUEST)  # Response for invalid password
@@ -143,11 +151,14 @@ class EditUserDetailsView(UpdateAPIView):
                     # Validate Email
                     try:
                         validate_email(request.data.get("email"))
-                    except ValidationError:
+                    except ValidationError as error:
+                        message = "Invalid Email."
+                        for error_object in error.error_list:
+                            message += error_object.message
                         response = {
                             'status': 'failed',
                             'code': status.HTTP_400_BAD_REQUEST,
-                            'message': 'Invalid Email',
+                            'message': message,
                             'data': []
                         }
                         return Response(response, status=status.HTTP_400_BAD_REQUEST)  # Invalid Email Response
