@@ -18,6 +18,11 @@ class TransactionEntry extends Component {
 
     render() {
         const {transaction, index} = this.props;
+        var hide_button = false;
+        if(transaction.category === 'Stock')
+        {
+            hide_button = true;
+        }
         return (
             <div className="transaction-entry">
                 <div className="number "> {index + 1} </div>
@@ -28,10 +33,10 @@ class TransactionEntry extends Component {
                 {transaction.credit && <div className="type">Credit</div>}
                 {!transaction.credit && <div className="type">Debit</div>}
                 <div className="update ">
-                    <button onClick={() => this.handleUpdate(transaction.id)}>Update</button>
+                    <button onClick={() => this.handleUpdate(transaction.id)} disabled = {hide_button}>Update</button>
                 </div>
                 <div className="delete ">
-                    <button onClick={() => this.handleDelete(transaction.id)}>Delete</button>
+                    <button onClick={() => this.handleDelete(transaction.id)} disabled = {hide_button}>Delete</button>
                 </div>
             </div>
 
