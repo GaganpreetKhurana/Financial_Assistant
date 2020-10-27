@@ -11,9 +11,10 @@ from . import views
 from .models import Detail, Transaction, categories
 
 
-# Register Serializer
+# Serializer for Registering new User
 class RegisterSerializer(serializers.ModelSerializer):
-    password_confirm = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+    password_confirm = serializers.CharField(style={'input_type': 'password'},
+                                             write_only=True)  # Field for confirming password
 
     class Meta:
         model = User
@@ -21,30 +22,47 @@ class RegisterSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True, 'style': {"input_type": "password"}}}
 
     def save(self):
+        """
+        Method for saving user
+        :return: New user instance
+        """
+
+        # Try to validate Email
         try:
             validate_email(self.validated_data['email'])
         except ValidationError:
             raise serializers.ValidationError({'email': 'Invalid Email!'})
 
+        # Create new User Instance
         user = User(username=self.validated_data['username'], email=self.validated_data['email'],
                     first_name=self.validated_data['first_name'], last_name=self.validated_data['last_name'])
 
         password = self.validated_data['password']
         password_confirm = self.validated_data['password_confirm']
+
+        # Validate password
         try:
             validate_password(password)
         except ValidationError:
             raise serializers.ValidationError({'password': 'Invalid Password!'})
 
+        # Match password and password_confirm
         if password != password_confirm:
             raise serializers.ValidationError({'password': 'Passwords must Match'})
+
+        # Set Password
         user.set_password(password)
+
+        # Save User object
         user.save()
+        # Create and Save new Detail object
         user_detail = Detail(user=user)
         user_detail.save()
+
         return user
 
 
+# Serializer for retrieving user details
 class UserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -52,6 +70,7 @@ class UserDetailsSerializer(serializers.ModelSerializer):
         read_only_fields = ('username', 'first_name', 'last_name', 'email')
 
 
+# Serializer for changing password
 class ChangePasswordSerializer(serializers.ModelSerializer):
     old_password = serializers.CharField(style={'input_type': 'password'}, write_only=True)
     new_password = serializers.CharField(style={'input_type': 'password'}, write_only=True)
@@ -65,6 +84,7 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
         read_only_fields = ['username']
 
 
+# Serializer for retrieving Detail(Monthly Statement)
 class FinancialDetailsSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='get_username')
 
@@ -78,6 +98,7 @@ class FinancialDetailsSerializer(serializers.ModelSerializer):
         read_only_fields = ['username', 'savings', 'totalExpenditure', 'totalTransactions', 'date_created']
 
 
+# Serializer for retrieving transactions
 class TransactionSerializer(serializers.ModelSerializer):
     category = serializers.CharField(source='get_category')
     username = serializers.CharField(source='get_username')
@@ -88,6 +109,7 @@ class TransactionSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'username', 'amount', 'time', 'last_updated', 'category', 'description', 'credit']
 
 
+# Serializer for creating new transactions
 class CreateTransactionSerializer(serializers.ModelSerializer):
     category = serializers.ChoiceField(choices=categories)
 
@@ -99,41 +121,51 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def save(self, **kwargs):
+        """
+        To create new transaction
+        :param kwargs:
+        :return: new Transaction object
+        """
         month = datetime.now().month
         year = datetime.now().year
         details = Detail.objects.filter(user=self.context.get('request').user,
                                         date_created__month=month,
-                                        date_created__year=year)
-        if len(details) == 0:
-            details = Detail(user=self.context.get('request').user)
+                                        date_created__year=year)  # Retrieve detail object for the current month
+        if len(details) == 0:  # Detail object for the current month does not exist
+            details = Detail(user=self.context.get('request').user)  # new Detail object
         else:
             details = details[0]
 
         description = self.validated_data['description']
         if description is None or description == '':
-            description = "Description Not Provided!"
+            description = "Description Not Provided!"  # Set default description if not provided
 
         transaction_new = Transaction(user=self.context.get('request').user,
                                       amount=self.validated_data['amount'],
                                       type=self.validated_data['category'],
                                       details=details,
                                       description=description,
-                                      credit=self.validated_data['credit'])
+                                      credit=self.validated_data['credit'])  # Create new transaction object
 
+        # Make required changes to Detail and stocks
         validated_data, details, response = add_transaction_dict_to_detail(self.validated_data,
                                                                            details,
                                                                            self.context.get('request'))
+
+        # Error making changes to stocks
         if response is not None and response.status_code != 202:
             try:
                 raise serializers.ValidationError(detail=response.json(), code=response.status_code)
             except():
                 raise serializers.ValidationError(code=response.status_code)
 
+        # Save Transaction and Detail Objects
         details.save()
         transaction_new.save()
         return transaction_new
 
 
+# Serializer for updating a transaction
 class UpdateTransactionSerializer(serializers.ModelSerializer):
     category = serializers.ChoiceField(choices=categories)
 
@@ -145,46 +177,61 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def update(self, instance, validated_data):
+        """
+        To update a transaction
+        :param instance: Transaction object to be updated
+        :param validated_data: Data to be filled in Transaction object
+        :return: validated_data
+        """
         month = instance.get_month
         year = instance.get_year
         details = Detail.objects.filter(user=self.context.get('request').user,
                                         date_created__month=month,
                                         date_created__year=year)
-        details = details[0]
+        details = details[0]  # Detail object corresponding to instance
 
+        # Make required changes to Detail and stocks (validated_data)
         validated_data, details, response = add_transaction_dict_to_detail(validated_data,
                                                                            details,
                                                                            self.context.get('request'))
 
+        # Error making changes to stocks
         if response is not None and response.status_code != 202:
             try:
                 raise serializers.ValidationError(detail=response.json(), code=response.status_code)
             except():
                 raise serializers.ValidationError(code=response.status_code)
 
+        # Make required changes to Detail and stocks(instance)
         instance, details, response = views.add_transaction_to_detail(instance,
                                                                       details,
                                                                       self.context.get('request'))
+
+        # Error making changes to stocks
         if response is not None and response.status_code != 202:
             try:
                 raise serializers.ValidationError(detail=response.json(), code=response.status_code)
             except():
                 raise serializers.ValidationError(code=response.status_code)
 
+        # Update Instance
         instance.type = validated_data['category']
         instance.amount = validated_data['amount']
 
         description = validated_data['description']
         if description is None or description == '':
-            description = "Description Not Provided!"
+            description = "Description Not Provided!"  # Set default description if not provided
         instance.description = description
 
         instance.credit = validated_data['credit']
+
+        # Save Detail and Transaction instances
         details.save()
         instance.save()
         return validated_data
 
 
+# Serializer for deleting Transaction
 class DestroyTransactionSerializer(serializers.ModelSerializer):
     category = serializers.ChoiceField(choices=categories)
 
@@ -194,6 +241,16 @@ class DestroyTransactionSerializer(serializers.ModelSerializer):
 
 
 def add_transaction_dict_to_detail(validated_data, details, request):
+    """
+    Add Transaction to Detail Query Object
+    :param validated_data: Dictionary containing data to be filled
+    :param details: Detail Object for adding transaction to
+    :param request: Request object
+    :return validated_data: Dictionary containing data to be filled
+    :return detail: Detail object
+    :return response: Response from Stock tracker for Stock Transaction.None in other cases.
+
+    """
     factor = 1
     response = None
     if validated_data['credit']:
@@ -219,7 +276,7 @@ def add_transaction_dict_to_detail(validated_data, details, request):
             "Authorization": "Bearer " + request.auth,
         }
         response = requests.post(url="http://127.0.0.1:8000/stock_interact/", data=request.data,
-                                 headers=header)
+                                 headers=header)  # Send Request to Stock Tracker
         details.stock += factor * validated_data['amount']
 
     details.totalExpenditure = (

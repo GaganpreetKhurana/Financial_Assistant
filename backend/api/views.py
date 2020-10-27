@@ -570,13 +570,13 @@ def get_sum_detail(details, request):
 
 def add_transaction_to_detail(instance, details, request):
     """
-    Add Transaction to Detail Query Object
+    Subtract Transaction from Detail Object
     :param instance: Transaction instance
     :param details: Detail Object for adding transaction to
     :param request: Request object
     :return instance: Transaction instance
     :return detail: Detail object
-    :return response: Response from Stock tracker for Stock Transaction.None in other cases
+    :return response: Response from Stock tracker for Stock Transaction.None in other cases.
 
     """
     factor = 1
