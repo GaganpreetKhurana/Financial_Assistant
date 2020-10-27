@@ -18,11 +18,21 @@ from django.urls import path, include
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 
 urlpatterns = [
+    # Admin
     path('admin/', admin.site.urls),
+
+    # Login (new token)
     path('api/token/', obtain_jwt_token, name='obtain_token_pair'),
+    # Refresh Token
     path('api/token/refresh/', refresh_jwt_token, name='refresh_token'),
+    # Verify Token
     path('api/token/verify/', verify_jwt_token, name='verify_token'),
+    # Forget Password
     path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
+
+    # Include Api app Urls
     path('', include('api.urls')),
+
+    # Include chatbot app Urls
     path('', include('chatbot.urls'))
 ]

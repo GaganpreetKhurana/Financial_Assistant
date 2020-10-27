@@ -5,12 +5,14 @@ from .views import *
 
 app_name = "api"
 urlpatterns = [
-    path("register", RegisterUserView.as_view(), name="register"),
-    path("user", RetrieveUserDetailsView.as_view(), name="user"),
-    path("edit_user", EditUserDetailsView.as_view(), name="edit_user"),
-    path("change_password", ChangePasswordView.as_view(), name="change_password"),
-    path("delete_user/", DeleteUser.as_view(), name="delete_user"),
+    # URL's Related to USER
+    path("register", RegisterUserView.as_view(), name="register"),  # Register new USER
+    path("user", RetrieveUserDetailsView.as_view(), name="user"),  # Retrieve USER details
+    path("edit_user", EditUserDetailsView.as_view(), name="edit_user"),  # Edit USER details
+    path("change_password", ChangePasswordView.as_view(), name="change_password"),  # Change Password
+    path("delete_user/", DeleteUser.as_view(), name="delete_user"),  # Delete USER
 
+    # URL's for Retrieving Transactions
     path("transactions", TransactionList.as_view(), name="transactions"),
     path("transactions/<int:id>/", TransactionListID.as_view(), name="transactionsID"),
     path("transactions/date/<str:date>/", TransactionListDay.as_view(), name="transactions_date"),
@@ -25,10 +27,12 @@ urlpatterns = [
     path("transactions/<str:year>/<str:month>/<str:date>/", TransactionListDayMonthYear.as_view(),
          name="transactions_date_month_year"),
 
-    path("create_transaction", CreateTransaction.as_view(), name="create_transactions"),
-    path("update_transaction/<int:pk>/", UpdateTransaction.as_view(), name="update_transactions"),
-    path("delete_transaction/<int:pk>/", DeleteTransaction.as_view(), name="delete_transactions"),
+    # URL's to Create/Update/Delete Transactions
+    path("create_transaction", CreateTransaction.as_view(), name="create_transactions"),  # Create
+    path("update_transaction/<int:pk>/", UpdateTransaction.as_view(), name="update_transactions"),  # Update
+    path("delete_transaction/<int:pk>/", DeleteTransaction.as_view(), name="delete_transactions"),  # Delete
 
+    # URL's related to Details (Monthly Statements)
     path("details/month/<str:month>/", DetailsViewMonth.as_view(), name="details"),
     path("details/year/<str:year>/", DetailsViewYear.as_view(), name="details"),
     path("details/<str:year>/<str:month>/", DetailsViewYearMonth.as_view(), name="details"),
