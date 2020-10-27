@@ -12,9 +12,15 @@ from .ChatBot.StockTracker.stock_script import SellStock, StockBuy
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def external(request):
+    """
+    Interact with ChatBot
+    Method: POST
+    :param request: Request(object)
+    :return: ChatBot response
+    """
     user_id = request.user.id
     user_response = request.POST.get("content")
-    chat_response = main.chat_web(user_response, user_id, request)
+    chat_response = main.chat_web(user_response, user_id, request)  # get ChatBot response
     data = {
         'self': False,
         'content': chat_response
@@ -25,9 +31,15 @@ def external(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def get_previous_chats(request):
+    """
+        Get previous chats
+        Method: POST
+        :param request: Request(object)
+        :return: List of previous messages exchanged
+        """
     user_id = request.user.id
     no_of_results = request.POST.get("results")
-    chat_response = main.chat_get(user_id, no_of_results)
+    chat_response = main.chat_get(user_id, no_of_results)  # Call function to retrieve previous chats
     data = []
     for message in chat_response:
         sender = False
@@ -43,7 +55,13 @@ def get_previous_chats(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def stock_list_view(request):
-    stocks = stock_api.stock_list(request.user.id)
+    """
+        Get Stock details
+        Method: GET
+        :param request: Request(object)
+        :return: List of stock details
+        """
+    stocks = stock_api.stock_list(request.user.id)  # Get stock details
     data = []
     for stock in stocks:
         data.append({
@@ -52,14 +70,19 @@ def stock_list_view(request):
             'current_price': stock[2],
             'createdAt': stock[3]
         })
-    # print(data)
     return Response(data)
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def amazon_wishlist_view(request):
-    wishlist = amazon_api.amazon_wishlist(request.user.id)
+    """
+        Get wishlist
+        Method: GET
+        :param request: Request(object)
+        :return: Wishlist
+        """
+    wishlist = amazon_api.amazon_wishlist(request.user.id)  # Retrieve wishlist
     data = []
     for item in wishlist:
         data.append({
@@ -68,13 +91,18 @@ def amazon_wishlist_view(request):
             'title': item[2],
             'createdAt': item[3]
         })
-    # print(data)
     return Response(data)
 
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def stock_interact_view(request):
+    """
+        Interact with Stock Tracker
+        Method: POST
+        :param request: Request(object)
+        :return: Response from Stock Tracker
+        """
     try:
         if request.data.get("credit"):
             response = SellStock(request.data.get("amount"),
