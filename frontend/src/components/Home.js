@@ -21,8 +21,8 @@ class Home extends Component {
         }
 
         return (
-            <div className="home-screen">
-                <div id='body'>
+            <div >
+                <div id='body part1'>
                 <Grid container  justify="space-between" spacing={2}>
                 <Header/>
                 <Grid align="center">
@@ -58,8 +58,10 @@ class Home extends Component {
                     to save more.'
                 /></Paper>
                 <br></br><br></br>
+            
                 </Grid>
                 </Grid>
+                </div><div id="body" className="part2">
                 <FeaturesHeader/>
                 <Grid container
                 direction="row"
@@ -73,7 +75,7 @@ class Home extends Component {
                     title='Track' 
                     description = 'You can view your entire history or filter to a specific query' 
                 />
-                <img src={view_img} alt="Logo" style={{height:'300px',width:'500px' }} /></Paper></Grid>
+                <img src={view_img} alt="Logo"  style={{height:'250px',width:'450px',paddingLeft:'15%',marginTop:'-30px' }}  /></Paper></Grid>
                 <Grid item xs={4}>
                 <Paper elevation={8}>
                 <Box 
@@ -81,7 +83,7 @@ class Home extends Component {
                     title='Visualize' 
                     description = 'Visualize your expenditure for better understanding' 
                 />
-                <img src={visualizations_img} alt="Logo" style={{height:'300px',width:'500px' }} /></Paper></Grid>
+                <img src={visualizations_img} alt="Logo" style={{height:'250px',width:'450px',paddingLeft:'15%',marginTop:'-30px' }} /></Paper></Grid>
                 <Grid item xs={4}>
                 <Paper elevation={8}>
                 <Box 
@@ -89,7 +91,7 @@ class Home extends Component {
                     title='Amazon Wishlist'
                     description = 'Donna allows you to track your amazon wishlist and gives intelligent price drop recommendations' 
                 />
-                <img src={amazon_img} alt="Logo" style={{height:'300px',width:'500px' }} /></Paper></Grid>
+                <img src={amazon_img} alt="Logo"  style={{height:'250px',width:'450px',paddingLeft:'15%',marginTop:'-30px' }}  /></Paper></Grid>
                 <Grid item xs={4}>
                 <Paper elevation={8}>
                 <Box 
@@ -97,7 +99,7 @@ class Home extends Component {
                     title='Chat bot' 
                     description = 'Donna allows you to interact easily with the system using a friendly chat bot' 
                 />
-                <img src={chat_img} alt="Logo" style={{height:'300px',width:'500px' }} /></Paper></Grid>
+                <img src={chat_img} alt="Logo"  style={{height:'250px',width:'450px',paddingLeft:'15%',marginTop:'-30px' }} /></Paper></Grid>
                 <Grid item xs={4}>
                 <Paper elevation={8}>
                 <Box 
@@ -105,7 +107,7 @@ class Home extends Component {
                     title='Stock Portfolio' 
                     description = 'Track your Stock portfolio with the ability to easily buy and sell stocks' 
                 />
-                <img src={stocks_img} alt="Logo" style={{height:'300px',width:'500px' }} /></Paper></Grid>
+                <img src={stocks_img} alt="Logo"  style={{height:'250px',width:'450px',paddingLeft:'15%',marginTop:'-30px' }} /></Paper></Grid>
                 <Grid item xs={4}>
                 <Paper elevation={8}>
                 <Box 
@@ -113,7 +115,7 @@ class Home extends Component {
                     title='Daily Transactions' 
                     description = 'Enter your daily transaction using this easy to fill form' 
                 />
-                <img src={transact_img} alt="Logo" style={{height:'300px',width:'500px' }} /></Paper></Grid>
+                <img src={transact_img} alt="Logo" style={{height:'250px',width:'450px',paddingLeft:'15%',marginTop:'-30px' }} /></Paper></Grid>
                 </Grid>
             </div> 
             </div>

@@ -20,12 +20,13 @@
     color: white;
     width: 100%;
     text-align: center;
-    height: 170px;
-    padding: 30px;
+    height: 150px;
+    padding: 25px;
+    padding-right:8%;
   }
   
   .header-title {
-    font-size: 50px;
+    font-size: 55px;
   }
   
   .header-text {
@@ -46,11 +47,15 @@
   }
   
   .small-div {
-    width: 20%;
+    width: 25%;
+    height:40px;
   }
   
   .big-div {
-    width: 80%;
+    margin-top: 20px;
+    width: 60%;
+    font-size:25px;
+    height:250px;
   }
   
   .bg-grey {
@@ -115,6 +120,8 @@
     background-color: #04022e;
   }
   
+
+
   @media only screen and (min-width: 320px) and (max-width: 725px) {
     .contact-form {
       display: flex;
@@ -132,7 +139,67 @@
     }
   
     .small-div {
-      width: 80%;
+      width: 0%;
     }
   }
   
+
+
+
+
+
+
+
+
+  .part2 .header {
+    background-color: black;
+    color:white;
+    width: 100%;
+    text-align: center;
+    height: 150px;
+    padding: 25px;
+    padding-right:8%;
+  }
+  
+  .part2 .header-title {
+    font-size: 55px;
+  }
+  
+  .part2 .header-text {
+    font-size: 200px;
+  }
+  
+  .part2 .section {
+    flex-flow: row wrap;
+    width: 90%;
+    display: flex;
+    flex-direction: row wrap;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .part2 .section > div {
+    padding: 20px;
+  }
+  
+  .part2 .small-div {
+    width: 0%;
+    height:0px;
+  }
+  
+  .part2 .big-div {
+    margin-top: 20px;
+    width: 80%;
+    font-size:20px;
+    height:150px;
+  }
+  
+  .part2 .div-title {
+    font-size: 25px;
+    font-weight: 600;
+    margin-left: 20%;
+  }
+ 
+  .div-title {
+    text-align: center;
+  }

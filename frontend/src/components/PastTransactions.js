@@ -205,7 +205,6 @@ class PastTransactions extends Component {
             return <h2>Loading.....</h2>;
         }
 
-        
         return (
             <div className="form-box2">
                 {error && (
