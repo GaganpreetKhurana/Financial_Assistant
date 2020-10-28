@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
+//actions
 import {
     clearAuth,
     fetchTransactions,
@@ -18,6 +19,7 @@ import {
     showLineChart,
     hideGraph
 } from '../actions/pages';
+//components
 import TransactionEntry from './TransactionEntry';
 import GraphPiechart from './GraphPiechart';
 import GraphLinechart from './GraphLinechart';
@@ -41,6 +43,7 @@ class PastTransactions extends Component {
             pieChart:null
         };
     }
+    //handle different filters
     handleChart = (event) => {
         this.setState({chart: event.target.value});
     }
@@ -67,14 +70,12 @@ class PastTransactions extends Component {
         this.setState({description: event.target.value});
     }
 
-
+    //handle submit button
     handleSubmit = (e) => {
         //call dispatch
         e.preventDefault();
         const {category, type, description, amount} = this.state;
         this.props.dispatch(updateTransaction(category, type, description, amount, this.props.details.id));
-        
-
         setTimeout(() => {
             //this.forceUpdate();
             this.props.dispatch(clearAuth());
@@ -82,13 +83,11 @@ class PastTransactions extends Component {
 
     }
 
-// handle filters apply button
+    //handle apply filters button
     handleSubmit2 = (e) => {
         //call dispatch
         e.preventDefault();
         const {date,month,year} = this.state;
-        // console.log("filter applied");
-        // console.log("dispatch filter caled",date,month,year);
         if(date !=='' && month!=='' && year!=='')
         {
             this.props.dispatch(filterTransaction1(date,month,year));
@@ -121,9 +120,8 @@ class PastTransactions extends Component {
             this.props.dispatch(updateTransactionFailure("Please select the Filter to be applied first !!!!"))
         }
         this.setState({month:'',date:'',year:''});
-
+        //clear msgs shown to the user
         setTimeout(() => {
-            //this.forceUpdate();
             this.props.dispatch(clearAuth());
         }, 10000);
 
@@ -158,12 +156,11 @@ class PastTransactions extends Component {
             chart:''})
         }
         setTimeout(() => {
-            //this.forceUpdate();
             this.props.dispatch(clearAuth());
         }, 10000);
 
     }
-//    hide visualizations
+    //hide visualizations
     handleSubmit4 = (e) => {
         //call dispatch
         e.preventDefault();
@@ -173,7 +170,6 @@ class PastTransactions extends Component {
             pieChart:null,
             chart:''})
         setTimeout(() => {
-            //this.forceUpdate();
             this.props.dispatch(clearAuth());
         }, 10000);
 
@@ -181,12 +177,12 @@ class PastTransactions extends Component {
 
 
     //fetch list of past transactions
-    //fetch list of details
+    //fetch list of details for visualization
     componentDidMount() {
         this.props.dispatch(fetchTransactions());
         this.props.dispatch(fetchDetails());
     }
-
+    //clear msgs shown to the user
     componentWillUnmount() {
         this.props.dispatch(clearAuth());
     }
@@ -194,7 +190,6 @@ class PastTransactions extends Component {
 
     render() {
         const {success, error} = this.props.details;
-
         const {transactions, loading, update, inProgress, piechart,linechart, bargraph,detailsList} = this.props.details;
         var dummy={};
         if(detailsList.length !== 0 )

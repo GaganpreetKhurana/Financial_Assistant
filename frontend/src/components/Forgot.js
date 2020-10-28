@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
-
+//actions
 import {forgot, clearAuth} from "../actions/auth";
 
 class Login extends Component {
@@ -19,6 +19,7 @@ class Login extends Component {
     }
 
 
+    //handle submit button
     handleSubmitForm = (e) => {
         e.preventDefault();
         const {email} = this.state;
@@ -26,6 +27,7 @@ class Login extends Component {
             this.props.dispatch(forgot(email));
         }
     };
+    //handle input field
     handleEmail = (e) => {
         this.setState({
             email: e.target.value,

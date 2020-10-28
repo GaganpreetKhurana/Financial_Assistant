@@ -1,3 +1,4 @@
+//action types
 const {
     LOGIN_START,
     LOGIN_SUCCESS,
@@ -14,6 +15,7 @@ const {
     SET_USER_DETAILS
 } = require("../actions/actionTypes");
 
+//initial state 
 const initialAuthState = {
     user: {},
     details: false,
@@ -28,6 +30,7 @@ const initialAuthState = {
 
 export default function auth(state = initialAuthState, action) {
     switch (action.type) {
+        //clear msgs
         case CLEAR_AUTH_STATE:
             return {
                 ...state,
@@ -37,11 +40,13 @@ export default function auth(state = initialAuthState, action) {
         case FORGOT_START:
         case LOGIN_START:
         case SIGNUP_START:
+            //disable request button
             return {
                 ...state,
                 inProgress: true,
             };
         case LOGIN_SUCCESS:
+            //change state of user to login
             return {
                 ...state,
                 success: action.success,
@@ -51,6 +56,7 @@ export default function auth(state = initialAuthState, action) {
                 user:{username:action.username,email:action.email,user_id:action.user_id},
             };
         case SIGNUP_SUCCESS:
+            //signup success
             return {
                 ...state,
                 success: action.success,
@@ -60,6 +66,7 @@ export default function auth(state = initialAuthState, action) {
         case FORGOT_FAILURE:
         case LOGIN_FAILURE:
         case SIGNUP_FAILURE:
+            //show msgs to user
             return {
                 ...state,
                 success:null,
@@ -67,6 +74,7 @@ export default function auth(state = initialAuthState, action) {
                 inProgress: false,
             };
         case FORGOT_SUCCESS:
+            //mail sent to user to reset password
             return {
                 ...state,
                 success:action.success,
@@ -74,18 +82,21 @@ export default function auth(state = initialAuthState, action) {
                 inProgress: false,
             };
         case AUTHENTICATE_USER:
+            //set user details in user field of redux store
             return {
                 ...state,
                 user:{username:action.username,email:action.email,user_id:action.user_id},
                 isLoggedIn: true,
             };
         case LOG_OUT:
+            //remove details of user from user field of redux store
             return {
                 ...state,
                 user: {},
                 isLoggedIn: false,
             };
         case SET_USER_DETAILS:
+            //set other user details in redux store
             return {
                 ...state,
                 email:action.email,

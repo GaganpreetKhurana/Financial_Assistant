@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
+//actions
 import {fetchStocklist} from "../actions/pages";
 import {addTransaction,updateTransactionFailure, clearAuth} from "../actions/pages";
 
@@ -14,13 +15,14 @@ class StockPage extends Component {
             amount: "",
         };
     }
+    //handle input fields
     handleAmount = (e) => {
         this.setState({
             amount: e.target.value,
         });
     };
+    //handle form submit
     handleSubmitForm = (stock) => {
-        //console.log(stock);
         const {amount} = this.state;
         if (amount!=='') {
             var category="8";
@@ -29,7 +31,6 @@ class StockPage extends Component {
             this.props.dispatch(addTransaction(category, type, description, amount));
 
         setTimeout(() => {
-            //this.forceUpdate();
             this.props.dispatch(clearAuth());
             
         }, 10000);
@@ -47,7 +48,6 @@ class StockPage extends Component {
 
     render() {
     const {stocklist}=this.props.details;
-    // console.log(stocklist);
     const {error,success} = this.props.details;
 
 

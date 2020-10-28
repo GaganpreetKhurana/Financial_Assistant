@@ -65,6 +65,7 @@ class SignUp extends Component {
 
     render() {
         const {inProgress, error,success, isLoggedIn} = this.props.auth;
+        //so that logged in user don't sees this page
         if (isLoggedIn) {
             return <Redirect to="/details"/>;
         }

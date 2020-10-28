@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {fetchUser,updateProfile,updatePassword,clearAuth} from '../actions/auth';
 import {Redirect} from "react-router-dom";
+
+//actions
+import {fetchUser,updateProfile,updatePassword,clearAuth} from '../actions/auth';
 
 class Profilepage extends Component {
     constructor(props){
@@ -17,15 +19,15 @@ class Profilepage extends Component {
             oldpassword:''
           };
     }
+    //handle input fields
     handleChange = (fieldName, val) => {
         this.setState({
           [fieldName]: val,
         });
       };
-
+      //handle save button
       handleSave = () => {
         var { password, confirmPassword,oldpassword, fname,lname,email ,uname} = this.state;
-        //const { user } = this.props.auth;
         //call the edit dispatchers
         if(fname==='')
         {
@@ -43,8 +45,7 @@ class Profilepage extends Component {
         {
           email = this.props.auth.email;
         }
-        //console.log( password, confirmPassword,oldpassword, fname,lname,email,uname);
-
+        //call dispatch
         this.props.dispatch(updateProfile(email, fname,lname,uname));
         if(oldpassword!=='' && password!=='' && confirmPassword!=='')
         {
@@ -54,8 +55,8 @@ class Profilepage extends Component {
       };
     componentDidMount() {
         this.props.dispatch(fetchUser());
-
     }
+    //clear displayed msgs when the component unmounts
     componentWillUnmount() {
       this.props.dispatch(clearAuth());
   }
