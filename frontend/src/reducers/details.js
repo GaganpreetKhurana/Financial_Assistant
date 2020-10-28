@@ -1,3 +1,4 @@
+//actiontypes
 const {
     SHOW_DETAILS_PAGE,
     SHOW_CHATBOT_PAGE,
@@ -27,7 +28,7 @@ const {
 } = require("../actions/actionTypes");
 
 
-
+//initial state
 const initialTransactionState = {
     viewPastDetails: false,
     chatBot: false,
@@ -54,10 +55,12 @@ export default function transaction(state = initialTransactionState, action) {
 
     switch (action.type) {
         case FETCH_TRANSACTION_START:
+            //disable buttons
             return {
                 ...state,
                 loading:true
             }
+        //show different pages to the user
         case SHOW_DETAILS_PAGE:
             return {
                 ...state,
@@ -104,10 +107,12 @@ export default function transaction(state = initialTransactionState, action) {
                 amazon:false
             }
         case TRANSACTION_START:
+            //disable transactions button
             return {
                 ...state,
                 inProgress: true,
             };
+            //show msgs to user
         case TRANSACTION_FAILURE:
             return {
                 ...state,
@@ -122,11 +127,13 @@ export default function transaction(state = initialTransactionState, action) {
                 inProgress: false,
                 error: null,
             };
+            //fetch details of the transactions for visualization
         case FETCH_DETAILS:
             return {
                 ...state,
                 detailsList:action.details,
             }
+            //clear msgs when unmounting
         case CLEAR_AUTH_STATE:
             return {
                 ...state,
@@ -134,18 +141,21 @@ export default function transaction(state = initialTransactionState, action) {
                 success: null,
                 update:null,
             };
+            //fetch past transactions to display
         case FETCH_TRANSACTIONS:
             return {
                 ...state,
                 transactions : action.transactions,
                 loading:false,
             }
+            //show update box to user to receive new entries
         case UPDATE_BOX_SHOW:
             return {
                 ...state,
                 id:action.id,
                 update:true,
             }
+            //show delete and update success /failure msgs
         case DELETE_SUCCESS_TRANSACTION:
         case UPDATE_SUCCESS_TRANSACTION:
             return{
@@ -164,27 +174,31 @@ export default function transaction(state = initialTransactionState, action) {
                 error:action.error,
                 success:null
             }
+            //add user msgs in messages list
         case DISPLAY_CHAT_MESSAGE:
             return {
                 ...state,
                 messages:action.chatMsg
             }
-
+            //append chatbot msg
         case ADD_CHAT_MESSAGE:
             return {
                 ...state,
                 messages:[...state.messages,action.chatMsg]
             }
+            //show amazon wishlist to user
         case SHOW_WISHLIST:
             return {
                 ...state,
                 wishlist:action.wishlist
             }
+            //show stocklist to user
         case SHOW_STOCKLIST:
             return {
                 ...state,
                 stocklist:action.stocklist
             }
+            //apply type of graph filter
         case SHOW_BARGRAPH:
             return {
                 ...state,
