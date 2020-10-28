@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
+//actions
 import {addChatMessage, newMessage, pastMessages} from "../actions/pages";
+//components
 import ChatMessage from './ChatMessage';
-
+//react-say to convert text to speech
 import {SayButton} from 'react-say';
 
 class ChatBotPage extends Component {
     constructor(props) {
         super(props);
-
+        //state
         this.state = {
             typedMessage: "",
         };
@@ -19,7 +21,7 @@ class ChatBotPage extends Component {
         this.props.dispatch(pastMessages());
 
     }
-
+    //input chat field
     handleChange = (event) => {
         this.setState({typedMessage: event.target.value});
     }
@@ -29,7 +31,7 @@ class ChatBotPage extends Component {
         e.preventDefault();
         const {typedMessage} = this.state;
         if (typedMessage) {
-
+            //self true indicates message sent by user
             var new_message = {content: typedMessage, self: true};
             this.props.dispatch(addChatMessage(new_message));
             var self = true;
@@ -62,6 +64,7 @@ class ChatBotPage extends Component {
                         value={this.state.typedMessage}
 
                     />
+                    {/* to convert text to speech */}
                     <SayButton text={text_to_be_spoken}/>
                     <button onClick={this.handleSubmit}>
                         Submit
