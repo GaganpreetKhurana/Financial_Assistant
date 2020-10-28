@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import ReactTooltip from 'react-tooltip';
-
+//actions
 import {clearAuth, deleteTransaction, showUpdateBox} from "../actions/pages";
 
 class TransactionEntry extends Component {
-
+    //handle update and delete buttons
     handleUpdate = (id) => {
         this.props.dispatch(showUpdateBox(id));
     }
@@ -19,6 +19,7 @@ class TransactionEntry extends Component {
     render() {
         const {transaction, index} = this.props;
         var hide_button = false;
+        //transaction with category as stock cant be updated or deleted
         if(transaction.category === 'Stock')
         {
             hide_button = true;
