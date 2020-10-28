@@ -3,9 +3,6 @@ import {connect} from "react-redux";
 import {fetchWishlist} from "../actions/pages";
 import WishlistEntry from './WishlistEntry';
 
-
-
-
 class AmazonPage extends Component {
 
 
