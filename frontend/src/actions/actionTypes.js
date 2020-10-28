@@ -77,5 +77,5 @@ export const SHOW_BARGRAPH="SHOW_BARGRAPH";
 export const HIDE_GRAPH ="HIDE_GRAPH";
 
 
-//user details
+//reset user details on updation of profile
 export const SET_USER_DETAILS="SET_USER_DETAILS";

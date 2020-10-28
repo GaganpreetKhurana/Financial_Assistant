@@ -26,33 +26,36 @@ import {
     SHOW_LINECHART
 } from './actionTypes';
 
-
+//show details page to user
 export function showDetails()
 {
     return{
         type:SHOW_DETAILS_PAGE,
     }
 }
-
+//show chat bot page to user
 export function showChatBot()
 {
     return{
         type:SHOW_CHATBOT_PAGE,
     }
 }
-
+//show the past transactions to user
 export function viewdetails()
 {
     return{
         type:VIEW_DETAILS,
     }
 }
+
+//show stock details
 export function showStockDetails()
 {
     return{
         type:SHOW_STOCK_DETAILS,
     }
 }
+//show amazon details
 export function showAmazonDetails()
 {
     return{
@@ -76,21 +79,21 @@ function getFormBody(params) {
     return FormBody.join('&');
 }
 
-
+//disable add transaction button to prevent multiple request by user
 export function startTransaction() {
     return {
         type: TRANSACTION_START,
         
     };
 }
-
+//transaction failed msg
 export function transactionFailed(errormsg) {
     return {
         type: TRANSACTION_FAILURE,
         error: errormsg,
     };
 }
-
+//transaction success msg
 export function transactionSuccess(successmsg) {
     return {
         type: TRANSACTION_SUCCESS,
@@ -98,7 +101,7 @@ export function transactionSuccess(successmsg) {
     };
 }
 
-
+//add transaction api called
 export function addTransaction(category,credit,description,amount) {
     return (dispatch) => {
         var success =  false;
@@ -139,7 +142,7 @@ export function addTransaction(category,credit,description,amount) {
             });
     };
 }
-
+//msgs cleared on unmounting of the component
 export function clearAuth() {
     return {
         type: CLEAR_AUTH_STATE,
@@ -160,6 +163,7 @@ export function fetchedTransactions(transactions){
     }
 
 }
+//past transactions api called
 export function fetchTransactions(){
 
     return (dispatch) => {
@@ -196,6 +200,7 @@ export function fetchTransactions(){
 }
 
 //update transaction
+//show update transaction box when user clicks on update
 export function showUpdateBox(id)
 {
     return {
@@ -203,6 +208,7 @@ export function showUpdateBox(id)
         id
     };
 }
+//update success msg
 export function updateTransactionSuccess(msg)
 {
     return {
@@ -210,6 +216,7 @@ export function updateTransactionSuccess(msg)
         success:msg
     };
 }
+//update failed msg
 export function updateTransactionFailure(msg)
 {
     return {
@@ -218,7 +225,7 @@ export function updateTransactionFailure(msg)
     };
 }
 
-
+//update request sent to backend
 export function updateTransaction(category,credit,description,amount,id){
     return (dispatch) => {
         var success =  false;
@@ -265,7 +272,7 @@ export function updateTransaction(category,credit,description,amount,id){
 
 //delete transaction
 
-
+//delete success msg
 export function deleteSuccess(msg)
 {
     return {
@@ -273,6 +280,7 @@ export function deleteSuccess(msg)
         success:msg
     };
 }
+//delete failed msg
 export function deleteFailure(msg)
 {
     return {
@@ -280,6 +288,7 @@ export function deleteFailure(msg)
         error:msg
     };
 }
+//delete request sent to backend
 export function deleteTransaction(id){
     return (dispatch) => {
         const url =`/delete_transaction/${id}/`;
@@ -332,6 +341,7 @@ export function deleteTransaction(id){
 
 
 //chat bot
+//add new msg to chat box
 export function addChatMessage(msg)
 {
     return {
@@ -339,6 +349,7 @@ export function addChatMessage(msg)
         chatMsg:msg
     };
 }
+//display past chat msgs
 export function displayChatMessage(msg)
 {
     return {
@@ -346,6 +357,7 @@ export function displayChatMessage(msg)
         chatMsg:msg
     };
 }
+//sent the user msg to backend
 export function newMessage(typedMessage,self)
 {
     return (dispatch) => {
@@ -389,7 +401,7 @@ export function newMessage(typedMessage,self)
 
 }
 
-
+//fetch past msgs from backend
 export function pastMessages()
 {
     return (dispatch) => {
@@ -430,6 +442,7 @@ export function pastMessages()
 
 
 //wishlist
+//show amazon wishlist to user
 export function showWishlist(wishlist)
 {
     return {
@@ -438,7 +451,7 @@ export function showWishlist(wishlist)
     };
 }
 
-
+//fetch user amazon wishlist from backend
 export function fetchWishlist(){
 
     return (dispatch) => {
@@ -477,6 +490,7 @@ export function fetchWishlist(){
 
 
 //stocklist
+//show stocks list to user
 export function showStocklist(stocklist)
 {
     return {
@@ -485,7 +499,7 @@ export function showStocklist(stocklist)
     };
 }
 
-
+//fetch stocks list for user from backend
 export function fetchStocklist(){
 
     return (dispatch) => {
@@ -540,7 +554,6 @@ export function fetchDetailsYear(year){
                 return response.json();
             }})
             .then((data) => {
-                //console.log("(((((((((((((((((((",data);
                 if (success) {
                     dispatch(fetchedDetails(data));
                     return;
@@ -554,7 +567,7 @@ export function fetchDetailsYear(year){
 
 
 }
-
+//month filter applied
 export function fetchDetailsMonth(month){
 
     return (dispatch) => {
@@ -575,7 +588,6 @@ export function fetchDetailsMonth(month){
                 return response.json();
             }})
             .then((data) => {
-                //console.log("(((((((((((((((((((",data);
                 if (success) {
                     dispatch(fetchedDetails(data));
                     return;
@@ -589,6 +601,7 @@ export function fetchDetailsMonth(month){
 
 
 }
+//year month filter applied
 export function fetchDetailsYearMonth(year,month){
 
     return (dispatch) => {
@@ -609,7 +622,6 @@ export function fetchDetailsYearMonth(year,month){
                 return response.json();
             }})
             .then((data) => {
-                //console.log("(((((((((((((((((((",data);
                 if (success) {
                     dispatch(fetchedDetails(data));
                     return;
@@ -625,6 +637,7 @@ export function fetchDetailsYearMonth(year,month){
 }
 
 // filter transactions
+//date month year filter applied
 export function filterTransaction1(date,month,year){
     return (dispatch) => {
         var success =  false;
@@ -662,6 +675,7 @@ export function filterTransaction1(date,month,year){
 
 
 }
+//date month filter applied
 export function filterTransaction2(date,month){
     return (dispatch) => {
         var success =  false;
@@ -699,6 +713,7 @@ export function filterTransaction2(date,month){
 
 
 }
+//date year filter applied
 export function filterTransaction3(date,year){
     return (dispatch) => {
         var success =  false;
@@ -736,6 +751,8 @@ export function filterTransaction3(date,year){
 
 
 }
+
+//month year filter applied
 export function filterTransaction4(month,year){
     return (dispatch) => {
         var success =  false;
@@ -773,6 +790,7 @@ export function filterTransaction4(month,year){
 
 
 }
+//date filter applied
 export function filterTransaction5(date){
     return (dispatch) => {
         var success =  false;
@@ -809,6 +827,8 @@ export function filterTransaction5(date){
 
 
 }
+
+//month filter applied
 export function filterTransaction6(month){
     return (dispatch) => {
         var success =  false;
@@ -846,6 +866,8 @@ export function filterTransaction6(month){
 
 
 }
+
+//year filter applied
 export function filterTransaction7(year){
     return (dispatch) => {
         var success =  false;
@@ -893,6 +915,7 @@ export function fetchedDetails(details){
     }
 
 }
+//fetch details for visualization
 export function fetchDetails(){
 
     return (dispatch) => {
@@ -913,7 +936,6 @@ export function fetchDetails(){
                 return response.json();
             }})
             .then((data) => {
-                //console.log("(((((((((((((((((((",data);
                 if (success) {
                     dispatch(fetchedDetails(data));
                     return;
