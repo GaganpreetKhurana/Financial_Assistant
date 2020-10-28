@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
+//css
 import "../styles.css";
+//images
 import amazon_img from "../project_images/amazon.png"
 import chat_img from "../project_images/chat.png"
 import stocks_img from "../project_images/stocks.png"
 import transact_img from "../project_images/transact.png"
 import view_img from "../project_images/view.png"
 import visualizations_img from "../project_images/visualizations.png"
-
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 
@@ -16,6 +17,8 @@ class Home extends Component {
     
     render() {
         const {isLoggedIn} = this.props.auth;
+        //so that logged in users don't visit this page
+        //this page is only for not logged in user
         if (isLoggedIn) {
             return <Redirect to="/details"/>;
         }

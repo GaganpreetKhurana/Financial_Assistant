@@ -20,7 +20,7 @@ class Login extends Component {
     componentWillUnmount() {
         this.props.dispatch(clearAuth());
     }
-
+    //handle submit button
     handleSubmitForm = (e) => {
         e.preventDefault();
         const {email, password} = this.state;
@@ -28,6 +28,7 @@ class Login extends Component {
             this.props.dispatch(login(email, password));
         }
     };
+    //handle input fields
     handleEmail = (e) => {
         this.setState({
             email: e.target.value,
