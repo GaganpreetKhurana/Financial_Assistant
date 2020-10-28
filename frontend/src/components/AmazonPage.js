@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
+//actions
 import {fetchWishlist} from "../actions/pages";
+//component
 import WishlistEntry from './WishlistEntry';
 
 class AmazonPage extends Component {
-
-
 
      //fetch wishlist
      componentDidMount(){ 
