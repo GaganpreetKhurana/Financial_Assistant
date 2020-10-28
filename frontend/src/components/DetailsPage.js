@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
+//actions
 import {addTransaction, clearAuth} from "../actions/pages";
 
 
@@ -15,14 +16,13 @@ class DetailsPage extends Component {
             dummy: null,
         };
     }
-
+    //functions to handle different input fields
     handleChange = (event) => {
         this.setState({category: event.target.value});
     }
     handleChange2 = (event) => {
         this.setState({amount: event.target.value});
     }
-
     handleChange3 = (event) => {
         this.setState({type: event.target.value});
     }
@@ -35,11 +35,9 @@ class DetailsPage extends Component {
         //call dispatch
         e.preventDefault();
         const {category, type, description, amount} = this.state;
-        //console.log(category,type,description,amount);
         this.props.dispatch(addTransaction(category, type, description, amount));
-
+        //to clear the dispayed msgs
         setTimeout(() => {
-            //this.forceUpdate();
             this.props.dispatch(clearAuth());
         }, 10000);
 
@@ -52,7 +50,7 @@ class DetailsPage extends Component {
         });
 
     }
-
+    //clear msgs when the component unmounts
     componentWillUnmount() {
         this.props.dispatch(clearAuth());
     }
@@ -60,6 +58,7 @@ class DetailsPage extends Component {
     render() {
         const {success, error, inProgress} = this.props.details;
         const {isLoggedIn} = this.props.auth;
+        //so that only logged in user sees this page
         if (!isLoggedIn) {
             return <Redirect to="/login"/>;
         }
@@ -88,7 +87,6 @@ class DetailsPage extends Component {
                         <option value="5">Recreation</option>
                         <option value="6">Miscellaneous</option>
                         <option value="7">Other</option>
-                        {/*<option value="8">Stocks</option>*/}
                     </select>
                 </div>
                 <br/>

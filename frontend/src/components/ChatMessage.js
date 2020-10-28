@@ -7,7 +7,7 @@ class ChatMessage extends Component {
     render() {
         const {message} = this.props;
         return (
-
+            // to give different colors to msgs sent by user and chatbot
             <div
                 className={
                     message.self
