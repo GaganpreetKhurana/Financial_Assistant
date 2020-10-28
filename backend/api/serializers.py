@@ -51,7 +51,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             for error_object in error.error_list:
                 if error_object.code == "password_too_short":
                     message += error_object.message % {'min_length': error_object.params['min_length']}
-                elif error.code == "password_too_similar":
+                elif error_object.code == "password_too_similar":
                     message += error_object.message % {'verbose_name': error_object.params['verbose_name']}
                 else:
                     message += error_object.message
