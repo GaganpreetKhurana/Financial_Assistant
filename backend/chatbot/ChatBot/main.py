@@ -206,7 +206,7 @@ def chat_get(user_id, no_of_results):
     db_object = sqlite3.connect(abs_path_db)
     db = db_object.cursor()
 
-    chat_bot = "donna"
+    chat_bot = "donna" + str(user_id)
     #sql = f"SELECT chat_message,sender FROM chat_store WHERE (userid = \"{str(user_id)}\" OR userid = \"{str(chat_bot)}\") ORDER BY createdAt DESC LIMIT \"{str(no_of_results)}\""
     sql = f"SELECT chat_message,sender FROM (SELECT chat_message,sender,createdAt FROM chat_store WHERE (userid = \"{str(user_id)}\" OR userid = \"{str(chat_bot)}\") ORDER BY createdAt DESC LIMIT \"{str(no_of_results)}\") ORDER BY createdAt"
     db.execute(sql)
@@ -220,6 +220,9 @@ def chat_get(user_id, no_of_results):
 
 def chat_web(question, user_id, request):
     chat_store(question, user_id, 'True')
+
+    chat_bot_name = "donna" + str(user_id)
+
     #  Checking if the question is actually a Transaction reply
     if question.startswith("Transaction"):
         list_parse = question.split()
@@ -249,7 +252,7 @@ def chat_web(question, user_id, request):
         else:
             chat_response += "Transaction Operation Unsuccessful!"
 
-        chat_store(chat_response, 'donna', 'False')
+        chat_store(chat_response, chat_bot_name, 'False')
         return chat_response
 
     #  Checking if the question is actually a Amazon reply
@@ -276,7 +279,7 @@ def chat_web(question, user_id, request):
             engine.say(chat_response)
             engine.runAndWait()
 
-        chat_store(chat_response, 'donna', 'False')
+        chat_store(chat_response, chat_bot_name, 'False')
 
         return chat_response
 
@@ -324,7 +327,7 @@ def chat_web(question, user_id, request):
             else:
                 chat_response += " and Transaction Operation Unsuccessful!"
 
-            chat_store(chat_response, 'donna', 'False')
+            chat_store(chat_response, chat_bot_name, 'False')
 
         if list_parse[1] == "sell":
             stck = list_parse[2]
@@ -350,7 +353,7 @@ def chat_web(question, user_id, request):
             else:
                 chat_response += " and Transaction Operation Unsuccessful!"
 
-            chat_store(chat_response, 'donna', 'False')
+            chat_store(chat_response, chat_bot_name, 'False')
 
         if list_parse[1] == "predict":
             stck = list_parse[2]
@@ -369,7 +372,7 @@ def chat_web(question, user_id, request):
             engine.say(chat_response)
             engine.runAndWait()
 
-        chat_store(chat_response, 'donna', 'False')
+        chat_store(chat_response, chat_bot_name, 'False')
 
         return chat_response
 
@@ -464,7 +467,7 @@ def chat_web(question, user_id, request):
     else:
         print("No function to call")
 
-    chat_store(answer, 'donna', 'False')
+    chat_store(answer, chat_bot_name, 'False')
 
     if speak_flag:
         engine = pyttsx3.init()
