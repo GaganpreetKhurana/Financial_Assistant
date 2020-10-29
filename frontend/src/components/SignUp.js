@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import {Redirect} from "react-router-dom";
 
 import {connect} from "react-redux";
+//actions
 import {signup, clearAuth} from "../actions/auth";
+import Background from './Background';
 
 class SignUp extends Component {
     constructor(props) {
@@ -71,6 +73,7 @@ class SignUp extends Component {
         }
         return (
             <div className="home-screen">
+                <Background/>
                 <div className="register-form">
                     <div className="headerss">
                         <p>Sign Up</p><br></br><br></br>

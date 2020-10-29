@@ -2,7 +2,10 @@ import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
+//actions
 import {login, clearAuth} from "../actions/auth";
+//components
+import Background from './Background';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -48,6 +51,7 @@ class Login extends Component {
         }
         return (
             <div className="home-screen">
+                <Background/>
                 <div className="login-form">
                     <div className="headerss">
                         <p>Log In</p><br></br><br></br>
