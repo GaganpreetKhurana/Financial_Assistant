@@ -22,27 +22,27 @@
         },
         {
             "tag": "payments_credit",
-            "patterns": ["I sold something", "Update my debits", "I gained money","sold"],
+            "patterns": ["I sold an item", "Add to my debits", "I gained income","sold"],
             "responses": ["How much did you sell for", "What did you get for selling","What did you earn?"]
         },
         {
             "tag": "amazon_add",
-            "patterns": ["Track an amazon wishlist", "Add to my amazon wishlist","Track this url on amazon"],
+            "patterns": ["Track an item on amazon wishlist", "Add this item to my amazon wishlist","Track this item url on amazon"],
             "responses": ["Ok what url item to be tracked and predicted in future?","Which item are you targeting"]
         },
         {
             "tag": "amazon_buy",
-            "patterns": ["Should i buy something on amazon", "Will there be a price drop on amazon","Prediction for this item on amazon"],
+            "patterns": ["Should i buy this on amazon", "Will there be a price drop on amazon","Prediction for this on amazon"],
             "responses": ["Fetching amazon wishlist report","Predicting best time to buy this item"]
         },
         {
             "tag": "stock_info",
-            "patterns": ["Fetch info on this stock", "Explain this stock","What is this stock"],
+            "patterns": ["Fetch info on this stock", "Explain this stock information"],
             "responses": ["Displaying info on this stock","Fetching stock info report"]
         },
         {
             "tag": "stock_history",
-            "patterns": ["Fetch this stock history", "Explain this stock history","What is this stock history"],
+            "patterns": ["Display this stock history", "Describe this stock history"],
             "responses": ["Displaying this stock's history","Fetching stock history report"]
         },
         {
@@ -52,22 +52,22 @@
         },
         {
             "tag": "stock_sell",
-            "patterns": ["I want to sell my stock","Offload this stock","Trade this stock","Offload","Trade"],
+            "patterns": ["Offload this stock","Trade this stock","Offload","Trade"],
             "responses": ["Ready to sell this stock","How much do you want to sell"]
         },
         {
             "tag": "stock_predict",
-            "patterns": ["Fetch this stock price prediction", "What will be this stock price"],
+            "patterns": ["Predict my stock price prediction", "What will be this stock price"],
             "responses": ["Calculating this stock's price prediction","Fetching stock history prediction"]
         },
         {
             "tag": "stock_portfolio_info",
-            "patterns": ["Fetch my portfolio situation", "Fetch my portfolio situation","What is my portfolio situation"],
+            "patterns": ["Fetch my portfolio situation","What is my portfolio situation"],
             "responses": ["Calculating your stock's portfolio prediction","Fetching stock portfolio prediction"]
         },
         {
             "tag": "stock_portfolio_prediction",
-            "patterns": ["Fetch my portfolio prediction", "How will my portfolio be in future","What is my portfolio prediction"],
+            "patterns": ["Calculate my portfolio prediction", "How will my portfolio be in future","What is my portfolio prediction"],
             "responses": ["Calculating your portfolio prediction","Fetching portfolio prediction"]
         }
     ]

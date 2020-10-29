@@ -45,9 +45,8 @@ with open(abs_path_intent) as file:
     data = json.load(file)
 try:
     with open(abs_path_pickle, "rb") as f:
-        print("\n\n\nNo Need to Retrain Model\n\n\n")
         words, labels, training, output = pickle.load(f)
-except():
+except:
     for intent in data['intents']:
         for pattern in intent['patterns']:
             wrds = nltk.word_tokenize(pattern)
