@@ -4,6 +4,9 @@ import {Redirect} from "react-router-dom";
 
 //actions
 import {fetchUser,updateProfile,updatePassword,clearAuth} from '../actions/auth';
+//components
+import Background from './Background';
+
 
 class Profilepage extends Component {
     constructor(props){
@@ -71,7 +74,10 @@ class Profilepage extends Component {
           return <Redirect to="/details"/>;
         }
         return (
+          <div>
+            <Background/>
             <div className="settings">
+                
             <div className="img-container">
               <img
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSH4dcYWVFHFsz8M3Rsjpy2Hg6gQAmgbCIwWA&usqp=CAU"
@@ -200,6 +206,7 @@ class Profilepage extends Component {
                   Go back
                 </div>
               )}
+          </div>
             </div></div>
         );
     }
