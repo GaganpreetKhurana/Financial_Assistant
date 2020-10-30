@@ -4,6 +4,9 @@ import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 //actions
 import {forgot, clearAuth} from "../actions/auth";
+//components
+import Background from './Background';
+
 
 class Login extends Component {
     constructor(props) {
@@ -43,6 +46,7 @@ class Login extends Component {
         }
         return (
             <div className="home-screen">
+                <Background/>
                 <div className="forgot-form"><br></br><br></br>
                     <h5>Please Enter your Registered Email ID</h5><br></br><br></br>
 

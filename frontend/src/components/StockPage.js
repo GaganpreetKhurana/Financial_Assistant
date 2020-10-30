@@ -70,7 +70,7 @@ class StockPage extends Component {
                         <div className="numbs headers"> S.No. </div>
                         <div className="stocks headers">Stocks</div> 
                         <div className="owned headers">Owned Stocks(Rs.)</div>   
-                        <div className="prices headers">Current Price (Rs.)</div>   
+                        <div className="prices headers">Stock Price (Rs.)</div>   
                         <div className="sellprices headers">Sell Stocks (Rs.)</div> 
                         <div className="numbs headers">Sell</div>
                 

@@ -7,6 +7,7 @@ import ChatBotPage from './ChatBotPage';
 import PastTransactions from './PastTransactions';
 import StockPage from './StockPage';
 import AmazonPage from './AmazonPage';
+import Background from './Background';
 //details
 import {showDetails, showChatBot,viewdetails,showStockDetails,showAmazonDetails} from "../actions/pages";
 
@@ -41,6 +42,7 @@ class Details extends Component {
         return (
             //complete page
             <div className="home-screen">
+                <Background/>
 
                 {/*box starting*/}
                 <div className="Main-Page">

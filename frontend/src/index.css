@@ -1,1005 +1,972 @@
 body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background-color: #f1f1f1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f1f1f1;
 }
 
 code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 /* Multilingual select option */
 
 .goog-te-banner-frame.skiptranslate {
-    display: none !important;
-    } 
+  display: none !important;
+}
 body {
-    top: 0px !important; 
-    }
-#google_translate_element{
-    padding-top:12px;
+  top: 0px !important;
+}
+#google_translate_element {
+  padding-top: 12px;
 }
 
-
 button a {
-    outline: none;
-    text-decoration: none;
-    color: white;
-
+  outline: none;
+  text-decoration: none;
+  color: white;
 }
 
 a {
-    outline: none;
-    text-decoration: none;
+  outline: none;
+  text-decoration: none;
 }
 
 .Forgot {
-    margin-left: -50px;
-
+  margin-left: -50px;
 }
 .navbar {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 100%;
-    background-color: rgb(8, 8, 15);
-    height: 80px;
-    min-width: 700px;
-    padding-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  background-color: rgb(8, 8, 15);
+  height: 80px;
+  min-width: 700px;
+  padding-top: 10px;
 }
 /* Home button and logo */
 .nav-left {
-    height: 45px;
-    box-sizing: border-box;
-    margin-left: 4px;
+  height: 45px;
+  box-sizing: border-box;
+  margin-left: 4px;
 }
 
 .nav-left a {
-    margin-left: 15px;
-    font-weight: 900;
-    font-size: 40px;
-    color: white;
+  margin-left: 15px;
+  font-weight: 900;
+  font-size: 40px;
+  color: white;
 }
 /* User name login/signup/logout buttons */
 .nav-right {
-    margin-right: 35px;
+  margin-right: 35px;
 }
 
 .bttn-home {
-    margin-top: 5px;
-    margin-left: 3px;
-    height: 40px;
-    width: 120px;
-    background-color: transparent;
-    outline: none;
-    color: white;
-    border: none;
-    font-size: 18px;
+  margin-top: 5px;
+  margin-left: 3px;
+  height: 40px;
+  width: 120px;
+  background-color: transparent;
+  outline: none;
+  color: white;
+  border: none;
+  font-size: 18px;
 }
 
 .nav-right .bttn-home i {
-    height: 16px;
-    width: 8px;
-    color: white;
+  height: 16px;
+  width: 8px;
+  color: white;
 }
 
 .bttn-home:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
-
 
 /* main home screen greyshade */
 .home-screen {
-    /* background-color: #f1f1f1; */
-    width: 100%;
-    min-height: 90vh;
-    height: auto;
-    padding-top: 25px;
-    box-sizing: border-box;
-    padding-bottom: 30px;
-    min-width: 700px;
+  /* background-color: #f1f1f1; */
+  width: 100%;
+  min-height: 90vh;
+  height: auto;
+  padding-top: 25px;
+  box-sizing: border-box;
+  padding-bottom: 30px;
+  min-width: 700px;
 }
 
 /* login form */
 .login-form {
-    box-shadow: 0 0 2px 2px #88888b;
-    border-radius: 6px;
-    margin: auto;
-    width: 450px;
-    height: auto;
-    min-height: 420px;
-    background-color: white;
-    padding-top: 5px;
+  box-shadow: 0 0 2px 2px #88888b;
+  border-radius: 6px;
+  margin: auto;
+  width: 450px;
+  height: auto;
+  min-height: 420px;
+  background-color: white;
+  padding-top: 5px;
 }
 
 /* forgot form */
 .forgot-form {
-    box-shadow: 0 0 2px 2px #88888b;
-    border-radius: 6px;
-    margin: auto;
-    width: 450px;
-    height: auto;
-    min-height: 420px;
-    background-color: white;
-    padding-top: 5px;
+  box-shadow: 0 0 2px 2px #88888b;
+  border-radius: 6px;
+  margin: auto;
+  width: 450px;
+  height: auto;
+  min-height: 420px;
+  background-color: white;
+  padding-top: 5px;
 }
-
 
 /* for headings in form */
 h5 {
-    margin-left: 35px;
-    font-weight: 400;
-    font-size: 24px;
-    color: rgb(43, 44, 44);
+  margin-left: 35px;
+  font-weight: 400;
+  font-size: 24px;
+  color: rgb(43, 44, 44);
 }
 
 /* signup form */
 .register-form {
-    box-shadow: 0 0 2px 2px #88888b;
-    border-radius: 6px;
-    margin: auto;
-    min-height: 580px;
-    width: 450px;
-    height: auto;
-    background-color: white;
-    padding-top: 5px;
+  box-shadow: 0 0 2px 2px #88888b;
+  border-radius: 6px;
+  margin: auto;
+  min-height: 580px;
+  width: 450px;
+  height: auto;
+  background-color: white;
+  padding-top: 5px;
 }
-
 
 /* header section containing headings of form */
 .headerss p {
-    margin-top: 20px;
-    color: black;
-    font-size: 35px;
-    font-weight: 500;
-    text-align: center;
+  margin-top: 20px;
+  color: black;
+  font-size: 35px;
+  font-weight: 500;
+  text-align: center;
 }
 
 /* input fields of form */
 .form-fields {
-    box-sizing: border-box;
-    margin-top: -20px;
-    margin-left: 12px;
-    padding-left: 30px;
-    width: 90%;
-    height: auto;
+  box-sizing: border-box;
+  margin-top: -20px;
+  margin-left: 12px;
+  padding-left: 30px;
+  width: 90%;
+  height: auto;
 }
-h2{
-    margin:auto;
-    margin-left:35%;
-
+h2 {
+  margin: auto;
+  margin-left: 35%;
 }
 
 /* warn button */
 .alert-warn button {
-    width: 90%;
-    height: 30px;
-    margin-bottom: 8px;
+  width: 90%;
+  height: 30px;
+  margin-bottom: 8px;
 
-    border: none;
-    background-color: #f8d7da;
-    color: #721c24;
+  border: none;
+  background-color: #f8d7da;
+  color: #721c24;
 }
 
 /* success button */
 .alert-done button {
-    width: 90%;
-    height: 30px;
-    margin-bottom: 8px;
+  width: 90%;
+  height: 30px;
+  margin-bottom: 8px;
 
-    border: none;
-    background-color: #d4edda;
-    color: #155724;
+  border: none;
+  background-color: #d4edda;
+  color: #155724;
 }
 
 .form-fields input {
-    border: 1px solid rgba(63, 45, 119, 0.2);
-    box-sizing: border-box;
-    padding-left: 10px;
-    margin-top: 15px;
-    border-radius: 6px;
-    width: 90%;
-    height: 40px;
-    font-size: 20px;
-    color: gray;
-    margin-bottom: 5px;
+  border: 1px solid rgba(63, 45, 119, 0.2);
+  box-sizing: border-box;
+  padding-left: 10px;
+  margin-top: 15px;
+  border-radius: 6px;
+  width: 90%;
+  height: 40px;
+  font-size: 20px;
+  color: gray;
+  margin-bottom: 5px;
 }
 
 .form-fields button {
-    width: 90%;
-    height: 40px;
-    margin-top: 15px;
+  width: 90%;
+  height: 40px;
+  margin-top: 15px;
 }
 
 .form-fields p {
-    text-align: center;
+  text-align: center;
 }
 
 button:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 /* footer section */
 .footer {
-    box-sizing: border-box;
-    width: 100%;
-    height: 70px;
-    background-color: rgb(0, 0, 0);
-    padding-top: 25px;
-    min-width: 700px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 70px;
+  background-color: rgb(0, 0, 0);
+  padding-top: 25px;
+  min-width: 700px;
 }
 
 .footer p {
-    text-align: center;
-    font-size: 25px;
-    color: white;
+  text-align: center;
+  font-size: 25px;
+  color: white;
 }
 
 /* main details page visible on login */
 .Main-Page {
-    box-sizing: border-box;
-    width: 70%;
-    margin: auto;
-    margin-top: 40px;
-    margin-bottom: 40px;
-    border: 2px solid black;
-    height: auto;
-    min-height: 540px;
-    background-color: white;
-    min-width:650px;
-    overflow:hidden;
+  box-sizing: border-box;
+  width: 70%;
+  margin: auto;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  border: 2px solid black;
+  height: auto;
+  min-height: 540px;
+  background-color: white;
+  min-width: 650px;
+  overflow: hidden;
 }
 
 /* choice of 5 tabs */
 .choice {
-    width: 100%;
-    height: 50px;
-    display: flex;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  font-size:15px;
 }
 
 /* first tab */
 .details {
-    width: 20%;
-    height: inherit;
+  width: 20%;
+  height: inherit;
+  font-size: 15px;
 }
 
 .details button {
-    width: 100%;
-    height: inherit;
-    background-color: none;
-    outline: none;
-    border: none;
-    font-size: 25px;
-    cursor: pointer;
-    border-bottom:1px solid black;
-    border-right:1px solid black;
+  width: 100%;
+  height: inherit;
+  background-color: none;
+  outline: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
 }
 .details button:hover {
-    width: 100%;
-    height: inherit;
-    background-color:rgb(72 72 80);
-    outline: none;
-    border: none;
-    font-size: 25px;
-    cursor: pointer;
-    border-bottom:1px solid black;
-    border-right:1px solid black;
-    color:white;
+  width: 100%;
+  height: inherit;
+  background-color: rgb(72 72 80);
+  outline: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  color: white;
 }
 
 /* second tab */
 .view-details {
-    width: 20%;
-    height: inherit;
+  width: 20%;
+  height: inherit;
 }
 
 .view-details button {
-    width: 100%;
-    height: inherit;
-    background-color: none;
-    outline: none;
-    border: none;
-    font-size: 25px;
-    cursor: pointer;
-    border-bottom:1px solid black;
-    border-left:1px solid black;
-    border-right:1px solid black;
+  width: 100%;
+  height: inherit;
+  background-color: none;
+  outline: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  border-bottom: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
 }
 .view-details button:hover {
-    width: 100%;
-    height: inherit;
-    background-color:rgb(72 72 80);
-    outline: none;
-    border: none;
-    font-size: 25px;
-    cursor: pointer;
-    border-bottom:1px solid black;
-    border-right:1px solid black;
-    color:white;
+  width: 100%;
+  height: inherit;
+  background-color: rgb(72 72 80);
+  outline: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  color: white;
 }
 
 /* third tab */
 .chatbot {
-    width: 20%;
-    height: inherit;
+  width: 20%;
+  height: inherit;
 }
 
 .chatbot button {
-    width: 100%;
-    height: inherit;
-    background-color: none;
-    outline: none;
-    border: none;
-    font-size: 25px;
-    cursor: pointer;
-    border-bottom:1px solid black;
-    border-left:1px solid black;
+  width: 100%;
+  height: inherit;
+  background-color: none;
+  outline: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  border-bottom: 1px solid black;
+  border-left: 1px solid black;
 }
-.chatbot button:hover{
-    width: 100%;
-    height: inherit;
-    background-color:rgb(72 72 80);
-    color:white;
-    outline: none;
-    border: none;
-    font-size: 25px;
-    cursor: pointer;
-    border-bottom:1px solid black;
-    border-left:1px solid black;
+.chatbot button:hover {
+  width: 100%;
+  height: inherit;
+  background-color: rgb(72 72 80);
+  color: white;
+  outline: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  border-bottom: 1px solid black;
+  border-left: 1px solid black;
 }
 
 /* forth tab */
 .amazon {
-    width: 20%;
-    height: inherit;
+  width: 20%;
+  height: inherit;
 }
 
 .amazon button {
-    width: 100%;
-    height: inherit;
-    background-color: none;
-    outline: none;
-    border: none;
-    font-size: 25px;
-    cursor: pointer;
-    border-bottom:1px solid black;
-    border-right:1px solid black;
+  width: 100%;
+  height: inherit;
+  background-color: none;
+  outline: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
 }
 .amazon button:hover {
-    width: 100%;
-    height: inherit;
-    background-color:rgb(72 72 80);
-    outline: none;
-    border: none;
-    font-size: 25px;
-    cursor: pointer;
-    border-bottom:1px solid black;
-    border-right:1px solid black;
-    color:white;
+  width: 100%;
+  height: inherit;
+  background-color: rgb(72 72 80);
+  outline: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  color: white;
 }
 
 /* fifth tab */
 .stock {
-    width: 20%;
-    height: inherit;
+  width: 20%;
+  height: inherit;
 }
 
 .stock button {
-    width: 100%;
-    height: inherit;
-    background-color: none;
-    outline: none;
-    border: none;
-    font-size: 25px;
-    cursor: pointer;
-    border-bottom:1px solid black;
-    
+  width: 100%;
+  height: inherit;
+  background-color: none;
+  outline: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  border-bottom: 1px solid black;
 }
 .stock button:hover {
-    width: 100%;
-    height: inherit;
-    background-color:rgb(72 72 80);
-    outline: none;
-    border: none;
-    font-size: 25px;
-    cursor: pointer;
-    border-bottom:1px solid black;
-    border-right:1px solid black;
-    color:white;
+  width: 100%;
+  height: inherit;
+  background-color: rgb(72 72 80);
+  outline: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  color: white;
 }
 
 /* coloured when tab is active */
-.tabactive-tab{
-    
-        width: 100%;
-        height: inherit;
-        background-color:rgb(115 112 112);
-        color:white;
-        outline: none;
-        border: none;
-        font-size: 25px;
-        cursor: pointer;
-        border-bottom:1px solid black;
-        border-left:1px solid black;
-    
+.tabactive-tab {
+  width: 100%;
+  height: inherit;
+  background-color: rgb(115 112 112);
+  color: white;
+  outline: none;
+  border: none;
+  font-size: 25px;
+  cursor: pointer;
+  border-bottom: 1px solid black;
+  border-left: 1px solid black;
 }
 
 /* form box transactions */
-.form-box{
-    width:80%;
-    height:90%;
-    margin:auto;
-    margin-top:20px;
-    margin-bottom:20px;
-    box-sizing: border-box;
-    padding:30px;
-    min-width:650px;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
+.form-box {
+  width: 80%;
+  height: 90%;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  padding: 30px;
+  min-width: 650px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
 }
-.form-box label{
-
-    font-size:25px;
-    font-weight:430;
-}
-
-.form-box input{
-    font-size:24px;
-    width:390px;
-    font-weight:430;
+.form-box label {
+  font-size: 25px;
+  font-weight: 430;
 }
 
-.form-box select{
-    font-size:24px;
-    width:400px;
-    font-weight:430;
+.form-box input {
+  font-size: 24px;
+  width: 390px;
+  font-weight: 430;
+}
+
+.form-box select {
+  font-size: 24px;
+  width: 400px;
+  font-weight: 430;
 }
 
 /* add button of transaction */
-.add{
-    width:200px;
-    height:40px;
-    margin-left:35%;
-    font-size: 24px;
-    
-    font-weight:500;
+.add {
+  width: 200px;
+  height: 40px;
+  margin-left: 35%;
+  font-size: 24px;
+
+  font-weight: 500;
 }
 
 .form-box .alert-warn button {
-    width: 93%;
-    height: 45px;
-    margin-bottom: 25px;
-    border: none;
-    font-size: 25px;
-    background-color: #f8d7da;
-    color: #721c24;
+  width: 93%;
+  height: 45px;
+  margin-bottom: 25px;
+  border: none;
+  font-size: 25px;
+  background-color: #f8d7da;
+  color: #721c24;
 }
 
 .alert-done button {
-    font-size: 25px;
-    width: 93%;
-    height: 45px;
-    margin-bottom: 25px;
+  font-size: 25px;
+  width: 93%;
+  height: 45px;
+  margin-bottom: 25px;
 
-    border: none;
-    background-color: #d4edda;
-    color: #155724;
+  border: none;
+  background-color: #d4edda;
+  color: #155724;
 }
 
 /* show transactions outer box */
-.form-box2{
-    width:90%;
-    height:95%;
-    margin:auto;
-    margin-top:10px;
-    margin-bottom:10px;
-    box-sizing: border-box;
-    padding:20px;
-    min-width:650px;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
+.form-box2 {
+  width: 90%;
+  height: 95%;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  padding: 20px;
+  min-width: 650px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
 }
 /* inner box */
-.transactions-box{
-    width:100%;
-    height:90%;
-    max-height:500px;
-    overflow-y: auto;
+.transactions-box {
+  width: 100%;
+  height: 90%;
+  max-height: 500px;
+  overflow-y: auto;
 }
 
 /* each transaction  entry */
-.transaction-entry{
-    display:flex;
-    width:100%;
-    height:50px;
-    font-size:20px;
-    font-weight:400;
-    padding-top:4px;
-    padding-left:8px;
-    padding-right:8px;
-    box-sizing:border-box;
+.transaction-entry {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  font-size: 20px;
+  font-weight: 400;
+  padding-top: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  box-sizing: border-box;
 }
 /* fields of transaction entry 5 fields */
-.number{
-    width:6%;
-    height:40px;
-    padding-top:4px;
-    padding-left:8px;
-    padding-right:8px;
-    box-sizing:border-box;
-
+.number {
+  width: 6%;
+  height: 40px;
+  padding-top: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  box-sizing: border-box;
 }
-.category{
-    width:30%;
-    height:40px;
-    overflow-x:auto;
-    padding-top:4px;
-    padding-left:12px;
-    padding-right:8px;
-    box-sizing:border-box;
-
+.category {
+  width: 30%;
+  height: 40px;
+  overflow-x: auto;
+  padding-top: 4px;
+  padding-left: 12px;
+  padding-right: 8px;
+  box-sizing: border-box;
 }
-.Options{
-    width:20%;
-    height:40px;
-    overflow-x:auto;
-    padding-top:4px;
-    padding-left:12px;
-    padding-right:8px;
-    box-sizing:border-box;
-
+.Options {
+  width: 20%;
+  height: 40px;
+  overflow-x: auto;
+  padding-top: 4px;
+  padding-left: 12px;
+  padding-right: 8px;
+  box-sizing: border-box;
 }
-.amount{
-    width:20%;
-    height:40px;
-    overflow-x:auto;
-    background-color:white;
-    padding-top:4px;
-    padding-left:12px;
-    padding-right:8px;
-    box-sizing:border-box;
+.amount {
+  width: 20%;
+  height: 40px;
+  overflow-x: auto;
+  background-color: white;
+  padding-top: 4px;
+  padding-left: 12px;
+  padding-right: 8px;
+  box-sizing: border-box;
 }
-.type{
-    width:14%;
-    height:40px;
-    overflow-x:auto;
-    padding-top:4px;
-    padding-left:8px;
-    padding-right:8px;
-    box-sizing:border-box;
+.type {
+  width: 14%;
+  height: 40px;
+  overflow-x: auto;
+  padding-top: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  box-sizing: border-box;
 }
-.update{
-    width:10%;
-    height:40px;
-    padding-top:4px;
-    padding-left:8px;
-    padding-right:8px;
-    box-sizing:border-box;
-
+.update {
+  width: 10%;
+  height: 40px;
+  padding-top: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  box-sizing: border-box;
 }
-.delete{
-    width:10%;
-    height:40px;
-    padding-top:4px;
-    padding-left:8px;
-    padding-right:8px;
-    box-sizing:border-box;
-
+.delete {
+  width: 10%;
+  height: 40px;
+  padding-top: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  box-sizing: border-box;
 }
 
 /* headers of transaction table */
-.headers{
-    border:1px solid black;
-    background-color: #f1f1f1;
+.headers {
+  border: 1px solid black;
+  background-color: #f1f1f1;
+  font-size:16px;
+  font-weight:400;
 }
 
 /* update box on clicking update button */
-.update-box{
-    width:90%;
-    height:auto;
-    border:1px solid black;
-    padding-left:20px;
-    padding-top:20px;
-    padding-bottom:20px;
-    background-color: #f1f1f1;
+.update-box {
+  width: 90%;
+  height: auto;
+  border: 1px solid black;
+  padding-left: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: #f1f1f1;
 }
-.update-box label{
-
-    font-size:25px;
-    font-weight:430;
-
+.update-box label {
+  font-size: 25px;
+  font-weight: 430;
 }
 
-.update-box input{
-    font-size:24px;
-    width:390px;
-    font-weight:430;
+.update-box input {
+  font-size: 24px;
+  width: 390px;
+  font-weight: 430;
 }
 
-.update-box select{
-    font-size:24px;
-    width:400px;
-    font-weight:430;
+.update-box select {
+  font-size: 24px;
+  width: 400px;
+  font-weight: 430;
 }
-.save{
-    width:150px;
-    height:35px;
-    margin-left:35%;
-    font-size: 24px;
-    font-weight:500;
+.save {
+  width: 150px;
+  height: 35px;
+  margin-left: 35%;
+  font-size: 24px;
+  font-weight: 500;
 }
-
-
 
 .chat-container {
-    
-    height:auto;
-    min-height:400px;
-    max-height: 90%;
-    min-width:30%;
-    width: 70%;
+  height: auto;
+  min-height: 400px;
+  max-height: 90%;
+  min-width: 30%;
+  width: 70%;
 
-    margin:auto;
-    margin-top:40px;
-    overflow-y: auto;
-    outline:2px solid black;
-  }
-  .chat-messages {
-    height: 380px;
-    background: #fff;
-    overflow: auto;
-    border-right: 1px solid #e5e5e5;
-    border-left: 1px solid #e5e5e5;
-    display: flex;
-    flex-direction: column;
-  }
-  .chat-messages .chat-bubble {
-    background: #e5e5e5;
-    margin: 5px;
-    width:80%;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 15px;
-    position: relative;
-  }
-  
-  .chat-messages .other-chat:after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    width: 0;
-    height: 0;
-    border: 20px solid transparent;
-    border-right-color: #e5e5e5;
-    border-left: 0;
-    border-bottom: 0;
-    margin-top: -1px;
-    margin-left: -10px;
-  }
-  .chat-messages .self-chat {
-    background: #c4f0c5;
-    margin-left:15%;
-  }
-  .chat-messages .self-chat:after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 50%;
-    width: 0;
-    height: 0;
-    border: 20px solid transparent;
-    border-left-color: #c4f0c5;
-    border-right: 0;
-    border-bottom: 0;
-    margin-top: -1px;
-    margin-right: -10px;
-  }
-  .chat-footer {
-    height: 37px;
-    box-sizing: border-box;
-    display: flex;
-  }
-  .chat-footer input {
-    width: 100%;
-    outline: none;
-    font-size: 18px;
-    border: 1px solid black;
+  margin: auto;
+  margin-top: 40px;
+  overflow-y: auto;
+  outline: 2px solid black;
+}
+.chat-messages {
+  height: 380px;
+  background: #fff;
+  overflow: auto;
+  border-right: 1px solid #e5e5e5;
+  border-left: 1px solid #e5e5e5;
+  display: flex;
+  flex-direction: column;
+}
+.chat-messages .chat-bubble {
+  background: #e5e5e5;
+  margin: 5px;
+  width: 80%;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 15px;
+  position: relative;
+}
 
-    padding-left: 5px;
-  }
-  .chat-footer button {
-    background: #e5e5e5;
-    color: black;
-    border: 1px solid black;
-    outline: none;
-    font-size: 16px;
-  }
-  .chat-footer button:hover {
-    cursor: pointer;
-  }
-  
+.chat-messages .other-chat:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 20px solid transparent;
+  border-right-color: #e5e5e5;
+  border-left: 0;
+  border-bottom: 0;
+  margin-top: -1px;
+  margin-left: -10px;
+}
+.chat-messages .self-chat {
+  background: #c4f0c5;
+  margin-left: 15%;
+}
+.chat-messages .self-chat:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 20px solid transparent;
+  border-left-color: #c4f0c5;
+  border-right: 0;
+  border-bottom: 0;
+  margin-top: -1px;
+  margin-right: -10px;
+}
+.chat-footer {
+  height: 37px;
+  box-sizing: border-box;
+  display: flex;
+}
+.chat-footer input {
+  width: 100%;
+  outline: none;
+  font-size: 18px;
+  border: 1px solid black;
+
+  padding-left: 5px;
+}
+.chat-footer button {
+  background: #e5e5e5;
+  color: black;
+  border: 1px solid black;
+  outline: none;
+  font-size: 16px;
+}
+.chat-footer button:hover {
+  cursor: pointer;
+}
+
 /* wishlist entry */
 
-  .wishlist-entry{
-    display:flex;
-    width:100%;
-    height:70px;
-    font-size:20px;
-    font-weight:400;
-    padding-top:4px;
-    padding-left:8px;
-    padding-right:8px;
-    box-sizing:border-box;
+.wishlist-entry {
+  display: flex;
+  width: 100%;
+  height: 70px;
+  font-size: 20px;
+  font-weight: 400;
+  padding-top: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  box-sizing: border-box;
 }
 /* fields of wishlist */
-.numb{
-    width:10%;
-    height:80px;
-    padding-top:4px;
-    padding-left:8px;
-    padding-right:8px;
-    box-sizing:border-box;
-
+.numb {
+  width: 10%;
+  height: 80px;
+  padding-top: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  box-sizing: border-box;
 }
-.url{
-    width:70%;
-    height:80px;
-    overflow-x:auto;
-    padding-top:4px;
-    padding-left:12px;
-    padding-right:8px;
-    box-sizing:border-box;
-
+.url {
+  width: 70%;
+  height: 80px;
+  overflow-x: auto;
+  padding-top: 4px;
+  padding-left: 12px;
+  padding-right: 8px;
+  box-sizing: border-box;
 }
 
-.price{
-    width:20%;
-    height:80px;
-    overflow-x:auto;
-    padding-top:4px;
-    padding-left:12px;
-    padding-right:8px;
-    box-sizing:border-box;
+.price {
+  width: 20%;
+  height: 80px;
+  overflow-x: auto;
+  padding-top: 4px;
+  padding-left: 12px;
+  padding-right: 8px;
+  box-sizing: border-box;
 }
 
-.headers2{
-    height:40px;
-    border:1px solid black;
-    background-color: #f1f1f1;
+.headers2 {
+  height: 40px;
+  border: 1px solid black;
+  background-color: #f1f1f1;
 }
 
 /* fields of stock list */
-.numbs{
-    width:10%;
-    height:50px;
-    padding-top:4px;
-    padding-left:8px;
-    padding-right:8px;
-    box-sizing:border-box;
-
+.numbs {
+  width: 10%;
+  height: 50px;
+  padding-top: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  box-sizing: border-box;
 }
-.stocks{
-    width:20%;
-    height:50px;
-    overflow-x:auto;
-    padding-top:4px;
-    padding-left:12px;
-    padding-right:8px;
-    box-sizing:border-box;
+.stocks {
+  width: 16%;
+  height: 50px;
+  overflow-x: auto;
+  padding-top: 4px;
+  padding-left: 12px;
+  padding-right: 8px;
+  box-sizing: border-box;
 }
-.owned{
-    width:20%;
-    height:50px;
-    overflow-x:auto;
-    padding-top:4px;
-    padding-left:2px;
-    padding-right:2px;
-    box-sizing:border-box;
-
+.owned {
+  width: 23%;
+  height: 50px;
+  overflow-x: auto;
+  padding-top: 4px;
+  padding-left: 2px;
+  padding-right: 2px;
+  box-sizing: border-box;
 }
 
-.prices{
-    width:20%;
-    height:50px;
-    overflow-x:auto;
-    padding-top:4px;
-    padding-left:2px;
-    padding-right:2px;
-    box-sizing:border-box;
-}.prices{
-    width:20%;
-    height:50px;
-    overflow-x:auto;
-    padding-top:4px;
-    padding-left:2px;
-    padding-right:2px;
-    box-sizing:border-box;
+.prices {
+  width: 20%;
+  height: 50px;
+  overflow-x: auto;
+  padding-top: 4px;
+  padding-left: 2px;
+  padding-right: 2px;
+  box-sizing: border-box;
 }
-.sellprices{
-    width:20%;
-    height:50px;
-    overflow-x:auto;
-    padding-top:4px;
-    padding-left:2px;
-    padding-right:2px;
-    box-sizing:border-box;
+.prices {
+  width: 21%;
+  height: 50px;
+  overflow-x: auto;
+  padding-top: 4px;
+  padding-left: 2px;
+  padding-right: 2px;
+  box-sizing: border-box;
 }
-.sellprices input{
-    margin-left: 20%;
-    width:70%;
-
+.sellprices {
+  width: 20%;
+  height: 50px;
+  overflow-x: auto;
+  padding-top: 4px;
+  padding-left: 2px;
+  padding-right: 2px;
+  box-sizing: border-box;
 }
-.numbs button{
-    margin-left: 20%;
-    cursor: pointer;
+.sellprices input {
+  margin-left: 20%;
+  width: 70%;
+}
+.numbs button {
+  margin-left: 20%;
+  cursor: pointer;
 }
 /* filters of transactions */
-.filters{
-    width:100%;
-    height:60px;
-    background-color:#f1f1f1;
-    display:flex;
-    flex-direction: column;
-    flex-wrap: wrap;
+.filters {
+  width: 100%;
+  height: 60px;
+  background-color: #f1f1f1;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
 
-.Leftfilter{
-    width:60%;
-    height:80%;
-    margin-left:10px;
-    margin-top:10px;
-    box-sizing: border-box;
-    min-width:50%;
-} 
-.Leftfilter select{
-    font-size:20px;
-    margin:4px;
-
-
+.Leftfilter {
+  width: 60%;
+  height: 80%;
+  margin-left: 10px;
+  margin-top: 10px;
+  box-sizing: border-box;
+  min-width: 50%;
+}
+.Leftfilter select {
+  font-size: 20px;
+  margin: 4px;
 }
 
-.apply{
-    width:65px;
-    height:22px;
-    font-size:16px;
-    margin:8px;
-    background-color:#d4edda;
-
+.apply {
+  width: 65px;
+  height: 22px;
+  font-size: 16px;
+  margin: 8px;
+  background-color: #d4edda;
 }
 
-.Rightfilter{
-
-    width:40%;
-    height:80%;
-    margin-right:10px;
-    margin-top:10px;
-    box-sizing: border-box;
-    min-width:30%;
-} 
-.Rightfilter select{
-    font-size:20px;
-    margin:4px;
-
+.Rightfilter {
+  width: 40%;
+  height: 80%;
+  margin-right: 10px;
+  margin-top: 10px;
+  box-sizing: border-box;
+  min-width: 30%;
 }
-.show{
-    height:22px;
-    font-size:16px;
-    background-color:#d4edda;
-    
-
+.Rightfilter select {
+  font-size: 20px;
+  margin: 4px;
 }
-.hide{
-    height:22px;
-    font-size:16px;
-    background-color:#f8d7da;
-
-
+.show {
+  height: 22px;
+  font-size: 16px;
+  background-color: #d4edda;
 }
-
-
+.hide {
+  height: 22px;
+  font-size: 16px;
+  background-color: #f8d7da;
+}
 
 /* SETTINGS and USERPROFILE */
 .settings {
-    display: inline-flex;
-    flex-direction: column;
-    background: white;
-    padding: 30px;
-    border-radius: 6px;
-    margin-top: 50px;
-    margin: 50px 350px;
-    width: 40%;
-    border: 1px solid lightgrey;
-    box-shadow: 0 0 1px 1px lightgrey;
-  }
-  .settings .img-container {
-    display: flex;
-    margin-bottom: 40px;
-    justify-content: center;
-  }
-  .settings .img-container img {
-    height: 100px;
-  }
-  .settings .btn-grp {
-    display: flex;
-    flex-direction: column;
-  }
-  .settings button {
-    border-radius: 6px;
-    padding: 10px;
-    width: fit-content;
-    font-size: 16px;
-    border-radius: 3px;
-    margin-top: 20px;
-  }
-  .settings button:hover {
-    cursor: pointer;
-  }
-  .settings button:focus {
-    outline: none;
-  }
-  .settings .edit-btn {
-    border: 1px solid grey;
-    box-sizing: border-box;
-    color: black;
-  }
-  .settings .save-btn {
-    background: lightgrey;
-    color: black;
-    border: 1px solid grey;
-    padding: 10px 20px;
-  }
-  .settings .go-back {
-    color: black;
-    margin-top: 7px;
-    font-size: 20px;
-  }
-  .settings .go-back:hover {
-    cursor: pointer;
-    text-decoration: underline;
-  }
-  .settings .field {
-    margin-bottom: 10px;
-  }
-  .settings .field .field-label {
-    font-style: normal;
-    font-weight: 600;
-    font-size: 22px;
-    line-height: 22px;
-    color: #9e9e9e;
-    padding: 5px 0;
-  }
-  .settings .field input {
-    margin-top: 6px;
-    font-size: 22px;
-  }
-  .field-value{
-      font-size: 22px;
-  }
+  display: inline-flex;
+  flex-direction: column;
+  background: white;
+  padding: 30px;
+  border-radius: 6px;
+  margin-top: 50px;
+  margin: 50px 350px;
+  width: 40%;
+  border: 1px solid lightgrey;
+  box-shadow: 0 0 1px 1px lightgrey;
+}
+.settings .img-container {
+  display: flex;
+  margin-bottom: 40px;
+  justify-content: center;
+}
+.settings .img-container img {
+  height: 100px;
+}
+.settings .btn-grp {
+  display: flex;
+  flex-direction: column;
+}
+.settings button {
+  border-radius: 6px;
+  padding: 10px;
+  width: fit-content;
+  font-size: 16px;
+  border-radius: 3px;
+  margin-top: 20px;
+}
+.settings button:hover {
+  cursor: pointer;
+}
+.settings button:focus {
+  outline: none;
+}
+.settings .edit-btn {
+  border: 1px solid grey;
+  box-sizing: border-box;
+  color: black;
+}
+.settings .save-btn {
+  background: lightgrey;
+  color: black;
+  border: 1px solid grey;
+  padding: 10px 20px;
+}
+.settings .go-back {
+  color: black;
+  margin-top: 7px;
+  font-size: 20px;
+}
+.settings .go-back:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.settings .field {
+  margin-bottom: 10px;
+}
+.settings .field .field-label {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 22px;
+  color: #9e9e9e;
+  padding: 5px 0;
+}
+.settings .field input {
+  margin-top: 6px;
+  font-size: 22px;
+}
+.field-value {
+  font-size: 22px;
+}
 
+.alert {
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 5px;
+  margin-top: 15px;
+  align-self: flex-start;
+}
 
-  .alert {
-    padding: 10px;
-    width: 100%;
-    box-sizing: border-box;
-    border-radius: 5px;
-    margin-top: 15px;
-    align-self: flex-start;
-  }
-  
-  .error-dailog {
-    color: #721c24;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-  }
-  .success-dailog {
-    color: #155724;
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-  }
+.error-dailog {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+.success-dailog {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
