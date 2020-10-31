@@ -26,6 +26,12 @@ urlpatterns = [
          name="transactions_month_date"),
     path("transactions/<str:year>/<str:month>/<str:date>/", TransactionListDayMonthYear.as_view(),
          name="transactions_date_month_year"),
+    path(
+        "transactions/average/"
+        + "<int:start_date>/<int:start_month>/<int:start_year>/"
+        + "<int:end_date>/<int:end_month>/<int:end_year>/",
+        TransactionAverage.as_view(),
+        name="transactions_average"),
 
     # URL's to Create/Update/Delete Transactions
     path("create_transaction", CreateTransaction.as_view(), name="create_transactions"),  # Create

@@ -1,4 +1,3 @@
-import requests
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -7,7 +6,7 @@ from django.db import transaction
 from django.utils.datetime_safe import datetime
 from rest_framework import serializers
 
-from . import views
+from .helper_functions import add_transaction_dict_to_detail, add_transaction_to_detail
 from .models import Detail, Transaction, categories
 
 
@@ -159,9 +158,9 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
                                       credit=self.validated_data['credit'])  # Create new transaction object
 
         # Make required changes to Detail and stocks
-        validated_data, details, response = add_transaction_dict_to_detail(self.validated_data,
-                                                                           details,
-                                                                           self.context.get('request'))
+        details, response = add_transaction_dict_to_detail(self.validated_data,
+                                                           details,
+                                                           self.context.get('request'))
 
         # Error making changes to stocks
         if response is not None and response.status_code != 202:
@@ -202,9 +201,9 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
         details = details[0]  # Detail object corresponding to instance
 
         # Make required changes to Detail and stocks (validated_data)
-        validated_data, details, response = add_transaction_dict_to_detail(validated_data,
-                                                                           details,
-                                                                           self.context.get('request'))
+        details, response = add_transaction_dict_to_detail(validated_data,
+                                                           details,
+                                                           self.context.get('request'))
 
         # Error making changes to stocks
         if response is not None and response.status_code != 202:
@@ -214,9 +213,9 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(code=response.status_code)
 
         # Make required changes to Detail and stocks(instance)
-        instance, details, response = views.add_transaction_to_detail(instance,
-                                                                      details,
-                                                                      self.context.get('request'))
+        details, response = add_transaction_to_detail(instance,
+                                                      details,
+                                                      self.context.get('request'))
 
         # Error making changes to stocks
         if response is not None and response.status_code != 202:
@@ -249,52 +248,3 @@ class DestroyTransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
         fields = '__all__'
-
-
-def add_transaction_dict_to_detail(validated_data, details, request):
-    """
-    Add Transaction to Detail Query Object
-    :param validated_data: Dictionary containing data to be filled
-    :param details: Detail Object for adding transaction to
-    :param request: Request object
-    :return validated_data: Dictionary containing data to be filled
-    :return detail: Detail object
-    :return response: Response from Stock tracker for Stock Transaction.None in other cases.
-
-    """
-    factor = 1
-    response = None
-    if validated_data['credit']:
-        factor = -1
-    if validated_data['category'] == 0:
-        details.income += factor * validated_data['amount']
-    elif validated_data['category'] == 1:
-        details.housing += factor * validated_data['amount']
-    elif validated_data['category'] == 2:
-        details.food += factor * validated_data['amount']
-    elif validated_data['category'] == 3:
-        details.healthcare += factor * validated_data['amount']
-    elif validated_data['category'] == 4:
-        details.transportation += factor * validated_data['amount']
-    elif validated_data['category'] == 5:
-        details.recreation += factor * validated_data['amount']
-    elif validated_data['category'] == 6:
-        details.miscellaneous += factor * validated_data['amount']
-    elif validated_data['category'] == 7:
-        details.others += factor * validated_data['amount']
-    elif validated_data['category'] == 8:
-        header = {
-            "Authorization": "Bearer " + request.auth,
-        }
-        response = requests.post(url="http://127.0.0.1:8000/stock_interact/", data=request.data,
-                                 headers=header)  # Send Request to Stock Tracker
-        details.stock += factor * validated_data['amount']
-
-    details.totalExpenditure = (
-            details.housing + details.food + details.healthcare
-            + details.transportation + details.recreation
-            + details.miscellaneous + details.stock + details.others
-    )
-
-    details.savings = - details.income - details.totalExpenditure
-    return validated_data, details, response
