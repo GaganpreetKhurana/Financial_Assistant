@@ -1,3 +1,5 @@
+import datetime
+
 import requests
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
@@ -7,13 +9,21 @@ from rest_framework import status
 from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
+from .helper_functions import add_transaction_to_detail, get_sum_detail
 from .models import Detail, Transaction
 from .serializers import UserDetailsSerializer, TransactionSerializer, RegisterSerializer, FinancialDetailsSerializer, \
     ChangePasswordSerializer, CreateTransactionSerializer, UpdateTransactionSerializer, DestroyTransactionSerializer
 
-
 # Create your views here.
+
+DAYS_OF_WEEK = ["Sunday", "Monday", "Tuesday",
+                "Wednesday", "Thursday", "Friday",
+                "Saturday"]
+MONTHS_OF_THE_YEAR = ["January", "February", "March", "April",
+                      "May", "June", "July", "August",
+                      "September", "October", "November", "December"]
 
 
 class RegisterUserView(CreateAPIView):
@@ -438,7 +448,7 @@ class DeleteTransaction(DestroyAPIView):
                                             date_created__month=instance.time.strftime("%m"))  # Detail object of
             # current instance
 
-            instance, details, response = add_transaction_to_detail(instance, details[0], request.user)
+            details, response = add_transaction_to_detail(instance, details[0], request.user)
             # delete stock
 
             details.save()  # save Detail object
@@ -552,78 +562,49 @@ class DetailsViewYearMonth(ListAPIView):
                                                     date_created__year=self.kwargs['year']), self.request)
 
 
-def get_sum_detail(details, request):
+class TransactionAverage(APIView):
     """
-    Add Transaction to Detail Query Set object
-    :param details: Detail Query Set Object for adding transaction to
-    :param request: Request object
-    :return: List of Detail Objects
+    View for retrieving average monthly and weekday average Transactions according to period of user
+    Method: GET
     """
-    details = list(details)  # Convert Detail query Set object to list
-    sum_object = Detail(user=request.user)  # Create new Detail Object for storing sum
-    for record in details:
-        sum_object.income += record.income
-        sum_object.totalExpenditure += record.totalExpenditure
-        sum_object.savings += record.savings
-        sum_object.miscellaneous += record.miscellaneous
-        sum_object.recreation += record.recreation
-        sum_object.transportation += record.transportation
-        sum_object.healthcare += record.healthcare
-        sum_object.housing += record.housing
-        sum_object.food += record.food
-        sum_object.totalTransactions += record.totalTransactions
-        sum_object.others += record.others
-        sum_object.stock += record.stock
+    permission_classes = [IsAuthenticated]
 
-    details.append(sum_object)
-    return details
+    def get(self, request, *args, **kwargs):
+        """
+        Function for retrieving average monthly and weekday average Transactions according to period of user
+        :return:
+        """
+        try:
+            transactions = Transaction.objects.filter(user=self.request.user,
+                                                      time__gte=datetime.datetime(kwargs["start_year"],
+                                                                                  kwargs["start_month"],
+                                                                                  kwargs["start_date"],
+                                                                                  tzinfo=datetime.timezone.utc),
+                                                      time__lte=datetime.datetime(kwargs["end_year"],
+                                                                                  kwargs["end_month"],
+                                                                                  kwargs["end_date"],
+                                                                                  tzinfo=datetime.timezone.utc)
+                                                      )
+            data = [
+                [0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            ]
+            for item in transactions:
+                data[0][int(item.time.strftime("%w"))] += item.amount
+                data[1][int(item.time.strftime("%m")) - 1] += item.amount
+            total_transactions = len(transactions)
+            if total_transactions != 0:
+                for data_list in range(len(data)):
+                    for element in range(len(data[data_list])):
+                        data[data_list][element] /= total_transactions
 
+            data_list_of_dictionary = [dict(), dict()]
 
-def add_transaction_to_detail(instance, details, request):
-    """
-    Subtract Transaction from Detail Object
-    :param instance: Transaction instance
-    :param details: Detail Object for adding transaction to
-    :param request: Request object
-    :return instance: Transaction instance
-    :return detail: Detail object
-    :return response: Response from Stock tracker for Stock Transaction.None in other cases.
+            for day_number, day in enumerate(DAYS_OF_WEEK):
+                data_list_of_dictionary[0][day] = data[0][day_number]
 
-    """
-    factor = 1
-    response = None
-    if instance.credit:
-        factor = -1
-
-    if instance.type == 0:
-        details.income -= factor * instance.amount
-    elif instance.type == 1:
-        details.housing -= factor * instance.amount
-    elif instance.type == 2:
-        details.food -= factor * instance.amount
-    elif instance.type == 3:
-        details.healthcare -= factor * instance.amount
-    elif instance.type == 4:
-        details.transportation -= factor * instance.amount
-    elif instance.type == 5:
-        details.recreation -= factor * instance.amount
-    elif instance.type == 6:
-        details.miscellaneous -= factor * instance.amount
-    elif instance.type == 7:
-        details.others -= factor * instance.amount
-    elif instance.type == 8:
-        header = {
-            "Authorization": "Bearer " + request.auth,
-        }
-        response = requests.post(url="http://127.0.0.1:8000/stock_interact/", data=request.data,
-                                 headers=header)  # Send Request to stock tracker
-        details.stock -= factor * instance.amount
-
-    details.totalExpenditure = (
-            details.housing + details.food + details.healthcare
-            + details.transportation + details.recreation
-            + details.miscellaneous + details.stock + details.others
-    )
-
-    details.savings = - details.income - details.totalExpenditure
-    return instance, details, response
+            for month_number, month in enumerate(MONTHS_OF_THE_YEAR):
+                data_list_of_dictionary[1][month] = data[1][month_number]
+            return Response(data=data_list_of_dictionary, status=status.HTTP_200_OK)
+        except ():
+            return Response(data={"detail": "Error!"}, status=status.HTTP_400_BAD_REQUEST)
