@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Bar} from 'react-chartjs-2';
 import {connect} from "react-redux";
+import Dateselector from './DateSelector';
 
 
 class   GraphBargraph extends Component {
@@ -36,6 +37,7 @@ class   GraphBargraph extends Component {
     render() {
         return (
                    <div className="update-box" >
+                       <Dateselector/>
                        <Bar 
                             data={this.state.chartData}
                             options={{
