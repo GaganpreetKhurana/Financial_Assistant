@@ -975,3 +975,38 @@ export function hideGraph(){
         type:HIDE_GRAPH
     }
 }
+
+//average filter
+export function avgFilter(start,end){
+
+    return (dispatch) => {
+        var success =  false;
+        const url = `/transaction/average/${start[2]}/${start[1]}/${start[0]}/${end[2]}/${end[1]}/${end[0]}/`;
+        
+        fetch(url, {
+            headers : {
+                Authorization : `Bearer ${localStorage.getItem('DONNA')}`
+            }
+        })
+            .then((response) => 
+            {
+                if(response.status === 200){
+                success=true;
+                return response.json();     
+            }else{
+                return response.json();
+            }})
+            .then((data) => {
+                if (success) {
+                    //dispatch(fetchedDetails(data));
+                    return;
+                }
+                else{
+                    return;
+                }
+                
+            });
+    };
+
+
+}
