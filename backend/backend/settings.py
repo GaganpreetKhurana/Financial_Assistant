@@ -144,10 +144,11 @@ REST_FRAMEWORK = {
 }
 
 JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': timedelta(days=1),
-    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=2),
+    'JWT_EXPIRATION_DELTA': timedelta(hours=2),
+    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(hours=2),
     'JWT_RESPONSE_PAYLOAD_HANDLER':
-        'api.helper.jwt_create_response_payload'
+        'api.helper.jwt_create_response_payload',
+    'JWT_DELETE_STALE_BLACKLISTED_TOKENS': True
 }
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
