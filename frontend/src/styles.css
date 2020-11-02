@@ -26,10 +26,12 @@
   }
   
   .header-title {
+    text-align: center;
     font-size: 55px;
   }
   
   .header-text {
+    text-align: center;
     font-size: 20px;
   }
   

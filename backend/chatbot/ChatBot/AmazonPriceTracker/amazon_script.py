@@ -28,7 +28,7 @@ def currentPrice(url):
         price = price.get_text()[1:].strip().replace(',', '')
     else:
         price = 0
-
+    price = round(price,2)
     Fprice = float(price)
     return title, Fprice
 
@@ -111,7 +111,8 @@ def priceDropPrediction(url, target):
     now = datetime.now()
     timestamp = datetime.timestamp(now)
     timestamp = int(timestamp)
-    to_predict_x = [timestamp + 1000, timestamp + 2000, timestamp + 3000]
+    daytime = 24*3600
+    to_predict_x = [timestamp + daytime, timestamp + 2*daytime, timestamp + 3*daytime]
     to_predict_x = np.array(to_predict_x).reshape(-1, 1)
     regsr = LinearRegression()
     regsr.fit(X, y)
@@ -124,6 +125,8 @@ def priceDropPrediction(url, target):
 
     if predicted_y[0] < target:
         print("\n\nBad time to buy the product, It is expected to drop soon")
+    elif predicted_y[0] == target:
+        print("\n\nNot enough info to predict")
     else:
         print("\n\nGood time to buy the product, It is expected to Increase soon")
 
@@ -136,6 +139,12 @@ def amazon_add_fun(url, user_id):
 
 def amazon_buy_fun(url, user_id):
     past_price = getPastPrice(url, user_id)
+    
+    chat_response = ""
+    no_of_records = len(past_price)
+    if(no_of_records<5):
+        chat_response += "No of past records is too low, Prediction will NOT be ACCURATE"
+
     for r in past_price:
         print(r)
     X = np.array(past_price)[:, 0].reshape(-1, 1)
@@ -144,7 +153,8 @@ def amazon_buy_fun(url, user_id):
 
     timestamp = datetime.timestamp(now)
     timestamp = int(timestamp)
-    to_predict_x = [timestamp + 1000, timestamp + 2000, timestamp + 3000]
+    daytime = 24*3600
+    to_predict_x = [timestamp + daytime, timestamp + 2*daytime, timestamp + 3*daytime]
     to_predict_x = np.array(to_predict_x).reshape(-1, 1)
 
     regsr = LinearRegression()
@@ -157,13 +167,15 @@ def amazon_buy_fun(url, user_id):
 
     title, price = currentPrice(url)
 
-    chat_response = "The item " + title + " has a future predicted price of: "
+    chat_response += "The item " + title + " has a future predicted price of: "
     chat_response += str(predicted_y)
 
     if predicted_y[0] < price:
-        chat_response += "  Bad time to buy the product, It is expected to drop soon"
+        print("\n\nBad time to buy the product, It is expected to drop soon")
+    elif predicted_y[0] == price:
+        print("\n\nNot enough info to predict")
     else:
-        chat_response += "  Good time to buy the product, It is expected to Increase soon"
+        print("\n\nGood time to buy the product, It is expected to Increase soon")
 
     return chat_response
 
@@ -195,13 +207,13 @@ def amazon_wishlist(user_id):
 
 # Testing fetching of url
 
-url = "https://www.amazon.in/INNO3D-NVIDIA-GEFORCE-Gaming-Graphic/dp/B07V6V68YF"
-title, price = currentPrice(url)
+#url = "https://www.amazon.in/INNO3D-NVIDIA-GEFORCE-Gaming-Graphic/dp/B07V6V68YF"
+#title, price = currentPrice(url)
 # print(title,price)
 
 #  Testing storing of url
 
-storePrice("https://www.amazon.in/INNO3D-NVIDIA-GEFORCE-Gaming-Graphic/dp/B07V6V68YF", price, 2, title)
+#storePrice("https://www.amazon.in/INNO3D-NVIDIA-GEFORCE-Gaming-Graphic/dp/B07V6V68YF", price, 2, title)
 
 # Testing price drop predictions of url
 
