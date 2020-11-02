@@ -207,13 +207,13 @@ def amazon_wishlist(user_id):
 
 # Testing fetching of url
 
-url = "https://www.amazon.in/INNO3D-NVIDIA-GEFORCE-Gaming-Graphic/dp/B07V6V68YF"
-title, price = currentPrice(url)
+#url = "https://www.amazon.in/INNO3D-NVIDIA-GEFORCE-Gaming-Graphic/dp/B07V6V68YF"
+#title, price = currentPrice(url)
 # print(title,price)
 
 #  Testing storing of url
 
-storePrice("https://www.amazon.in/INNO3D-NVIDIA-GEFORCE-Gaming-Graphic/dp/B07V6V68YF", price, 2, title)
+#storePrice("https://www.amazon.in/INNO3D-NVIDIA-GEFORCE-Gaming-Graphic/dp/B07V6V68YF", price, 2, title)
 
 # Testing price drop predictions of url
 
