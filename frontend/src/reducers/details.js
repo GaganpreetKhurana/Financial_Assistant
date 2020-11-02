@@ -24,7 +24,8 @@ const {
     SHOW_PIECHART,
     SHOW_BARGRAPH,
     HIDE_GRAPH,
-    SHOW_LINECHART
+    SHOW_LINECHART,
+    AVG_FETCH_DETAILS
 } = require("../actions/actionTypes");
 
 
@@ -49,6 +50,8 @@ const initialTransactionState = {
     piechart:null,
     bargraph:null,
     linechart:null,
+    week:{},
+    month:{}
 };
 
 export default function transaction(state = initialTransactionState, action) {
@@ -226,6 +229,12 @@ export default function transaction(state = initialTransactionState, action) {
                 bargraph:null,
                 piechart:null,
                 linechart:null
+            }
+        case AVG_FETCH_DETAILS:
+            return {
+                ...state,
+                week:action.week,
+                month:action.month
             }
         default:
             return state;
