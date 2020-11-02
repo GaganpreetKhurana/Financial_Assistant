@@ -1011,7 +1011,7 @@ export function avgFilter(start,end){
             .then((data) => {
                 console.log("@@@@@@@@@@@@@@@@",data);
                 if (success) {
-                    //dispatch(fetchedDetails(data));
+                    dispatch(fetchedAvgDetails(data[0],data[1]));
                     return;
                 }
                 else{
