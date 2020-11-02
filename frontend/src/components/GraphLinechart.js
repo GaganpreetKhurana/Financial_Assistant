@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {Line} from 'react-chartjs-2';
 import {connect} from "react-redux";
+import Dateselector from './DateSelector';
+
 
 
 class  GraphLinechart extends Component {
@@ -36,6 +38,7 @@ class  GraphLinechart extends Component {
     render() {
         return (
                    <div className="update-box" >
+                       <Dateselector/>
                        < Line
                             data={this.state.chartData}
                             options={{

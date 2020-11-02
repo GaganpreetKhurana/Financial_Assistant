@@ -79,3 +79,6 @@ export const HIDE_GRAPH ="HIDE_GRAPH";
 
 //reset user details on updation of profile
 export const SET_USER_DETAILS="SET_USER_DETAILS";
+
+//average details
+export const AVG_FETCH_DETAILS="AVG_FETCH_DETAILS";

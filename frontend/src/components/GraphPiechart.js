@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {Pie} from 'react-chartjs-2';
 import {connect} from "react-redux";
+import Dateselector from './DateSelector';
+
 
 
 class  GraphPiechart extends Component {
@@ -48,6 +50,7 @@ class  GraphPiechart extends Component {
     render() {
         return (
                    <div className="update-box" >
+                       <Dateselector/>
                        <Pie 
                             data={this.state.chartData}
                             options={{

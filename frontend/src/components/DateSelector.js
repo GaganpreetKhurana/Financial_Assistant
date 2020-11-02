@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import {connect} from "react-redux";
+//actions
 import {clearAuth,avgFilter,updateTransactionFailure} from '../actions/pages';
+
 
 
 class DateSelector extends Component {
@@ -25,14 +28,14 @@ class DateSelector extends Component {
         const {startDate,endDate} = this.state;
         if(startDate !=='' && endDate!=='')
         {
-           // this.props.dispatch(avgFilter(startDate.split('-'),endDate.split('-')));
+            this.props.dispatch(avgFilter(startDate.split('-'),endDate.split('-')));
         }
         else{
-            //this.props.dispatch(updateTransactionFailure("Please select both the Filters first !!!!"))
+            this.props.dispatch(updateTransactionFailure("Please select both the Filters first !!!!"))
         }
         //clear msgs shown to the user
         setTimeout(() => {
-            //this.props.dispatch(clearAuth());
+            this.props.dispatch(clearAuth());
         }, 10000);
         //console.log(this.state.endDate.split('-'));
         //console.log(this.state.startDate.split('-'));  
@@ -49,5 +52,11 @@ class DateSelector extends Component {
         );
     }
 }
+function mapStateToProps(state) {
+    return {
+        auth: state.auth,
+        details: state.details,
+    };
+}
 
-export default DateSelector;
+export default connect(mapStateToProps)(DateSelector);

@@ -23,7 +23,8 @@ import {
     SHOW_BARGRAPH,
     SHOW_PIECHART,
     HIDE_GRAPH,
-    SHOW_LINECHART
+    SHOW_LINECHART,
+    AVG_FETCH_DETAILS
 } from './actionTypes';
 
 //show details page to user
@@ -976,12 +977,23 @@ export function hideGraph(){
     }
 }
 
+
+
+// fetched avg filter details
+export function fetchedAvgDetails(details_week,details_month){
+    return {
+        type : AVG_FETCH_DETAILS,
+        week:details_week,
+        month:details_month
+    }
+
+}
 //average filter
 export function avgFilter(start,end){
 
     return (dispatch) => {
         var success =  false;
-        const url = `/transaction/average/${start[2]}/${start[1]}/${start[0]}/${end[2]}/${end[1]}/${end[0]}/`;
+        const url = `/transactions/average/${start[2]}/${start[1]}/${start[0]}/${end[2]}/${end[1]}/${end[0]}/`;
         
         fetch(url, {
             headers : {
@@ -997,6 +1009,7 @@ export function avgFilter(start,end){
                 return response.json();
             }})
             .then((data) => {
+                console.log("@@@@@@@@@@@@@@@@",data);
                 if (success) {
                     //dispatch(fetchedDetails(data));
                     return;
