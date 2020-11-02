@@ -8,6 +8,7 @@ class GraphBargraph2 extends Component {
     render() {
         return (
             <div>
+                <br></br>
                 <Bar  
                     data={{
                         labels:['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],
@@ -37,7 +38,8 @@ class GraphBargraph2 extends Component {
                             position:'bottom'
                         }
                         }}
-                        />
+            />
+            <br></br>
             </div>
         );
     }
