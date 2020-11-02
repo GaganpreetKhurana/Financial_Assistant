@@ -42,6 +42,8 @@ def add_transaction_to_detail(instance, details, request):
                                  headers=header)  # Send Request to stock tracker
         details.stock -= factor * instance.amount
 
+    details.totalTransactions -= 1
+
     details.totalExpenditure = (
             details.housing + details.food + details.healthcare
             + details.transportation + details.recreation
@@ -89,6 +91,8 @@ def add_transaction_dict_to_detail(validated_data, details, request):
         response = requests.post(url="http://127.0.0.1:8000/stock_interact/", data=request.data,
                                  headers=header)  # Send Request to Stock Tracker
         details.stock += factor * validated_data['amount']
+
+    details.totalTransactions += 1
 
     details.totalExpenditure = (
             details.housing + details.food + details.healthcare
