@@ -206,7 +206,7 @@ def chat_get(user_id, no_of_results):
     db = db_object.cursor()
 
     chat_bot = "donna" + str(user_id)
-    #sql = f"SELECT chat_message,sender FROM chat_store WHERE (userid = \"{str(user_id)}\" OR userid = \"{str(chat_bot)}\") ORDER BY createdAt DESC LIMIT \"{str(no_of_results)}\""
+    # sql = f"SELECT chat_message,sender FROM chat_store WHERE (userid = \"{str(user_id)}\" OR userid = \"{str(chat_bot)}\") ORDER BY createdAt DESC LIMIT \"{str(no_of_results)}\""
     sql = f"SELECT chat_message,sender FROM (SELECT chat_message,sender,createdAt FROM chat_store WHERE (userid = \"{str(user_id)}\" OR userid = \"{str(chat_bot)}\") ORDER BY createdAt DESC LIMIT \"{str(no_of_results)}\") ORDER BY createdAt"
     db.execute(sql)
     results = db.fetchall()
@@ -309,7 +309,7 @@ def chat_web(question, user_id, request):
                 "amount": amount,
                 "category": 8,
                 "description": ''.join(str(stck)) + " Bought",
-                "credit": False
+                "credit": True
             }
             header = {
                 "Authorization": "Bearer " + request.auth,
@@ -335,7 +335,7 @@ def chat_web(question, user_id, request):
                 "amount": amount,
                 "category": 8,
                 "description": ''.join(str(stck)) + " Sold",
-                "credit": True
+                "credit": False
             }
             header = {
                 "Authorization": "Bearer " + request.auth,

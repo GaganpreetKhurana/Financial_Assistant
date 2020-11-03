@@ -104,7 +104,7 @@ def stock_interact_view(request):
         :return: Response from Stock Tracker
         """
     try:
-        if request.data.get("credit"):
+        if request.data.get("credit") is False:
             response = SellStock(request.data.get("amount"),
                                  request.data.get('description').split()[0],
                                  request.user.id)

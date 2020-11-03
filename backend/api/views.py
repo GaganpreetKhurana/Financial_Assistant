@@ -592,11 +592,6 @@ class TransactionAverage(APIView):
             for item in transactions:
                 data[0][int(item.time.strftime("%w"))] += item.amount
                 data[1][int(item.time.strftime("%m")) - 1] += item.amount
-            total_transactions = len(transactions)
-            if total_transactions != 0:
-                for data_list in range(len(data)):
-                    for element in range(len(data[data_list])):
-                        data[data_list][element] /= total_transactions
 
             data_list_of_dictionary = [dict(), dict()]
 

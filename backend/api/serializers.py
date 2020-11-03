@@ -158,9 +158,9 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
                                       credit=self.validated_data['credit'])  # Create new transaction object
 
         # Make required changes to Detail and stocks
-        details, response = add_transaction_dict_to_detail(self.validated_data,
-                                                           details,
-                                                           self.context.get('request'))
+        validated_data, details, response = add_transaction_dict_to_detail(self.validated_data,
+                                                                           details,
+                                                                           self.context.get('request'))
 
         # Error making changes to stocks
         if response is not None and response.status_code != 202:
@@ -170,6 +170,7 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(code=response.status_code)
 
         # Save Transaction and Detail Objects
+        transaction_new.credit = validated_data['credit']
         details.save()
         transaction_new.save()
         return transaction_new
@@ -200,10 +201,10 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
                                         date_created__year=year)
         details = details[0]  # Detail object corresponding to instance
 
-        # Make required changes to Detail and stocks (validated_data)
-        details, response = add_transaction_dict_to_detail(validated_data,
-                                                           details,
-                                                           self.context.get('request'))
+        # Make required changes to Detail and stocks(instance)
+        details, response = add_transaction_to_detail(instance,
+                                                      details,
+                                                      self.context.get('request'))
 
         # Error making changes to stocks
         if response is not None and response.status_code != 202:
@@ -212,10 +213,10 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
             except():
                 raise serializers.ValidationError(code=response.status_code)
 
-        # Make required changes to Detail and stocks(instance)
-        details, response = add_transaction_to_detail(instance,
-                                                      details,
-                                                      self.context.get('request'))
+        # Make required changes to Detail and stocks (validated_data)
+        validated_data, details, response = add_transaction_dict_to_detail(validated_data,
+                                                                           details,
+                                                                           self.context.get('request'))
 
         # Error making changes to stocks
         if response is not None and response.status_code != 202:
