@@ -28,12 +28,17 @@ def currentPrice(url):
         price = price.get_text()[1:].strip().replace(',', '')
     else:
         price = 0
-    price = round(price,2)
+    price = price
     Fprice = float(price)
-    return title, Fprice
+
+    image_url = soup.find(id="landingImage")
+    image_url = image_url.get('data-old-hires')
+    
+    return title, Fprice, image_url
 
 
-def storePrice(url, price, user_id, title):
+
+def storePrice(url, price, user_id, title,image_url):
     parent_dir = os.path.dirname(os.path.abspath(__file__))
     rel_path_db = 'amazon_db'
     abs_path_db = os.path.join(parent_dir, rel_path_db)
@@ -47,9 +52,9 @@ def storePrice(url, price, user_id, title):
     db.execute(sql)
 
     db.execute(
-        "CREATE TABLE IF NOT EXISTS product_wishlist (producturl LONGVARCHAR PRIMARY KEY UNIQUE,price DECIMAL (5, 2) NOT NULL DEFAULT 0,userid LONGVARCHAR,title LONGVARCHAR,createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)")
+        "CREATE TABLE IF NOT EXISTS product_wishlist (producturl LONGVARCHAR PRIMARY KEY UNIQUE,price DECIMAL (5, 2) NOT NULL DEFAULT 0,userid LONGVARCHAR,imageurl LONGVARCHAR,title LONGVARCHAR,createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)")
 
-    sql = f"INSERT OR REPLACE INTO product_wishlist (producturl,price,userid,title) VALUES (\"{url}\",\"{str(price)}\",\"{str(user_id)}\",\"{str(title)}\")"
+    sql = f"INSERT OR REPLACE INTO product_wishlist (producturl,price,userid,imageurl,title) VALUES (\"{url}\",\"{str(price)}\",\"{str(user_id)}\",\"{str(image_url)}\",\"{str(title)}\")"
 
     db.execute(sql)
 
@@ -132,8 +137,8 @@ def priceDropPrediction(url, target):
 
 
 def amazon_add_fun(url, user_id):
-    title, price = currentPrice(url)
-    storePrice(url, price, user_id, title)
+    title, price,image_url = currentPrice(url)
+    storePrice(url, price, user_id, title,image_url)
     return "Added Amazon Tracking for item " + title + " With current price " + str(price)
 
 
@@ -180,6 +185,7 @@ def amazon_buy_fun(url, user_id):
     return chat_response
 
 
+'''
 def amazon_wishlist(user_id):
     parent_directory = os.path.dirname(os.path.abspath(__file__))
     rel_path_db = 'amazon_db'
@@ -187,7 +193,7 @@ def amazon_wishlist(user_id):
 
     db_object = sqlite3.connect(abs_path_db)
     db = db_object.cursor()
-    sql = f"SELECT price,createdAt,producturl FROM product_prices WHERE userid = \"{str(user_id)}\" ORDER BY createdAt"
+    sql = f"SELECT price,createdAt,producturl,imageurl FROM product_prices WHERE userid = \"{str(user_id)}\" ORDER BY createdAt"
     print(sql)
     db.execute(sql)
     results = db.fetchall()
@@ -203,11 +209,11 @@ def amazon_wishlist(user_id):
 
     db_object.close()
     return results
-
+'''
 
 # Testing fetching of url
 
-#url = "https://www.amazon.in/INNO3D-NVIDIA-GEFORCE-Gaming-Graphic/dp/B07V6V68YF"
+#url = "https://www.amazon.in/Apple-MacBook-Pro-10th-Generation-Intel-Core-i5/dp/B0883J5XXF"
 #title, price = currentPrice(url)
 # print(title,price)
 
@@ -225,3 +231,4 @@ def amazon_wishlist(user_id):
 
 
 # FileTest(url)
+#amazon_add_fun(url,2)
