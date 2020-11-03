@@ -89,7 +89,8 @@ def amazon_wishlist_view(request):
             'url': item[0],
             'price': item[1],
             'title': item[2],
-            'createdAt': item[3]
+            'image_url': item[3],
+            'createdAt': item[4]
         })
     return Response(data)
 
@@ -104,7 +105,7 @@ def stock_interact_view(request):
         :return: Response from Stock Tracker
         """
     try:
-        if request.data.get("credit"):
+        if request.data.get("credit") is False:
             response = SellStock(request.data.get("amount"),
                                  request.data.get('description').split()[0],
                                  request.user.id)

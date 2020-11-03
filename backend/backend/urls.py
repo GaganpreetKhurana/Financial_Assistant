@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import RedirectView
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 
 urlpatterns = [
@@ -34,5 +35,8 @@ urlpatterns = [
     path('', include('api.urls')),
 
     # Include chatbot app Urls
-    path('', include('chatbot.urls'))
+    path('', include('chatbot.urls')),
+
+    # Default Home Page
+    path('', RedirectView.as_view(url='http://127.0.0.1:3000/', permanent=True), name='home')
 ]

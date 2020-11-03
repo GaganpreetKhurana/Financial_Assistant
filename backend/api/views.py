@@ -443,12 +443,9 @@ class DeleteTransaction(DestroyAPIView):
                 return Response(data=response, status=status.HTTP_404_NOT_FOUND)  # Response for Transaction not owned
                 # by USER
 
-            details = Detail.objects.filter(user=request.user,
-                                            date_created__year=instance.time.strftime("%Y"),
-                                            date_created__month=instance.time.strftime("%m"))  # Detail object of
-            # current instance
+            details = instance.details  # Detail object of current instance
 
-            details, response = add_transaction_to_detail(instance, details[0], request.user)
+            details, response = add_transaction_to_detail(instance, details, request.user)
             # delete stock
 
             details.save()  # save Detail object
@@ -589,22 +586,29 @@ class TransactionAverage(APIView):
                 [0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             ]
+            occurrences = [
+                [0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            ]
             for item in transactions:
                 data[0][int(item.time.strftime("%w"))] += item.amount
                 data[1][int(item.time.strftime("%m")) - 1] += item.amount
-            total_transactions = len(transactions)
-            if total_transactions != 0:
-                for data_list in range(len(data)):
-                    for element in range(len(data[data_list])):
-                        data[data_list][element] /= total_transactions
+                occurrences[0][int(item.time.strftime("%w"))] += 1
+                occurrences[1][int(item.time.strftime("%m")) - 1] += 1
 
             data_list_of_dictionary = [dict(), dict()]
 
             for day_number, day in enumerate(DAYS_OF_WEEK):
-                data_list_of_dictionary[0][day] = round(data[0][day_number], 2)
+                to_be_divided_by = 1
+                if occurrences[0][day_number] != 0:
+                    to_be_divided_by = occurrences[0][day_number]
+                data_list_of_dictionary[0][day] = round(data[0][day_number] / to_be_divided_by, 2)
 
             for month_number, month in enumerate(MONTHS_OF_THE_YEAR):
-                data_list_of_dictionary[1][month] = round(data[1][month_number], 2)
+                to_be_divided_by = 1
+                if occurrences[1][month_number] != 0:
+                    to_be_divided_by = occurrences[1][month_number]
+                data_list_of_dictionary[1][month] = round(data[1][month_number] / to_be_divided_by, 2)
             return Response(data=data_list_of_dictionary, status=status.HTTP_200_OK)
         except ():
             return Response(data={"detail": "Error!"}, status=status.HTTP_400_BAD_REQUEST)
