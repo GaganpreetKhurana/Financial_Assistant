@@ -25,7 +25,7 @@ class StockPage extends Component {
     handleSubmitForm = (stock) => {
         const {amount} = this.state;
         if (amount!=='') {
-            var category="8";
+            var category="7";
             var type="true";
             var description = stock+" sold";
             this.props.dispatch(addTransaction(category, type, description, amount));
