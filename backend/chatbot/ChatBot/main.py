@@ -21,9 +21,8 @@ categories = {
     "healthcare": 3,
     "transportation": 4,
     "recreation": 5,
-    "miscellaneous": 6,
-    "other": 7,
-    "stock": 8,
+    "other": 6,
+    "stock": 7
 }
 stemmer = LancasterStemmer()
 words = []
@@ -228,7 +227,7 @@ def chat_web(question, user_id, request):
         credit = True
         if list_parse[1] == "Debit":
             credit = False
-        category = 7
+        category = 6
         if list_parse[2] in categories:
             category = categories[list_parse[2]]
         data_bot = {
@@ -307,7 +306,7 @@ def chat_web(question, user_id, request):
             amount = list_parse[3]
             data_bot = {
                 "amount": amount,
-                "category": 8,
+                "category": 7,
                 "description": ''.join(str(stck)) + " Bought",
                 "credit": True
             }
@@ -333,7 +332,7 @@ def chat_web(question, user_id, request):
             amount = list_parse[3]
             data_bot = {
                 "amount": amount,
-                "category": 8,
+                "category": 7,
                 "description": ''.join(str(stck)) + " Sold",
                 "credit": False
             }

@@ -45,8 +45,12 @@ def add_transaction_to_detail(instance, details, request):
     details.totalExpenditure = (
             details.housing + details.food + details.healthcare
             + details.transportation + details.recreation
-            + details.miscellaneous + details.stock + details.others
     )
+    if instance.type >= 6:
+        if instance.credit:
+            details.income -= instance.amount
+        else:
+            details.totalExpenditure -= instance.amount
 
     details.savings = details.income - details.totalExpenditure
     return details, response
@@ -101,8 +105,12 @@ def add_transaction_dict_to_detail(validated_data, details, request):
     details.totalExpenditure = (
             details.housing + details.food + details.healthcare
             + details.transportation + details.recreation
-            + details.miscellaneous + details.stock + details.others
     )
+    if validated_data['category'] >= 6:
+        if validated_data['credit']:
+            details.income += validated_data['amount']
+        else:
+            details.totalExpenditure += validated_data['amount']
 
     details.savings = details.income - details.totalExpenditure
     return validated_data, details, response
