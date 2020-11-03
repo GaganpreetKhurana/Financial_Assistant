@@ -14,6 +14,7 @@ class DetailsPage extends Component {
             type: 'true',
             description: '',
             dummy: null,
+            type2:'false'
         };
     }
     //functions to handle different input fields
@@ -35,6 +36,10 @@ class DetailsPage extends Component {
         //call dispatch
         e.preventDefault();
         const {category, type, description, amount} = this.state;
+        if(category!=='Income' && category !== 'Other')
+        {
+            type = this.state.type2;
+        }
         this.props.dispatch(addTransaction(category, type, description, amount));
         //to clear the dispayed msgs
         setTimeout(() => {
@@ -47,6 +52,7 @@ class DetailsPage extends Component {
             type: 'true',
             description: '',
             dummy: null,
+            type2:'false'
         });
 
     }
@@ -85,8 +91,7 @@ class DetailsPage extends Component {
                         <option value="3">Healthcare</option>
                         <option value="4">Transportation</option>
                         <option value="5">Recreation</option>
-                        <option value="6">Miscellaneous</option>
-                        <option value="7">Other</option>
+                        <option value="6">Other</option>
                     </select>
                 </div>
                 <br/>
@@ -109,10 +114,25 @@ class DetailsPage extends Component {
                     <label>Type</label>
                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    {this.state.category === '6' && (
                     <select onChange={this.handleChange3} value={this.state.type} placeholder="Type">
                         <option value="true">Credit</option>
                         <option value="false">Debit</option>
-                    </select>
+                    </select>)
+                    }
+                    {this.state.category === '0' && (
+                    <select onChange={this.handleChange3} value={this.state.type} placeholder="Type">
+                        <option value="true">Credit</option>
+                        <option value="false" disabled>Debit</option>
+                    </select>)
+                    }
+                    {(this.state.category !== '6' && this.state.category !== '0' ) && (
+                    <select onChange={this.handleChange3} value={this.state.type2} placeholder="Type">
+                        <option value="false">Debit</option>
+                        <option value="true" disabled>Credit</option>   
+                    </select>)
+                    }
+                    
                 </div>
                 <br/><br/>
                 <button className="add" onClick={this.handleSubmit} disabled={inProgress}>ADD</button>
