@@ -28,7 +28,7 @@ class AmazonPage extends Component {
                <div className="form-box2">
                {wishlist.length === 0 && <div><br></br><h2>No Wishlist to display</h2></div>}
                <div className="transactions-box">
-               <Carousel>
+               <Carousel showArrows={true} showThumbs={true}>
                 { wishlist.map((entry,index)=>(
                         
                         <WishlistEntry entry={entry} index={index} key={`entry.createdAt-${index}`}/>

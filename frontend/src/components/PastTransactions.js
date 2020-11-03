@@ -34,6 +34,7 @@ class PastTransactions extends Component {
             category: '0',
             amount: '',
             type: 'true',
+            type2:'false',
             description: '',
             date:'',
             month:'',
@@ -74,7 +75,12 @@ class PastTransactions extends Component {
     handleSubmit = (e) => {
         //call dispatch
         e.preventDefault();
-        const {category, type, description, amount} = this.state;
+        var {category, type, description, amount} = this.state;
+        if(category!=='Income' && category !== 'Other')
+        {
+            type = this.state.type2;
+        }
+
         this.props.dispatch(updateTransaction(category, type, description, amount, this.props.details.id));
         setTimeout(() => {
             //this.forceUpdate();
@@ -349,14 +355,13 @@ class PastTransactions extends Component {
                                     <option value="3">Healthcare</option>
                                     <option value="4">Transportation</option>
                                     <option value="5">Recreation</option>
-                                    <option value="6">Miscellaneous</option>
-                                    <option value="7">Other</option>
+                                    <option value="6">Other</option>
                                 </select>
                             </div>
                             <br/>
                             <div>
                                 <label>Description</label>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <input type="text" onChange={this.handleChange4} value={this.state.description}
                                        placeholder="Description" required/>
                             </div>
@@ -370,11 +375,26 @@ class PastTransactions extends Component {
                             <br/>
                             <div>
                                 <label>Type</label>
-                                &nbsp;  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                {this.state.category === '6' && (
                                 <select onChange={this.handleChange3} value={this.state.type} placeholder="Type">
                                     <option value="true">Credit</option>
                                     <option value="false">Debit</option>
-                                </select>
+                                </select>)
+                                }
+                                {this.state.category === '0' && (
+                                    <select onChange={this.handleChange3} value={this.state.type} placeholder="Type">
+                                        <option value="true">Credit</option>
+                                        <option value="false" disabled>Debit</option>
+                                    </select>)
+                                    }
+                                    {(this.state.category !== '6' && this.state.category !== '0' ) && (
+                                    <select onChange={this.handleChange3} value={this.state.type2} placeholder="Type">
+                                        <option value="false">Debit</option>
+                                        <option value="true" disabled>Credit</option>
+                                        
+                                    </select>)
+                                    }
                             </div>
                             <br/><br/>
                             <button className="save" onClick={this.handleSubmit} disabled={inProgress}>Save</button>
