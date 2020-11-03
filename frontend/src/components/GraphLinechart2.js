@@ -32,7 +32,7 @@ class GraphLinechart2 extends Component {
                     options={{
                         title:{
                         display:true,
-                        text:'Averaga Expenditure Pattern per Day',
+                        text:'Average Expenditure Pattern per Day',
                         fontSize:25
                         },
                         legend:{
@@ -70,7 +70,7 @@ class GraphLinechart2 extends Component {
                     options={{
                         title:{
                         display:true,
-                        text:'Averaga Expenditure Pattern per Month',
+                        text:'Average Expenditure Pattern per Month',
                         fontSize:25
                         },
                         legend:{
