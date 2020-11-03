@@ -183,5 +183,6 @@ def calculate_income_expenditure():
         detail.totalTransactions = len(transactions)
         detail.save()
 
-# calculate_income_expenditure()
+
+calculate_income_expenditure()
 # Uncomment to calculate

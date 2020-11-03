@@ -18,7 +18,6 @@ class DetailAdmin(admin.ModelAdmin):
         'healthcare',
         'transportation',
         'recreation',
-        'miscellaneous',
         'others',
         'stock',
         'totalTransactions',

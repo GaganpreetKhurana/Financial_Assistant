@@ -39,7 +39,6 @@ class Detail(models.Model):
     healthcare = models.FloatField(verbose_name="HEALTHCARE", default=0)
     transportation = models.FloatField(verbose_name="TRANSPORTATION", default=0)
     recreation = models.FloatField(verbose_name="RECREATION", default=0)
-    miscellaneous = models.FloatField(verbose_name="MISCELLANEOUS", default=0)
     others = models.FloatField(verbose_name="OTHERS", default=0)
     stock = models.FloatField(verbose_name="STOCK", default=0)
     totalTransactions = models.IntegerField(verbose_name="TOTAL TRANSACTIONS", default=0)

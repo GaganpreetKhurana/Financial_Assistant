@@ -104,7 +104,7 @@ class FinancialDetailsSerializer(serializers.ModelSerializer):
             'username', 'income', 'savings', 'totalExpenditure', 'housing', 'food', 'healthcare',
             'transportation',
             'recreation',
-            'miscellaneous', 'others', 'stock', 'totalTransactions', 'date_created')
+            'others', 'stock', 'totalTransactions', 'date_created')
         read_only_fields = ['username', 'savings', 'totalExpenditure', 'totalTransactions', 'date_created']
 
 
