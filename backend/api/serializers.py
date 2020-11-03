@@ -194,11 +194,9 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
         :param validated_data: Data to be filled in Transaction object
         :return: validated_data
         """
-        month = instance.get_month
-        year = instance.get_year
+
         details = Detail.objects.filter(user=self.context.get('request').user,
-                                        date_created__month=month,
-                                        date_created__year=year)
+                                        details=instance.details)
         details = details[0]  # Detail object corresponding to instance
 
         # Make required changes to Detail and stocks(instance)

@@ -444,8 +444,7 @@ class DeleteTransaction(DestroyAPIView):
                 # by USER
 
             details = Detail.objects.filter(user=request.user,
-                                            date_created__year=instance.time.strftime("%Y"),
-                                            date_created__month=instance.time.strftime("%m"))  # Detail object of
+                                            details=instance.details)  # Detail object of
             # current instance
 
             details, response = add_transaction_to_detail(instance, details[0], request.user)
@@ -609,8 +608,8 @@ class TransactionAverage(APIView):
 
             for month_number, month in enumerate(MONTHS_OF_THE_YEAR):
                 to_be_divided_by = 1
-                if occurrences[0][month_number] != 0:
-                    to_be_divided_by = occurrences[0][month_number]
+                if occurrences[1][month_number] != 0:
+                    to_be_divided_by = occurrences[1][month_number]
                 data_list_of_dictionary[1][month] = round(data[1][month_number] / to_be_divided_by, 2)
             return Response(data=data_list_of_dictionary, status=status.HTTP_200_OK)
         except ():

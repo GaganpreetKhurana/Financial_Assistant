@@ -8,7 +8,22 @@ class DetailAdmin(admin.ModelAdmin):
     """
     Admin Model for Detail Model
     """
-    readonly_fields = ['user', 'date_created', 'savings', 'totalExpenditure', 'totalTransactions']
+    readonly_fields = [
+        'user',
+        'income',
+        'savings',
+        'totalExpenditure',
+        'housing',
+        'food',
+        'healthcare',
+        'transportation',
+        'recreation',
+        'miscellaneous',
+        'others',
+        'stock',
+        'totalTransactions',
+        'date_created'
+    ]
 
     class Meta:
         model = Detail
