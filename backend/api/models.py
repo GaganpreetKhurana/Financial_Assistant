@@ -92,9 +92,8 @@ categories = [
     (3, "Healthcare"),
     (4, "Transportation"),
     (5, "Recreation"),
-    (6, "Miscellaneous"),
-    (7, "Other"),
-    (8, 'Stock'),
+    (6, "Other"),
+    (7, 'Stock'),
 ]
 
 

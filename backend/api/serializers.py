@@ -195,9 +195,7 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
         :return: validated_data
         """
 
-        details = Detail.objects.filter(user=self.context.get('request').user,
-                                        details=instance.details)
-        details = details[0]  # Detail object corresponding to instance
+        details = instance.details  # Detail object corresponding to instance
 
         # Make required changes to Detail and stocks(instance)
         details, response = add_transaction_to_detail(instance,

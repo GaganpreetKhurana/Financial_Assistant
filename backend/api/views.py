@@ -443,11 +443,9 @@ class DeleteTransaction(DestroyAPIView):
                 return Response(data=response, status=status.HTTP_404_NOT_FOUND)  # Response for Transaction not owned
                 # by USER
 
-            details = Detail.objects.filter(user=request.user,
-                                            details=instance.details)  # Detail object of
-            # current instance
+            details = instance.details  # Detail object of current instance
 
-            details, response = add_transaction_to_detail(instance, details[0], request.user)
+            details, response = add_transaction_to_detail(instance, details, request.user)
             # delete stock
 
             details.save()  # save Detail object
