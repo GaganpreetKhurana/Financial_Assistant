@@ -14,18 +14,14 @@ def amazon_wishlist(user_id):
 
     db_object = sqlite3.connect(abs_path_db)
     db = db_object.cursor()
-    sql = f"SELECT DISTINCT producturl,price,title,createdAt FROM product_wishlist WHERE userid = \"{str(user_id)}\" ORDER BY createdAt"
+    sql = f"SELECT DISTINCT producturl,price,title,imageurl,createdAt FROM product_wishlist WHERE userid = \"{str(user_id)}\" ORDER BY createdAt"
     # print(sql)
     db.execute(sql)
     results = db.fetchall()
-    # print(results)
-
-    ##for r in range(len(results)):
-        ##results[r] = list(results[r])
-
     db_object.close()
+
     return results
 
 
 
-##print(amazon_wishlist(2))
+print(amazon_wishlist(2))
