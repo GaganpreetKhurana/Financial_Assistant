@@ -589,17 +589,29 @@ class TransactionAverage(APIView):
                 [0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             ]
+            occurrences = [
+                [0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            ]
             for item in transactions:
                 data[0][int(item.time.strftime("%w"))] += item.amount
                 data[1][int(item.time.strftime("%m")) - 1] += item.amount
+                occurrences[0][int(item.time.strftime("%w"))] += 1
+                occurrences[1][int(item.time.strftime("%m")) - 1] += 1
 
             data_list_of_dictionary = [dict(), dict()]
 
             for day_number, day in enumerate(DAYS_OF_WEEK):
-                data_list_of_dictionary[0][day] = round(data[0][day_number], 2)
+                to_be_divided_by = 1
+                if occurrences[0][day_number] != 0:
+                    to_be_divided_by = occurrences[0][day_number]
+                data_list_of_dictionary[0][day] = round(data[0][day_number] / to_be_divided_by, 2)
 
             for month_number, month in enumerate(MONTHS_OF_THE_YEAR):
-                data_list_of_dictionary[1][month] = round(data[1][month_number], 2)
+                to_be_divided_by = 1
+                if occurrences[0][month_number] != 0:
+                    to_be_divided_by = occurrences[0][month_number]
+                data_list_of_dictionary[1][month] = round(data[1][month_number] / to_be_divided_by, 2)
             return Response(data=data_list_of_dictionary, status=status.HTTP_200_OK)
         except ():
             return Response(data={"detail": "Error!"}, status=status.HTTP_400_BAD_REQUEST)
