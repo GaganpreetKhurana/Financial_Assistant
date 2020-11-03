@@ -547,7 +547,7 @@ button:hover {
 .amount {
   width: 20%;
   height: 40px;
-  overflow-x: auto;
+  overflow-x: hidden;
   background-color: white;
   padding-top: 4px;
   padding-left: 12px;

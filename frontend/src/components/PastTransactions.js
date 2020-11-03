@@ -75,7 +75,7 @@ class PastTransactions extends Component {
     handleSubmit = (e) => {
         //call dispatch
         e.preventDefault();
-        const {category, type, description, amount} = this.state;
+        var {category, type, description, amount} = this.state;
         if(category!=='Income' && category !== 'Other')
         {
             type = this.state.type2;
