@@ -116,7 +116,7 @@ class Transaction(models.Model):
         :return: String
         """
         return str(self.user) + " / " + str(self.time) + " / " + str(self.amount) + " / " + categories[self.type][
-            1] + " / " + self.description
+            1] + " / " + str(self.description) + " / " + str(self.credit)
 
     def get_category(self):
         """

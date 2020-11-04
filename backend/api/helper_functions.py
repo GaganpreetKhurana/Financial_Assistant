@@ -141,6 +141,21 @@ def get_sum_detail(details, request):
 
 
 def calculate_income_expenditure():
+    details = Detail.objects.all()
+    for detail in details:
+        detail.income = 0
+        detail.totalTransactions = 0
+        detail.savings = 0
+        detail.totalExpenditure = 0
+        detail.housing = 0
+        detail.food = 0
+        detail.healthcare = 0
+        detail.transportation = 0
+        detail.stock = 0
+        detail.others = 0
+        detail.recreation = 0
+        detail.save()
+
     transactions = Transaction.objects.all()
     for instance in transactions:
         details = instance.details
@@ -177,12 +192,12 @@ def calculate_income_expenditure():
         details.savings = details.income - details.totalExpenditure
         instance.save()
         details.save()
+
     details = Detail.objects.all()
     for detail in details:
         transactions = Transaction.objects.filter(details=detail)
         detail.totalTransactions = len(transactions)
         detail.save()
 
-
-calculate_income_expenditure()
+# calculate_income_expenditure()
 # Uncomment to calculate
