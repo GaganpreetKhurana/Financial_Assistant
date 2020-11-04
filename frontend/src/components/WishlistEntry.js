@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import amazon_img from "../project_images/amazon.png";
+
 class WishlistEntry extends Component {
   render() {
     const { entry } = this.props;
     return (
-      <div>
-        <img src={amazon_img} alt="product_img" />
+      <div style={{backgroundColor:"#f1f1f1",border:"2px solid #f1f1f1"}}>
+        <img src={entry.image_url} alt="product_img" style={{width:"500px",height:"500px"}} />
         <p className="legend">
           <a
             href={entry.url}

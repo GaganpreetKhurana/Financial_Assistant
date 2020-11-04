@@ -1009,7 +1009,6 @@ export function avgFilter(start,end){
                 return response.json();
             }})
             .then((data) => {
-                console.log("@@@@@@@@@@@@@@@@",data);
                 if (success) {
                     dispatch(fetchedAvgDetails(data[0],data[1]));
                     return;
