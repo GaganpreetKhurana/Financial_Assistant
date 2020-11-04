@@ -572,15 +572,17 @@ class TransactionAverage(APIView):
         :return:
         """
         try:
+            start_date = datetime.datetime(kwargs["start_year"],
+                                           kwargs["start_month"],
+                                           kwargs["start_date"],
+                                           tzinfo=datetime.timezone.utc)
+            end_date = datetime.datetime(kwargs["end_year"],
+                                         kwargs["end_month"],
+                                         kwargs["end_date"],
+                                         tzinfo=datetime.timezone.utc)
             transactions = Transaction.objects.filter(user=self.request.user,
-                                                      time__gte=datetime.datetime(kwargs["start_year"],
-                                                                                  kwargs["start_month"],
-                                                                                  kwargs["start_date"],
-                                                                                  tzinfo=datetime.timezone.utc),
-                                                      time__lte=datetime.datetime(kwargs["end_year"],
-                                                                                  kwargs["end_month"],
-                                                                                  kwargs["end_date"],
-                                                                                  tzinfo=datetime.timezone.utc)
+                                                      time__gte=start_date,
+                                                      time__lte=end_date
                                                       )
             data = [
                 [0, 0, 0, 0, 0, 0, 0],
@@ -593,8 +595,15 @@ class TransactionAverage(APIView):
             for item in transactions:
                 data[0][int(item.time.strftime("%w"))] += item.amount
                 data[1][int(item.time.strftime("%m")) - 1] += item.amount
-                occurrences[0][int(item.time.strftime("%w"))] += 1
-                occurrences[1][int(item.time.strftime("%m")) - 1] += 1
+
+            for date in date_range(start_date, end_date + datetime.timedelta(days=1)):
+                if start_date == date:
+                    occurrences[0][int(date.strftime("%w"))] += 1
+                    occurrences[1][int(date.strftime("%m")) - 1] += 1
+                else:
+                    occurrences[0][int(date.strftime("%w"))] += 1
+                    if date.strftime("%d") == "01":
+                        occurrences[1][int(date.strftime("%m")) - 1] += 1
 
             data_list_of_dictionary = [dict(), dict()]
 
@@ -612,3 +621,15 @@ class TransactionAverage(APIView):
             return Response(data=data_list_of_dictionary, status=status.HTTP_200_OK)
         except ():
             return Response(data={"detail": "Error!"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+def date_range(start_date, end_date):
+    """
+    range() like function for traversing through dates
+    period = [start_date,end_date)
+    :param start_date: initial date
+    :param end_date: last date
+    :return:
+    """
+    for i in range(int((end_date - start_date).days)):
+        yield start_date + datetime.timedelta(i)

@@ -105,7 +105,7 @@ def stock_interact_view(request):
         :return: Response from Stock Tracker
         """
     try:
-        if request.data.get("credit") is False:
+        if request.data.get("credit"):
             response = SellStock(request.data.get("amount"),
                                  request.data.get('description').split()[0],
                                  request.user.id)
@@ -120,7 +120,7 @@ def stock_interact_view(request):
         elif response == "Not Enough Stock Owned":
             return Response(data={"detail": response},
                             status=status.HTTP_403_FORBIDDEN)
-        elif response == "Stock Sold Successfully":
+        elif response == "Stock Sold Successfully" or response == "Stock Bought Successfully":
             return Response(data={"detail": response},
                             status=status.HTTP_202_ACCEPTED)
         return Response(data={"detail": "Invalid Request"},
