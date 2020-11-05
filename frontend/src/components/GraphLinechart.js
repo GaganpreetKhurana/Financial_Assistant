@@ -11,7 +11,7 @@ class  GraphLinechart extends Component {
         super(props);
         this.state={
             chartData:{
-                labels:['Food','HealthCare','Housing','Income','Miscellaneous','Recreation','Transportation','Stocks','Expenditure','Savings'],
+                labels:['Food','HealthCare','Housing','Income','Recreation','Transportation','Stocks','Expenditure','Savings'],
                 datasets:[{
                     label:'Amount Spent(Rs)',
                     data:[
@@ -19,7 +19,6 @@ class  GraphLinechart extends Component {
                         props.healthcare,
                         props.housing,
                         props.income,
-                        props.miscellaneous,
                         props.recreation,
                         props.transportation,
                         props.stock,
