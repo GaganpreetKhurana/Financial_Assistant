@@ -593,8 +593,9 @@ class TransactionAverage(APIView):
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             ]
             for item in transactions:
-                data[0][int(item.time.strftime("%w"))] += item.amount
-                data[1][int(item.time.strftime("%m")) - 1] += item.amount
+                if item.credit is False:
+                    data[0][int(item.time.strftime("%w"))] += item.amount
+                    data[1][int(item.time.strftime("%m")) - 1] += item.amount
 
             for date in date_range(start_date, end_date + datetime.timedelta(days=1)):
                 if start_date == date:
