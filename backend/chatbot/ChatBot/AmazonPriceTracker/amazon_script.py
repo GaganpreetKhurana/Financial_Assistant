@@ -31,8 +31,11 @@ def currentPrice(url):
     price = price
     Fprice = float(price)
 
-    image_url = soup.find(id="landingImage")
-    image_url = image_url.get('data-old-hires')
+    try:
+        image_url = soup.find(id="landingImage")
+        image_url = image_url.get('data-old-hires')
+    except:
+        image_url = "https://i.imgur.com/7ZOgkok.png"
     
     return title, Fprice, image_url
 
