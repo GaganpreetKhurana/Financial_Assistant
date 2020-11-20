@@ -326,6 +326,7 @@ def chat_web(question, user_id, request):
                 chat_response += " and Transaction Operation Unsuccessful!"
 
             chat_store(chat_response, chat_bot_name, 'False')
+            return chat_response
 
         if list_parse[1] == "sell":
             stck = list_parse[2]
@@ -352,6 +353,8 @@ def chat_web(question, user_id, request):
                 chat_response += " and Transaction Operation Unsuccessful!"
 
             chat_store(chat_response, chat_bot_name, 'False')
+            return chat_response
+
 
         if list_parse[1] == "predict":
             stck = list_parse[2]
