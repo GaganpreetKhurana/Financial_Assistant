@@ -187,7 +187,7 @@ export function fetchTransactions(){
             }})
             .then((data) => {
                 if (success) {
-                    dispatch(fetchedTransactions(data));
+                    dispatch(fetchedTransactions(data.reverse()));
                     return;
                 }
                 else{
@@ -663,7 +663,7 @@ export function filterTransaction1(date,month,year){
             .then((data) => {
                 if (success) {
                     dispatch(updateTransactionSuccess("Filters applied successfully"));
-                    dispatch(fetchedTransactions(data));
+                    dispatch(fetchedTransactions(data.reverse()));
                     return;
                 }
                 else{
@@ -701,7 +701,7 @@ export function filterTransaction2(date,month){
             .then((data) => {
                 if (success) {
                     dispatch(updateTransactionSuccess("Filters applied successfully"));
-                    dispatch(fetchedTransactions(data));
+                    dispatch(fetchedTransactions(data.reverse()));
                     return;
                 }
                 else{
@@ -739,7 +739,7 @@ export function filterTransaction3(date,year){
             .then((data) => {
                 if (success) {
                     dispatch(updateTransactionSuccess("Filters applied successfully"));
-                    dispatch(fetchedTransactions(data));
+                    dispatch(fetchedTransactions(data.reverse()));
                     return;
                 }
                 else{
@@ -778,7 +778,7 @@ export function filterTransaction4(month,year){
             .then((data) => {
                 if (success) {
                     dispatch(updateTransactionSuccess("Filters applied successfully"));
-                    dispatch(fetchedTransactions(data));
+                    dispatch(fetchedTransactions(data.reverse()));
                     return;
                 }
                 else{
@@ -815,7 +815,7 @@ export function filterTransaction5(date){
             .then((data) => {
                 if (success) {
                     dispatch(updateTransactionSuccess("Filters applied successfully"));
-                    dispatch(fetchedTransactions(data));
+                    dispatch(fetchedTransactions(data.reverse()));
                     return;
                 }
                 else{
@@ -854,7 +854,7 @@ export function filterTransaction6(month){
             .then((data) => {
                 if (success) {
                     dispatch(updateTransactionSuccess("Filters applied successfully"));
-                    dispatch(fetchedTransactions(data));
+                    dispatch(fetchedTransactions(data.reverse()));
                     return;
                 }
                 else{
@@ -893,7 +893,7 @@ export function filterTransaction7(year){
             .then((data) => {
                 if (success) {
                     dispatch(updateTransactionSuccess("Filters applied successfully"));
-                    dispatch(fetchedTransactions(data));
+                    dispatch(fetchedTransactions(data.reverse()));
                     return;
                 }
                 else{
