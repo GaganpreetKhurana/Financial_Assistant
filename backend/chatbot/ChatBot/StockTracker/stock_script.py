@@ -206,7 +206,7 @@ def PortfolioPrediction(user_id):
         status += "Bought on " + str(r[3])
         status += "Has a current price of " + str(current_price)
         status += "at a difference of " + str(round(r[0] * (current_price - r[2]),2))
-        status += " Has a prediction of " + str(round(StockHistoryPredict(r[1]),2))
+        status += " Has a prediction of " + StockHistoryPredict(r[1])
         answer.append(str(status))
 
     str1 = ''.join(str(e) for e in answer)
@@ -234,6 +234,3 @@ def stock_list(user_id):
 
     db_object.close()
     return results
-
-# user_id = 2
-# print(SellStock(1000,"AAPL",2))

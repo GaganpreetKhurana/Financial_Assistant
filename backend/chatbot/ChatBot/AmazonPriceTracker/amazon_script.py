@@ -173,17 +173,17 @@ def amazon_buy_fun(url, user_id):
     c = regsr.intercept_
     # print("Predicted y:\n", predicted_y)
 
-    title, price = currentPrice(url)
+    title, price,image_url = currentPrice(url)
 
     chat_response += "The item " + title + " has a future predicted price of: "
     chat_response += str(predicted_y)
 
     if predicted_y[0] < price:
-        print("\n\nBad time to buy the product, It is expected to drop soon")
+        chat_response += "Bad time to buy the product, It is expected to drop soon"
     elif predicted_y[0] == price:
-        print("\n\nNot enough info to predict")
+        chat_response += "No of past records is too low, Prediction will NOT be ACCURATE"
     else:
-        print("\n\nGood time to buy the product, It is expected to Increase soon")
+        chat_response += "Good time to buy the product, It is expected to Increase soon"
 
     return chat_response
 
