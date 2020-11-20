@@ -68,8 +68,13 @@ def add_transaction_dict_to_detail(validated_data, details, request):
     """
     factor = 1
     response = None
-    if validated_data['credit'] is False:
+    if validated_data['credit'] is False \
+            or validated_data['credit'] == "False" \
+            or validated_data['credit'] == "false":
         factor = -1
+        validated_data['credit'] = False
+    else:
+        validated_data['credit'] = True
     if validated_data['category'] == 0:
         details.income += validated_data['amount']
         validated_data['credit'] = True

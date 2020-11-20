@@ -150,12 +150,17 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
         if description is None or description == '':
             description = "Description Not Provided!"  # Set default description if not provided
 
+        credit = True
+        if self.validated_data['credit'] is False \
+                or self.validated_data['credit'] == "False" \
+                or self.validated_data['credit'] == "false":
+            credit = False
         transaction_new = Transaction(user=self.context.get('request').user,
                                       amount=self.validated_data['amount'],
                                       type=self.validated_data['category'],
                                       details=details,
                                       description=description,
-                                      credit=self.validated_data['credit'])  # Create new transaction object
+                                      credit=credit)  # Create new transaction object
 
         # Make required changes to Detail and stocks
         validated_data, details, response = add_transaction_dict_to_detail(self.validated_data,
@@ -194,6 +199,12 @@ class UpdateTransactionSerializer(serializers.ModelSerializer):
         :param validated_data: Data to be filled in Transaction object
         :return: validated_data
         """
+        if validated_data['credit'] is False \
+                or validated_data['credit'] == "False" \
+                or validated_data['credit'] == "false":
+            validated_data['credit'] = False
+        else:
+            validated_data['credit'] = True
 
         details = instance.details  # Detail object corresponding to instance
 

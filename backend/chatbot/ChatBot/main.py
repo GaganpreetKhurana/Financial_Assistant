@@ -308,7 +308,7 @@ def chat_web(question, user_id, request):
                 "amount": amount,
                 "category": 7,
                 "description": ''.join(str(stck)) + " Bought",
-                "credit": True
+                "credit": False
             }
             header = {
                 "Authorization": "Bearer " + request.auth,
@@ -334,7 +334,7 @@ def chat_web(question, user_id, request):
                 "amount": amount,
                 "category": 7,
                 "description": ''.join(str(stck)) + " Sold",
-                "credit": False
+                "credit": True
             }
             header = {
                 "Authorization": "Bearer " + request.auth,

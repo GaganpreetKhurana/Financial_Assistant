@@ -173,7 +173,7 @@ def PortfolioSituation(user_id):
         status += str(r[1])
         status += " Bought on " + str(r[3])
         status += " Has a current price of " + str(current_price)
-        status += " at a difference of " + str(round(r[0] * (current_price - r[2]),2))
+        status += " at a difference of " + str(round(r[0] * (current_price - r[2]), 2))
         # print(status)
         answer.append(str(status))
 
@@ -205,7 +205,7 @@ def PortfolioPrediction(user_id):
         status += str(r[1])
         status += "Bought on " + str(r[3])
         status += "Has a current price of " + str(current_price)
-        status += "at a difference of " + str(round(r[0] * (current_price - r[2]),2))
+        status += "at a difference of " + str(round(r[0] * (current_price - r[2]), 2))
         status += " Has a prediction of " + StockHistoryPredict(r[1])
         answer.append(str(status))
 
