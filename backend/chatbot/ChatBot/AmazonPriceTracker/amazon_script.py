@@ -234,4 +234,5 @@ def amazon_wishlist(user_id):
 
 
 # FileTest(url)
-#amazon_add_fun(url,2)
+##url ="https://www.amazon.in/New-Apple-iPhone-12-64GB/dp/B08L5TGWD1"
+##print(amazon_add_fun(url,2))

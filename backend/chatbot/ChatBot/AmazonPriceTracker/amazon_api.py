@@ -48,7 +48,7 @@ def storePrice(url, price, user_id, title,image_url):
     db.execute(
         "CREATE TABLE IF NOT EXISTS product_wishlist (producturl LONGVARCHAR PRIMARY KEY UNIQUE,price DECIMAL (5, 2) NOT NULL DEFAULT 0,userid LONGVARCHAR,imageurl LONGVARCHAR,title LONGVARCHAR,createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)")
 
-    sql = f"INSERT OR REPLACE INTO product_wishlist (producturl,price,userid,imageurl,title) VALUES (\"{url}\",\"{str(price)}\",\"{str(user_id)}\",\"{str(image_url)}\",\"{str(title)}\")"
+    sql = f"UPDATE product_wishlist SET price = \"{str(price)}\" WHERE (producturl = \"{str(url)}\")"
 
     db.execute(sql)
 
@@ -85,5 +85,3 @@ def amazon_wishlist(user_id):
     return results
 
 
-
-print(amazon_wishlist(2))

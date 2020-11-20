@@ -30,7 +30,6 @@ def stock_list(user_id):
     db_object.close()
     return results
 
-
 # def SellStock(amount, stck, user_id):
 #
 #     parent_dir = os.path.dirname(os.path.abspath(__file__))
