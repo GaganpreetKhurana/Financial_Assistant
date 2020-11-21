@@ -36,7 +36,7 @@ class DetailsPage extends Component {
         //call dispatch
         e.preventDefault();
         var {category, type, description, amount} = this.state;
-        if(category!=='Income' && category !== 'Other')
+        if(category!=='0' && category !== '6')
         {
             type = this.state.type2;
         }
