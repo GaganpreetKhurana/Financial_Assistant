@@ -5,7 +5,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
+from django.http import HttpResponse
+from django.shortcuts import redirect
 from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -634,3 +637,22 @@ def date_range(start_date, end_date):
     """
     for i in range(int((end_date - start_date).days)):
         yield start_date + datetime.timedelta(i)
+
+
+@api_view(['GET'])
+@permission_classes([])
+def validate_password_reset_token(request):
+    """
+    View for validating reset password token
+    :param request:
+    :return: HttpResponse for invalid token.Redirect to enter password for valid token
+    """
+    data = {
+        'token': request.GET.get('token')
+    }
+    response = requests.post(url='http://127.0.0.1:8000/api/password_reset/validate_token/', data=data)
+
+    if response is not None and response.status_code == 200:
+        return redirect(to='http://127.0.0.1:3000/reset_password', token=data['token'])
+    else:
+        return HttpResponse('Invalid Token. Password Reset Failed!')
