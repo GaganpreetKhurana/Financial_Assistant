@@ -83,7 +83,8 @@ def StockBuy(amount, stck, user_id):
         sql = f"SELECT owned_shares FROM owned_stock WHERE (stck = \"{str(stck)}\" AND userid = \"{str(user_id)}\")"
         db.execute(sql)
         results = db.fetchall()
-        current_owned = results[0][0]
+        if(len(results)>0 and len(results[0])>0):
+            current_owned = results[0][0]
     except():
         print("No previous stock exists")
 
