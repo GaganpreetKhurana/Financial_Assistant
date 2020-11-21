@@ -3,7 +3,6 @@ from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.db import models
 from django.dispatch import receiver
-from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django_rest_passwordreset.signals import reset_password_token_created
 
@@ -183,10 +182,9 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
                                                                 "This mail has been sent because of your request to " \
                                                                 "reset " \
                                                                 "your password.Click on the link below or paste the " \
-                                                                "link in the browser to" \
+                                                                "link in the browser to " \
                                                                 "reset your password.\n\n\n"
-    email_plaintext_message = "http://127.0.0.1:8000" + "{}?token={}".format(
-        reverse('password_reset:reset-password-request'),
+    email_plaintext_message = "http://127.0.0.1:8000/password_reset_validate/" + "?token={}".format(
         reset_password_token.key)
     email_default_end = "\n\nThank You,\n" \
                         "DONNA-ADMIN\n\n\n\n\n" \

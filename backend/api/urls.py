@@ -12,6 +12,9 @@ urlpatterns = [
     path("change_password", ChangePasswordView.as_view(), name="change_password"),  # Change Password
     path("delete_user/", DeleteUser.as_view(), name="delete_user"),  # Delete USER
 
+    path("password_reset_validate/", validate_password_reset_token, name="validate_password_reset_token"),
+    # validate reset password token
+
     # URL's for Retrieving Transactions
     path("transactions", TransactionList.as_view(), name="transactions"),
     path("transactions/<int:id>/", TransactionListID.as_view(), name="transactionsID"),
