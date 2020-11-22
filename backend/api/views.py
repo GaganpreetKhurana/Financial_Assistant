@@ -653,6 +653,6 @@ def validate_password_reset_token(request):
     response = requests.post(url='http://127.0.0.1:8000/api/password_reset/validate_token/', data=data)
 
     if response is not None and response.status_code == 200:
-        return redirect(to='http://127.0.0.1:3000/reset_password', token=data['token'])
+        return redirect(to='http://127.0.0.1:3000/reset_password/{}'.format(data['token']))
     else:
         return HttpResponse('Invalid Token. Password Reset Failed!')

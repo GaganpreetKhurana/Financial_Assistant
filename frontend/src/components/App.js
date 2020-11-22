@@ -48,7 +48,7 @@ class App extends Component {
                         <Route path="/forgot" component={Forgot}/>
                         <Route path="/profile" component={Profile}/>
                         <Route path="/details" component={Details}/>
-                        <Route path="/reset_password" component={ResetPassword}/>
+                        <Route path="/reset_password/:token" component={ResetPassword}/>
                         <Route component={Page404}/>
                     </Switch>
                     <Footer/>
