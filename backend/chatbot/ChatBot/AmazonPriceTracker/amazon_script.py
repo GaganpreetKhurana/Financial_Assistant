@@ -42,6 +42,8 @@ def currentPrice(url):
 
 
 def storePrice(url, price, user_id, title,image_url):
+    if(price==0):
+        return
     parent_dir = os.path.dirname(os.path.abspath(__file__))
     rel_path_db = 'amazon_db'
     abs_path_db = os.path.join(parent_dir, rel_path_db)
