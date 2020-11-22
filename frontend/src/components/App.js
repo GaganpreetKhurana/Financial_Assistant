@@ -11,6 +11,7 @@ import Page404 from './Page404';
 import Forgot from './Forgot';
 import Details from './Details';
 import Profile from './Profilepage';
+import ResetPassword from './ResetPassword';
  // @ts-ignore 
  //to decode the token 
  import jwt_decode from "jwt-decode";
@@ -47,6 +48,7 @@ class App extends Component {
                         <Route path="/forgot" component={Forgot}/>
                         <Route path="/profile" component={Profile}/>
                         <Route path="/details" component={Details}/>
+                        <Route path="/reset_password" component={ResetPassword}/>
                         <Route component={Page404}/>
                     </Switch>
                     <Footer/>

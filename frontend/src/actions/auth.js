@@ -237,6 +237,7 @@ export function forgot(email) {
         }
       })
       .then((data) => {
+        console.log(data);
         if (success) {
           dispatch(
             forgotSuccess("Reset Link Sent to your Registered Email Id")
@@ -248,6 +249,44 @@ export function forgot(email) {
   };
 }
 
+
+//reset password
+export function reset(pswd,token) {
+  return (dispatch) => {
+    console.log(pswd,token);
+    dispatch(startForgot());
+    var success = false;
+    const url = "/api/password_reset/confirm/";
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: getFormBody({ token,password:pswd }),
+    })
+      .then((response) => {
+        console.log(response);
+
+        if (response.status === 200) {
+          success = true;
+          return response.json();
+        } else {
+          return response.json();
+        }
+      })
+      .then((data) => {
+        console.log(data);
+
+        if (success) {
+          dispatch(
+            forgotSuccess("Password changed successfully.Login to continue")
+          );
+        } else if (data.email) {
+          dispatch(forgotFailed("Password too small.Please use atleast 10 characters.."));
+        }
+      });
+  };
+}
 //fetch user
 
 //fetch user details from backend
