@@ -12,6 +12,13 @@
 - Shayan Yaseen - 18103033
 - Akshit Garg - 18103042
 
+
+## Project Execution:
+&nbsp;&nbsp;&nbsp;<img src="https://github.com/GaganpreetKhurana/Financial_Assistant/blob/master/Execution/DONNA%20_1.gif" width="50%" height="45%"><br><br>
+
+**AI ChatBot** <br><br>
+&nbsp;&nbsp;&nbsp;<img src="https://github.com/GaganpreetKhurana/Financial_Assistant/blob/master/Execution/DONNA_2.gif" width="50%" height="45%"><br>
+
 ## Documentation:
 
 [Summary](https://docs.google.com/document/d/e/2PACX-1vTOTM-U3jg__7pfAhukVKwP5QTQv3WoCXxfo-fjr5FjjX2IrqEN7Tc0SAIHljEXob_cXVm-KZLrUgwe/pub)
