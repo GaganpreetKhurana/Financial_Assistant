@@ -3,7 +3,7 @@
 
 ## Group - 18
 
-**Mentor** -  Sudesh Rani, Faculty, Computer Science and Engineering
+**Mentor** - Prof. Sudesh Rani, Faculty, Computer Science and Engineering
 
 ### Developers:
 
