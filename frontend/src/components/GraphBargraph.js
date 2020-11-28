@@ -50,7 +50,7 @@ class GraphBargraph extends Component {
           options={{
             title: {
               display: true,
-              text: "Expenditure Pattern",
+              text: "Transactions",
               fontSize: 25,
             },
             legend: {
