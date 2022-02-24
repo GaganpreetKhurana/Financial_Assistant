@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "debb5b6e550ca6a5981aae1a35f53915",
+    "revision": "a5f74dddc6ea0f8b1eb704ccd7933ce3",
     "url": "/Financial_Assistant/index.html"
   },
   {
-    "revision": "d4e48c10ee7d179d60d0",
+    "revision": "6805152337f02cab9ea2",
     "url": "/Financial_Assistant/static/css/2.c7661d7b.chunk.css"
   },
   {
-    "revision": "f7b03643ceb2fc96b0a5",
+    "revision": "c5738f13ecdef828d709",
     "url": "/Financial_Assistant/static/css/main.389eb942.chunk.css"
   },
   {
-    "revision": "d4e48c10ee7d179d60d0",
-    "url": "/Financial_Assistant/static/js/2.90c27c88.chunk.js"
+    "revision": "6805152337f02cab9ea2",
+    "url": "/Financial_Assistant/static/js/2.59dda259.chunk.js"
   },
   {
     "revision": "a0798d2cabccbdf86134018a4a3a70d6",
-    "url": "/Financial_Assistant/static/js/2.90c27c88.chunk.js.LICENSE.txt"
+    "url": "/Financial_Assistant/static/js/2.59dda259.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "f7b03643ceb2fc96b0a5",
-    "url": "/Financial_Assistant/static/js/main.ed6b090e.chunk.js"
+    "revision": "c5738f13ecdef828d709",
+    "url": "/Financial_Assistant/static/js/main.03ea64c1.chunk.js"
   },
   {
     "revision": "5cd0ad512f84ff1265a8",
