@@ -27,7 +27,7 @@
     "react-responsive-carousel": "^3.2.10",
     "react-router-dom": "^5.2.0",
     "react-say": "^2.0.1",
-    "react-scripts": "^3.4.4",
+    "react-scripts": "^5.0.1",
     "react-tooltip": "^4.2.10",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
